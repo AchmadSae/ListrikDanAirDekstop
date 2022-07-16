@@ -18,14 +18,15 @@ import java.util.logging.Logger;
  */
 public class Home extends javax.swing.JFrame {
     App app;
-    Pengecekan page = new Pengecekan();
+
     
     public Home()throws SQLException, ClassNotFoundException {
         initComponents();
         Toolkit kit = getToolkit();
         Dimension size = kit.getScreenSize();
         setLocation(size.width/2 - getWidth()/2, size.height/2 - getHeight()/2);
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/logo-app.png")));
+        String path1 = "..Resouces/img/logo_app.png";
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/logo_app.png")));
         
 
     }
@@ -55,8 +56,8 @@ public class Home extends javax.swing.JFrame {
         invoice = new javax.swing.JLabel();
         data = new javax.swing.JLabel();
         users = new javax.swing.JPanel();
-        nameAccount = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        komplain1 = new javax.swing.JLabel();
 
         popAcc.setBackground(new java.awt.Color(146, 180, 236));
         popAcc.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
@@ -98,6 +99,7 @@ public class Home extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("HOME");
         setBackground(new java.awt.Color(255, 255, 255));
+        setLocationByPlatform(true);
         setMinimumSize(new java.awt.Dimension(1280, 700));
 
         background.setBackground(new java.awt.Color(255, 255, 255));
@@ -112,7 +114,7 @@ public class Home extends javax.swing.JFrame {
         topBar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         homeLogo.setBackground(new java.awt.Color(255, 255, 255));
-        homeLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/home-button.png"))); // NOI18N
+        homeLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/home-button-logo.png"))); // NOI18N
         homeLogo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         pengecekan.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
@@ -157,24 +159,31 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
-        nameAccount.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        nameAccount.setForeground(new java.awt.Color(255, 255, 255));
-        nameAccount.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        nameAccount.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        nameAccount.setName(""); // NOI18N
-        nameAccount.setNextFocusableComponent(popAcc);
+        nama.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        nama.setForeground(new java.awt.Color(255, 255, 255));
+        nama.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        nama.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        nama.setName(""); // NOI18N
+        nama.setNextFocusableComponent(popAcc);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/drop.png"))); // NOI18N
         jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        komplain1.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        komplain1.setForeground(new java.awt.Color(255, 255, 255));
+        komplain1.setText("HAI !");
+        komplain1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout usersLayout = new javax.swing.GroupLayout(users);
         users.setLayout(usersLayout);
         usersLayout.setHorizontalGroup(
             usersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(usersLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(nameAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(komplain1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(nama, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addGap(17, 17, 17))
         );
@@ -183,8 +192,9 @@ public class Home extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, usersLayout.createSequentialGroup()
                 .addContainerGap(16, Short.MAX_VALUE)
                 .addGroup(usersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(komplain1)
                     .addComponent(jLabel1)
-                    .addComponent(nameAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nama, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -193,43 +203,40 @@ public class Home extends javax.swing.JFrame {
         topBarLayout.setHorizontalGroup(
             topBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, topBarLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addContainerGap(13, Short.MAX_VALUE)
                 .addComponent(homeLogo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(pengecekan)
-                .addGap(30, 30, 30)
+                .addGap(18, 18, 18)
                 .addComponent(valid)
-                .addGap(45, 45, 45)
-                .addComponent(biaya, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
-                .addComponent(invoice, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
-                .addComponent(data, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
+                .addGap(18, 18, 18)
+                .addComponent(biaya, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(invoice)
+                .addGap(18, 18, 18)
+                .addComponent(data)
+                .addGap(18, 18, 18)
                 .addComponent(komplain)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 363, Short.MAX_VALUE)
+                .addGap(457, 457, 457)
                 .addComponent(users, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34))
         );
         topBarLayout.setVerticalGroup(
             topBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(topBarLayout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(topBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pengecekan)
+                    .addComponent(valid, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(biaya, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(invoice, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(data, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(komplain)))
+            .addGroup(topBarLayout.createSequentialGroup()
+                .addGap(9, 9, 9)
                 .addGroup(topBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(topBarLayout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addGroup(topBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(users, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(homeLogo)))
-                    .addGroup(topBarLayout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addGroup(topBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(pengecekan)
-                            .addComponent(valid, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(biaya, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(invoice, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(data, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(komplain))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(homeLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(users, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
@@ -242,7 +249,7 @@ public class Home extends javax.swing.JFrame {
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backgroundLayout.createSequentialGroup()
                 .addComponent(topBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 632, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -253,21 +260,27 @@ public class Home extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+            .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, 595, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void pengecekanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pengecekanMouseClicked
-        String account = nameAccount.getText();
+           Pengecekan page = null;
+        try {
+            page = new Pengecekan();
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String account = nama.getText();
         page.setVisible(true);
+        page.setExtendedState(MAXIMIZED_BOTH);
                    page.pack();
                    this.dispose();
-                   page.nameAccount.setText(account);
-                   
+                   page.nama.setText(account);
     }//GEN-LAST:event_pengecekanMouseClicked
 
     private void usersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersMouseClicked
@@ -326,8 +339,9 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JLabel komplain;
+    private javax.swing.JLabel komplain1;
     private javax.swing.JMenuItem logout;
-    public javax.swing.JLabel nameAccount;
+    public static final javax.swing.JLabel nama = new javax.swing.JLabel();
     private javax.swing.JLabel pengecekan;
     private javax.swing.JPopupMenu popAcc;
     private javax.swing.JMenuItem profile;

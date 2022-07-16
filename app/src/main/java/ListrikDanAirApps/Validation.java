@@ -5,24 +5,27 @@
 package ListrikDanAirApps;
 
 
-import config.Confirm_isAccounting;
 import java.awt.Dimension;
+import java.awt.MouseInfo;
 import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JDialog;
+import java.awt.event.MouseEvent;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 /**
  *
  * @author USER
  */
-public class Pengecekan extends javax.swing.JFrame {
+public class Validation extends javax.swing.JFrame {
     App app;
     /**
      * Creates new form Home
      */
-    private JDialog isAct = new 
-    public Pengecekan()throws SQLException, ClassNotFoundException {
+
+    public Validation()throws SQLException, ClassNotFoundException {
         initComponents();
         Toolkit kit = getToolkit();
         Dimension size = kit.getScreenSize();
@@ -169,11 +172,6 @@ public class Pengecekan extends javax.swing.JFrame {
         valid.setForeground(new java.awt.Color(255, 255, 255));
         valid.setText("VALIDATION");
         valid.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        valid.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                validMouseClicked(evt);
-            }
-        });
 
         biaya.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         biaya.setForeground(new java.awt.Color(255, 255, 255));
@@ -707,9 +705,9 @@ public class Pengecekan extends javax.swing.JFrame {
         try {
             page = new Home();
         } catch (SQLException ex) {
-            Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Validation.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Validation.class.getName()).log(Level.SEVERE, null, ex);
         }
    
         String account = nama.getText();
@@ -718,11 +716,6 @@ public class Pengecekan extends javax.swing.JFrame {
                    this.dispose();
                    page.nama.setText(account);
     }//GEN-LAST:event_homeLogoMouseClicked
-
-    private void validMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_validMouseClicked
-        JDialog isAct = new JDialog();
-        background.add(isAct);
-    }//GEN-LAST:event_validMouseClicked
 
     /**
      * @param args the command line arguments
@@ -741,14 +734,16 @@ public class Pengecekan extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Pengecekan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Validation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Pengecekan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Validation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Pengecekan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Validation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Pengecekan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Validation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
@@ -757,11 +752,11 @@ public class Pengecekan extends javax.swing.JFrame {
             @Override
             public void run(){
                 try {
-                    new Pengecekan().setVisible(true);
+                    new Validation().setVisible(true);
                 } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Validation.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (SQLException ex) {
-                    Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Validation.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });

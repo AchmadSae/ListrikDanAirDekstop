@@ -4,10 +4,15 @@
  */
 package ListrikDanAirApps;
 
+import config.Connection_db;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,14 +20,14 @@ import javax.swing.ImageIcon;
  */
 public class App extends javax.swing.JFrame {
     
-
-    public App() {
+    private Connection conn = new Connection_db().Connect();
+    Home home = new Home();
+    public App() throws SQLException, ClassNotFoundException {
         initComponents();
         Toolkit kit = getToolkit();
         Dimension size = kit.getScreenSize();
         setLocation(size.width/2 - getWidth()/2, size.height/2 - getHeight()/2);
-        
-        setIcon();
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/logo_app.png")));
     }
 
   
@@ -41,7 +46,6 @@ public class App extends javax.swing.JFrame {
         setTitle("Brawijaya Applications");
         setBackground(new java.awt.Color(255, 255, 255));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setPreferredSize(new java.awt.Dimension(600, 400));
         setResizable(false);
         setSize(new java.awt.Dimension(600, 400));
 
@@ -52,7 +56,6 @@ public class App extends javax.swing.JFrame {
         logo.setAlignmentX(0.5F);
         logo.setAlignmentY(0.2F);
         logo.setMaximumSize(new java.awt.Dimension(50, 100));
-        logo.setMinimumSize(new java.awt.Dimension(50, 80));
         logo.setRequestFocusEnabled(false);
 
         jLabel1.setFont(new java.awt.Font("Agency FB", 1, 24)); // NOI18N
@@ -83,6 +86,11 @@ public class App extends javax.swing.JFrame {
         btnLogin.setForeground(new java.awt.Color(146, 180, 236));
         btnLogin.setText("LOGIN");
         btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
@@ -134,11 +142,11 @@ public class App extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
+            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -147,6 +155,28 @@ public class App extends javax.swing.JFrame {
     private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameActionPerformed
+
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        // login
+        
+        String qryLogin = "SELECT * FROM tb_users WHERE username='"+username.getText()+"'AND password='"+password.getText()+"'";
+        try{
+            java.sql.Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(qryLogin);
+            if (rs.next()){
+                JOptionPane.showMessageDialog(null, "Login Succsesfully !");
+                home.setVisible(true);
+                home.setExtendedState(MAXIMIZED_BOTH);
+                home.nama.setText(rs.getString(3));
+                this.dispose();
+                
+            }
+        }
+        catch (SQLException e) {
+            JOptionPane.showMessageDialog(rootPane, "username and password inCorrect !");
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
      * @param args the command line arguments
@@ -178,8 +208,14 @@ public class App extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new App().setVisible(true);
+            public void run(){
+                try {
+                    new App().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -194,7 +230,5 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
 
-    private void setIcon() {
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/home-button-logo.png")));
-    }
+
 }
