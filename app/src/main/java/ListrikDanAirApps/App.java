@@ -175,6 +175,9 @@ public class App extends javax.swing.JFrame {
         catch (SQLException e) {
             JOptionPane.showMessageDialog(rootPane, "username and password inCorrect !");
             System.out.println(e);
+            username.setText("");
+            password.setText("");
+            username.requestFocus();
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 

@@ -6,6 +6,7 @@ package config;
 
 import ListrikDanAirApps.Validation;
 import java.awt.Dimension;
+import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.Toolkit;
 
 import java.sql.SQLException;
@@ -52,10 +53,11 @@ public class Confirm_isAccounting extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         username = new javax.swing.JTextField();
-        password = new javax.swing.JPasswordField();
         btnNext = new javax.swing.JButton();
+        password = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         background.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -71,19 +73,20 @@ public class Confirm_isAccounting extends javax.swing.JDialog {
         username.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "username", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 2, 10), new java.awt.Color(204, 204, 204))); // NOI18N
         username.setMinimumSize(new java.awt.Dimension(150, 40));
 
-        password.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        password.setText("jPasswordField1");
-        password.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 10), new java.awt.Color(204, 204, 204))); // NOI18N
-
         btnNext.setBackground(new java.awt.Color(146, 180, 236));
         btnNext.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnNext.setForeground(new java.awt.Color(255, 255, 255));
         btnNext.setText("OK");
+        btnNext.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnNext.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNextActionPerformed(evt);
             }
         });
+
+        password.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        password.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 2, 10), new java.awt.Color(204, 204, 204))); // NOI18N
+        password.setMinimumSize(new java.awt.Dimension(150, 40));
 
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
@@ -99,11 +102,11 @@ public class Confirm_isAccounting extends javax.swing.JDialog {
                         .addComponent(jLabel1))
                     .addGroup(backgroundLayout.createSequentialGroup()
                         .addGap(112, 112, 112)
-                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(username, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(password, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)))
+                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(backgroundLayout.createSequentialGroup()
-                        .addGap(145, 145, 145)
+                        .addGap(155, 155, 155)
                         .addComponent(btnNext)))
                 .addContainerGap(79, Short.MAX_VALUE))
         );
@@ -116,11 +119,11 @@ public class Confirm_isAccounting extends javax.swing.JDialog {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnNext)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -138,18 +141,20 @@ public class Confirm_isAccounting extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-        String name = "ActRisma";
-        String pass = "Act321";
-        
-            if (username.getText()== name && password.getText() == pass){
-                JOptionPane.showMessageDialog(null, "WELLCOME ACCOUNTING!");
-                valid.setVisible(true);
-                this.dispose();
-                
-            }else{
-                JOptionPane.showMessageDialog(null, "Call Developer for SignUp !");
-            }
-        
+        String name = username.getText();
+        String pass = password.getText();
+
+        if (name.trim().equals("ActRisma") && pass.trim().equals("Act321")) {
+           JOptionPane.showConfirmDialog(null, "WELCOME ADMIN ! START VALIDATION");
+           valid.show();
+           valid.setExtendedState(MAXIMIZED_BOTH);
+           this.dispose();
+        } else {
+           JOptionPane.showMessageDialog(null, "Call Developer for SignUp as Accounting");
+           username.setText("");
+           password.setText("");
+           username.requestFocus();
+        }
       
     }//GEN-LAST:event_btnNextActionPerformed
 
@@ -207,7 +212,7 @@ public class Confirm_isAccounting extends javax.swing.JDialog {
     private javax.swing.JButton btnNext;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPasswordField password;
+    private javax.swing.JTextField password;
     private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
 }
