@@ -5,10 +5,9 @@
 package ListrikDanAirApps;
 
 import config.Connection_db;
+import config.See_Profile;
 import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.Toolkit;
-import javax.swing.ImageIcon;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +21,7 @@ public class App extends javax.swing.JFrame {
     
     private Connection conn = new Connection_db().Connect();
     Home home = new Home();
+    See_Profile profile = new See_Profile();
     public App() throws SQLException, ClassNotFoundException {
         initComponents();
         Toolkit kit = getToolkit();
@@ -159,7 +159,7 @@ public class App extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // login
         
-        String qryLogin = "SELECT * FROM tb_users WHERE username='"+username.getText()+"'AND password='"+password.getText()+"'";
+        String qryLogin = "SELECT * FROM tb_users WHERE id_user='"+username.getText()+"'AND password='"+password.getText()+"'";
         try{
             java.sql.Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(qryLogin);
@@ -167,7 +167,13 @@ public class App extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Login Succsesfully !");
                 home.setVisible(true);
                 home.setExtendedState(MAXIMIZED_BOTH);
-                home.nama.setText(rs.getString(3));
+                home.Home_nama.setText(rs.getString(3));
+                profile.nama.setText(rs.getString(3));
+                profile.id_user.setText(rs.getString(1));
+                profile.pass.setText(rs.getString(2));
+                profile.bagian.setText(rs.getString(4));
+                profile.email.setText(rs.getString(6));
+                profile.phone.setText(rs.getString(5));
                 this.dispose();
                 
             }
@@ -175,7 +181,6 @@ public class App extends javax.swing.JFrame {
         catch (SQLException e) {
             JOptionPane.showMessageDialog(rootPane, "username and password inCorrect !");
             System.out.println(e);
-            username.setText("");
             password.setText("");
             username.requestFocus();
         }

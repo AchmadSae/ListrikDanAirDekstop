@@ -5,12 +5,14 @@
 package ListrikDanAirApps;
 
 
+import config.Confirm_isAccounting;
+import config.See_Profile;
 import java.awt.Dimension;
-import java.awt.MouseInfo;
 import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class Home extends javax.swing.JFrame {
     App app;
-
+    
     
     public Home()throws SQLException, ClassNotFoundException {
         initComponents();
@@ -42,7 +44,6 @@ public class Home extends javax.swing.JFrame {
 
         popAcc = new javax.swing.JPopupMenu();
         profile = new javax.swing.JMenuItem();
-        register = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         logout = new javax.swing.JMenuItem();
         background = new javax.swing.JPanel();
@@ -72,16 +73,12 @@ public class Home extends javax.swing.JFrame {
         profile.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         profile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         profile.setIconTextGap(10);
+        profile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                profileActionPerformed(evt);
+            }
+        });
         popAcc.add(profile);
-
-        register.setBackground(new java.awt.Color(146, 180, 236));
-        register.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
-        register.setForeground(new java.awt.Color(255, 255, 255));
-        register.setText("PROFILE");
-        register.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        register.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        register.setIconTextGap(10);
-        popAcc.add(register);
         popAcc.add(jSeparator1);
 
         logout.setBackground(new java.awt.Color(146, 180, 236));
@@ -91,6 +88,11 @@ public class Home extends javax.swing.JFrame {
         logout.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         logout.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         logout.setIconTextGap(10);
+        logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutActionPerformed(evt);
+            }
+        });
         popAcc.add(logout);
 
         popAcc.getAccessibleContext().setAccessibleName("");
@@ -113,7 +115,7 @@ public class Home extends javax.swing.JFrame {
         topBar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         homeLogo.setBackground(new java.awt.Color(255, 255, 255));
-        homeLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/home-button-logo.png"))); // NOI18N
+        homeLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo_app.png"))); // NOI18N
         homeLogo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         pengecekan.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
@@ -135,6 +137,11 @@ public class Home extends javax.swing.JFrame {
         valid.setForeground(new java.awt.Color(255, 255, 255));
         valid.setText("VALIDATION");
         valid.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        valid.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                validMouseClicked(evt);
+            }
+        });
 
         biaya.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         biaya.setForeground(new java.awt.Color(255, 255, 255));
@@ -158,12 +165,12 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
-        nama.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        nama.setForeground(new java.awt.Color(255, 255, 255));
-        nama.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        nama.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        nama.setName(""); // NOI18N
-        nama.setNextFocusableComponent(popAcc);
+        Home_nama.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        Home_nama.setForeground(new java.awt.Color(255, 255, 255));
+        Home_nama.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        Home_nama.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Home_nama.setName(""); // NOI18N
+        Home_nama.setNextFocusableComponent(popAcc);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/drop.png"))); // NOI18N
         jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -178,23 +185,26 @@ public class Home extends javax.swing.JFrame {
         usersLayout.setHorizontalGroup(
             usersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(usersLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(komplain1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nama, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Home_nama, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(17, 17, 17))
         );
         usersLayout.setVerticalGroup(
             usersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, usersLayout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
-                .addGroup(usersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(komplain1)
-                    .addComponent(jLabel1)
-                    .addComponent(nama, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(usersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(usersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel1)
+                        .addComponent(komplain1))
+                    .addGroup(usersLayout.createSequentialGroup()
+                        .addComponent(Home_nama, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(11, 11, 11)))
+                .addGap(7, 7, 7))
         );
 
         javax.swing.GroupLayout topBarLayout = new javax.swing.GroupLayout(topBar);
@@ -209,7 +219,7 @@ public class Home extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(valid, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(biaya, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                .addComponent(biaya, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(invoice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
@@ -274,7 +284,7 @@ public class Home extends javax.swing.JFrame {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
-        String account = nama.getText();
+        String account = Home_nama.getText();
         page.setVisible(true);
         page.setExtendedState(MAXIMIZED_BOTH);
                    page.pack();
@@ -285,6 +295,50 @@ public class Home extends javax.swing.JFrame {
     private void usersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersMouseClicked
         popAcc.show(users,evt.getX(),evt.getY());
     }//GEN-LAST:event_usersMouseClicked
+
+    private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
+     // TODO log out from pop up
+                int YN = JOptionPane.showConfirmDialog(null, "Anda Yakin Ingin LogOut ?", "Pilih Yes untuk LogOut | Pilih No untuk Tetap", JOptionPane.YES_NO_OPTION);
+        
+        if(YN == 0){
+                    try {
+                        app = new App();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    app.setVisible(true);
+                    this.dispose();
+                    
+        }else
+            if(YN == 1){
+                this.setVisible(true);
+            }
+    }//GEN-LAST:event_logoutActionPerformed
+
+    private void profileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileActionPerformed
+        // See Profile
+          try {
+            new See_Profile(null,true).show();
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_profileActionPerformed
+
+    private void validMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_validMouseClicked
+        // Open Dialog to Open Validation Form
+                try {
+            new Confirm_isAccounting(null,true).show();
+            this.dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_validMouseClicked
 
     /**
      * @param args the command line arguments
@@ -330,6 +384,7 @@ public class Home extends javax.swing.JFrame {
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public static final javax.swing.JLabel Home_nama = new javax.swing.JLabel();
     private javax.swing.JPanel background;
     private javax.swing.JLabel biaya;
     private javax.swing.JLabel data;
@@ -340,11 +395,9 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel komplain;
     private javax.swing.JLabel komplain1;
     private javax.swing.JMenuItem logout;
-    public static final javax.swing.JLabel nama = new javax.swing.JLabel();
     private javax.swing.JLabel pengecekan;
     private javax.swing.JPopupMenu popAcc;
     private javax.swing.JMenuItem profile;
-    private javax.swing.JMenuItem register;
     private javax.swing.JPanel topBar;
     private javax.swing.JPanel users;
     private javax.swing.JLabel valid;

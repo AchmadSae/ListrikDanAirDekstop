@@ -6,12 +6,14 @@ package ListrikDanAirApps;
 
 
 import config.Confirm_isAccounting;
+import config.See_Profile;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 /**
  *
  * @author USER
@@ -44,7 +46,6 @@ public class Pengecekan extends javax.swing.JFrame {
 
         popAcc = new javax.swing.JPopupMenu();
         profile = new javax.swing.JMenuItem();
-        register = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         logout = new javax.swing.JMenuItem();
         background = new javax.swing.JPanel();
@@ -105,16 +106,12 @@ public class Pengecekan extends javax.swing.JFrame {
         profile.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         profile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         profile.setIconTextGap(10);
+        profile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                profileActionPerformed(evt);
+            }
+        });
         popAcc.add(profile);
-
-        register.setBackground(new java.awt.Color(146, 180, 236));
-        register.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
-        register.setForeground(new java.awt.Color(255, 255, 255));
-        register.setText("PROFILE");
-        register.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        register.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        register.setIconTextGap(10);
-        popAcc.add(register);
         popAcc.add(jSeparator1);
 
         logout.setBackground(new java.awt.Color(146, 180, 236));
@@ -124,6 +121,11 @@ public class Pengecekan extends javax.swing.JFrame {
         logout.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         logout.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         logout.setIconTextGap(10);
+        logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutActionPerformed(evt);
+            }
+        });
         popAcc.add(logout);
 
         popAcc.getAccessibleContext().setAccessibleName("");
@@ -703,9 +705,9 @@ public class Pengecekan extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void homeLogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeLogoMouseClicked
-            Home page = null;
+            Home home = null;
         try {
-            page = new Home();
+            home = new Home();
         } catch (SQLException ex) {
             Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -713,21 +715,54 @@ public class Pengecekan extends javax.swing.JFrame {
         }
    
         String account = nama.getText();
-        page.setVisible(true);
-                   page.pack();
+        home.setVisible(true);
+                   home.pack();
                    this.dispose();
-                   page.nama.setText(account);
+                   home.Home_nama.setText(account);
     }//GEN-LAST:event_homeLogoMouseClicked
 
     private void validMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_validMouseClicked
         try {
             new Confirm_isAccounting(null,true).show();
+            this.dispose();
         } catch (SQLException ex) {
             Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_validMouseClicked
+
+    private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
+             // TODO log out from pop up
+                int YN = JOptionPane.showConfirmDialog(null, "Anda Yakin Ingin LogOut ?", "Pilih Yes untuk LogOut | Pilih No untuk Tetap", JOptionPane.YES_NO_OPTION);
+        
+        if(YN == 0){
+                    try {
+                        app = new App();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    app.setVisible(true);
+                    this.dispose();
+                    
+        }else
+            if(YN == 1){
+                this.setVisible(true);
+            }
+    }//GEN-LAST:event_logoutActionPerformed
+
+    private void profileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileActionPerformed
+               // See Profile
+          try {
+            new See_Profile(null,true).show();
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_profileActionPerformed
 
     /**
      * @param args the command line arguments
@@ -813,7 +848,6 @@ public class Pengecekan extends javax.swing.JFrame {
     private javax.swing.JLabel pengecekan;
     private javax.swing.JPopupMenu popAcc;
     private javax.swing.JMenuItem profile;
-    private javax.swing.JMenuItem register;
     private javax.swing.JPanel topBar;
     private javax.swing.JTextField totalPemakaianAi;
     private javax.swing.JTextField totalPemakaianListrik;

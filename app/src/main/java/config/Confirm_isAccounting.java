@@ -4,6 +4,10 @@
  */
 package config;
 
+import ListrikDanAirApps.Home;
+import static ListrikDanAirApps.Home.Home_nama;
+import ListrikDanAirApps.Pengecekan;
+import static ListrikDanAirApps.Pengecekan.nama;
 import ListrikDanAirApps.Validation;
 import java.awt.Dimension;
 import static java.awt.Frame.MAXIMIZED_BOTH;
@@ -20,11 +24,12 @@ import javax.swing.JOptionPane;
  */
 public class Confirm_isAccounting extends javax.swing.JDialog {
 
- 
-    Validation valid;
+
+
+    Pengecekan cek;
     public Confirm_isAccounting(java.awt.Frame parent, boolean modal) throws SQLException, ClassNotFoundException {
         super(parent, modal);
-        this.valid = new Validation();
+        
         initComponents();
         Toolkit kit = getToolkit();
         Dimension size = kit.getScreenSize();
@@ -33,7 +38,8 @@ public class Confirm_isAccounting extends javax.swing.JDialog {
     }
 
     public Confirm_isAccounting() throws SQLException, ClassNotFoundException {
-        this.valid = new Validation();
+  
+        
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -145,13 +151,27 @@ public class Confirm_isAccounting extends javax.swing.JDialog {
         String pass = password.getText();
 
         if (name.trim().equals("ActRisma") && pass.trim().equals("Act321")) {
-           JOptionPane.showConfirmDialog(null, "WELCOME ADMIN ! START VALIDATION");
-           valid.show();
-           valid.setExtendedState(MAXIMIZED_BOTH);
-           this.dispose();
+           JOptionPane.showMessageDialog(rootPane, "You Are Accounting | WEELCOME");
+                     Validation valid = null;
+                     
+        try {
+            valid = new Validation();
+            cek = new Pengecekan();
+        } catch (SQLException ex) {
+            Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+        String account = nama.getText();
+        valid.setVisible(true);
+        valid.setExtendedState(MAXIMIZED_BOTH);
+        
+                   valid.pack();
+                   valid.nama.setText(account);
+                   this.dispose();
         } else {
            JOptionPane.showMessageDialog(null, "Call Developer for SignUp as Accounting");
-           username.setText("");
            password.setText("");
            username.requestFocus();
         }

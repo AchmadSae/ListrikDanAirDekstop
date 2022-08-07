@@ -5,7 +5,10 @@
 package ListrikDanAirApps;
 
 
+import static ListrikDanAirApps.Home.Home_nama;
+import config.See_Profile;
 import java.awt.Dimension;
+import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.MouseInfo;
 import java.awt.Toolkit;
 import java.sql.SQLException;
@@ -14,6 +17,7 @@ import java.util.logging.Logger;
 import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 /**
  *
@@ -47,7 +51,6 @@ public class Validation extends javax.swing.JFrame {
 
         popAcc = new javax.swing.JPopupMenu();
         profile = new javax.swing.JMenuItem();
-        register = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         logout = new javax.swing.JMenuItem();
         background = new javax.swing.JPanel();
@@ -96,16 +99,12 @@ public class Validation extends javax.swing.JFrame {
         profile.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         profile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         profile.setIconTextGap(10);
+        profile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                profileActionPerformed(evt);
+            }
+        });
         popAcc.add(profile);
-
-        register.setBackground(new java.awt.Color(146, 180, 236));
-        register.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
-        register.setForeground(new java.awt.Color(255, 255, 255));
-        register.setText("PROFILE");
-        register.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        register.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        register.setIconTextGap(10);
-        popAcc.add(register);
         popAcc.add(jSeparator1);
 
         logout.setBackground(new java.awt.Color(146, 180, 236));
@@ -115,12 +114,17 @@ public class Validation extends javax.swing.JFrame {
         logout.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         logout.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         logout.setIconTextGap(10);
+        logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutActionPerformed(evt);
+            }
+        });
         popAcc.add(logout);
 
         popAcc.getAccessibleContext().setAccessibleName("");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("PENGECEKAN");
+        setTitle("VALIDATION");
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(1280, 700));
 
@@ -149,6 +153,11 @@ public class Validation extends javax.swing.JFrame {
         pengecekan.setForeground(new java.awt.Color(255, 255, 255));
         pengecekan.setText("PENGECEKAN");
         pengecekan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pengecekan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pengecekanMouseClicked(evt);
+            }
+        });
 
         komplain.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         komplain.setForeground(new java.awt.Color(255, 255, 255));
@@ -553,7 +562,7 @@ public class Validation extends javax.swing.JFrame {
         page.setVisible(true);
                    page.pack();
                    this.dispose();
-                   page.nama.setText(account);
+                   page.Home_nama.setText(account);
     }//GEN-LAST:event_homeLogoMouseClicked
 
     private void validNoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validNoteActionPerformed
@@ -563,6 +572,56 @@ public class Validation extends javax.swing.JFrame {
     private void unitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unitActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_unitActionPerformed
+
+    private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
+           // TODO log out from pop up
+                int YN = JOptionPane.showConfirmDialog(null, "Anda Yakin Ingin LogOut ?", "Pilih Yes untuk LogOut | Pilih No untuk Tetap", JOptionPane.YES_NO_OPTION);
+        
+        if(YN == 0){
+                    try {
+                        app = new App();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    app.setVisible(true);
+                    this.dispose();
+                    
+        }else
+            if(YN == 1){
+                this.setVisible(true);
+            }
+    }//GEN-LAST:event_logoutActionPerformed
+
+    private void profileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileActionPerformed
+                // See Profile
+          try {
+            new See_Profile(null,true).show();
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_profileActionPerformed
+
+    private void pengecekanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pengecekanMouseClicked
+        // Open form pengecekan
+                   Pengecekan page = null;
+        try {
+            page = new Pengecekan();
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String account = nama.getText();
+        page.setVisible(true);
+        page.setExtendedState(MAXIMIZED_BOTH);
+                   page.pack();
+                   this.dispose();
+                   page.nama.setText(account);
+    }//GEN-LAST:event_pengecekanMouseClicked
 
     /**
      * @param args the command line arguments
@@ -639,7 +698,6 @@ public class Validation extends javax.swing.JFrame {
     private javax.swing.JLabel pengecekan;
     private javax.swing.JPopupMenu popAcc;
     private javax.swing.JMenuItem profile;
-    private javax.swing.JMenuItem register;
     private javax.swing.JButton tglSekarang;
     private javax.swing.JPanel topBar;
     private javax.swing.JTextField uNameProses;
