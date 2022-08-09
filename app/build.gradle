@@ -29,6 +29,10 @@ dependencies {
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.29'
 
+    // https://mvnrepository.com/artifact/com.toedter/jcalendar
+    implementation group: 'com.toedter', name: 'jcalendar', version: '1.4'
+
+
 }
 
 application {

@@ -4,8 +4,6 @@
  */
 package ListrikDanAirApps;
 
-
-import config.Confirm_isAccounting;
 import config.See_Profile;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -53,7 +51,6 @@ public class Home extends javax.swing.JFrame {
         komplain = new javax.swing.JLabel();
         valid = new javax.swing.JLabel();
         biaya = new javax.swing.JLabel();
-        invoice = new javax.swing.JLabel();
         data = new javax.swing.JLabel();
         users = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -147,16 +144,21 @@ public class Home extends javax.swing.JFrame {
         biaya.setForeground(new java.awt.Color(255, 255, 255));
         biaya.setText("BIAYA");
         biaya.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        invoice.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        invoice.setForeground(new java.awt.Color(255, 255, 255));
-        invoice.setText("INVOICE");
-        invoice.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        biaya.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                biayaMouseClicked(evt);
+            }
+        });
 
         data.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         data.setForeground(new java.awt.Color(255, 255, 255));
         data.setText("DATA");
         data.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        data.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dataMouseClicked(evt);
+            }
+        });
 
         users.setBackground(new java.awt.Color(146, 180, 236));
         users.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -196,14 +198,12 @@ public class Home extends javax.swing.JFrame {
         usersLayout.setVerticalGroup(
             usersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, usersLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(17, Short.MAX_VALUE)
                 .addGroup(usersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(Home_nama, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(usersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel1)
-                        .addComponent(komplain1))
-                    .addGroup(usersLayout.createSequentialGroup()
-                        .addComponent(Home_nama, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(11, 11, 11)))
+                        .addComponent(komplain1)))
                 .addGap(7, 7, 7))
         );
 
@@ -213,20 +213,18 @@ public class Home extends javax.swing.JFrame {
             topBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, topBarLayout.createSequentialGroup()
                 .addGap(13, 13, 13)
-                .addComponent(homeLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(homeLogo, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(pengecekan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pengecekan, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(valid, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(valid, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(biaya, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+                .addComponent(biaya, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(data, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(invoice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(data, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(komplain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(457, 457, 457)
+                .addComponent(komplain, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+                .addGap(539, 539, 539)
                 .addComponent(users, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34))
         );
@@ -238,7 +236,6 @@ public class Home extends javax.swing.JFrame {
                     .addComponent(pengecekan)
                     .addComponent(valid, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(biaya, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(invoice, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(data, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(komplain)))
             .addGroup(topBarLayout.createSequentialGroup()
@@ -298,7 +295,7 @@ public class Home extends javax.swing.JFrame {
 
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
      // TODO log out from pop up
-                int YN = JOptionPane.showConfirmDialog(null, "Anda Yakin Ingin LogOut ?", "Pilih Yes untuk LogOut | Pilih No untuk Tetap", JOptionPane.YES_NO_OPTION);
+                int YN = JOptionPane.showConfirmDialog(null, "Anda Yakin Ingin LogOut ?", "Confrim LogOut", JOptionPane.YES_NO_OPTION);
         
         if(YN == 0){
                     try {
@@ -330,15 +327,53 @@ public class Home extends javax.swing.JFrame {
 
     private void validMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_validMouseClicked
         // Open Dialog to Open Validation Form
-                try {
-            new Confirm_isAccounting(null,true).show();
-            this.dispose();
-        } catch (SQLException ex) {
-            Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
-        }
+         JOptionPane.showMessageDialog(null, "Validation Data Section, Harus melalui Section Pengecekan terlebih dahulu !!");
+//                try {
+//            new Confirm_isAccounting(null,true).show();
+//            this.dispose();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (ClassNotFoundException ex) {
+//            Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_validMouseClicked
+
+    private void biayaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_biayaMouseClicked
+        // Open form penghitungan biaya
+        
+        Hitung_Biaya page = null;
+        try {
+            page = new Hitung_Biaya();
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String account = Home_nama.getText();
+        page.setVisible(true);
+        page.setExtendedState(MAXIMIZED_BOTH);
+                   page.pack();
+                   this.dispose();
+                   page.nama.setText(account);
+    }//GEN-LAST:event_biayaMouseClicked
+
+    private void dataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dataMouseClicked
+        // Open form Data 
+        Data page = null;
+        try {
+            page = new Data();
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String account = Home_nama.getText();
+        page.setVisible(true);
+        page.setExtendedState(MAXIMIZED_BOTH);
+                   page.pack();
+                   this.dispose();
+                   page.nama.setText(account);
+    }//GEN-LAST:event_dataMouseClicked
 
     /**
      * @param args the command line arguments
@@ -389,7 +424,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel biaya;
     private javax.swing.JLabel data;
     private javax.swing.JLabel homeLogo;
-    private javax.swing.JLabel invoice;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JLabel komplain;

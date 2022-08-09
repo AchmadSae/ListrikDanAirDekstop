@@ -60,7 +60,6 @@ public class Validation extends javax.swing.JFrame {
         komplain = new javax.swing.JLabel();
         valid = new javax.swing.JLabel();
         biaya = new javax.swing.JLabel();
-        invoice = new javax.swing.JLabel();
         data = new javax.swing.JLabel();
         users = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -71,7 +70,7 @@ public class Validation extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         uNameProses = new javax.swing.JTextField();
         uNoteProses = new javax.swing.JTextField();
-        tglSekarang = new javax.swing.JButton();
+        btnProses = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel3 = new javax.swing.JLabel();
         unit = new javax.swing.JTextField();
@@ -174,16 +173,21 @@ public class Validation extends javax.swing.JFrame {
         biaya.setForeground(new java.awt.Color(255, 255, 255));
         biaya.setText("BIAYA");
         biaya.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        invoice.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        invoice.setForeground(new java.awt.Color(255, 255, 255));
-        invoice.setText("INVOICE");
-        invoice.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        biaya.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                biayaMouseClicked(evt);
+            }
+        });
 
         data.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         data.setForeground(new java.awt.Color(255, 255, 255));
         data.setText("DATA");
         data.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        data.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dataMouseClicked(evt);
+            }
+        });
 
         users.setBackground(new java.awt.Color(146, 180, 236));
         users.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -251,12 +255,10 @@ public class Validation extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(biaya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(invoice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
                 .addComponent(data, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(komplain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(434, 434, 434)
+                .addGap(509, 509, 509)
                 .addComponent(users, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33))
         );
@@ -272,7 +274,6 @@ public class Validation extends javax.swing.JFrame {
                                 .addComponent(pengecekan)
                                 .addComponent(valid, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(biaya, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(invoice, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(data, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(komplain))))
                     .addGroup(topBarLayout.createSequentialGroup()
@@ -307,9 +308,12 @@ public class Validation extends javax.swing.JFrame {
         uNoteProses.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         uNoteProses.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        tglSekarang.setBackground(new java.awt.Color(255, 210, 76));
-        tglSekarang.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
-        tglSekarang.setForeground(new java.awt.Color(255, 255, 255));
+        btnProses.setBackground(new java.awt.Color(204, 204, 204));
+        btnProses.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btnProses.setForeground(new java.awt.Color(255, 255, 255));
+        btnProses.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/report-card.png"))); // NOI18N
+        btnProses.setText("OK");
+        btnProses.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout headerLayout = new javax.swing.GroupLayout(header);
         header.setLayout(headerLayout);
@@ -324,9 +328,9 @@ public class Validation extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(uNoteProses)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(tglSekarang, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28))
+                .addGap(51, 51, 51)
+                .addComponent(btnProses)
+                .addGap(41, 41, 41))
         );
         headerLayout.setVerticalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -346,8 +350,10 @@ public class Validation extends javax.swing.JFrame {
                     .addGroup(headerLayout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tglSekarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(uNoteProses, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE))))
+                            .addGroup(headerLayout.createSequentialGroup()
+                                .addComponent(btnProses, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(uNoteProses))))
                 .addContainerGap())
         );
 
@@ -516,15 +522,15 @@ public class Validation extends javax.swing.JFrame {
                     .addGroup(backgroundLayout.createSequentialGroup()
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 524, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE))
                     .addGroup(backgroundLayout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(unit, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(26, 26, 26)
                         .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(fotoAir, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
-                            .addComponent(fotoListrik, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE))
+                            .addComponent(fotoAir, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
+                            .addComponent(fotoListrik, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(validNote)))
                 .addGap(12, 12, 12))
@@ -575,15 +581,15 @@ public class Validation extends javax.swing.JFrame {
 
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
            // TODO log out from pop up
-                int YN = JOptionPane.showConfirmDialog(null, "Anda Yakin Ingin LogOut ?", "Pilih Yes untuk LogOut | Pilih No untuk Tetap", JOptionPane.YES_NO_OPTION);
+                int YN = JOptionPane.showConfirmDialog(null, "Anda Yakin Ingin LogOut ?", "Confrim LogOut", JOptionPane.YES_NO_OPTION);
         
         if(YN == 0){
                     try {
                         app = new App();
                     } catch (SQLException ex) {
-                        Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(Validation.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(Validation.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     app.setVisible(true);
                     this.dispose();
@@ -599,9 +605,9 @@ public class Validation extends javax.swing.JFrame {
           try {
             new See_Profile(null,true).show();
         } catch (SQLException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Validation.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Validation.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_profileActionPerformed
 
@@ -611,9 +617,9 @@ public class Validation extends javax.swing.JFrame {
         try {
             page = new Pengecekan();
         } catch (SQLException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Validation.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Validation.class.getName()).log(Level.SEVERE, null, ex);
         }
         String account = nama.getText();
         page.setVisible(true);
@@ -622,6 +628,43 @@ public class Validation extends javax.swing.JFrame {
                    this.dispose();
                    page.nama.setText(account);
     }//GEN-LAST:event_pengecekanMouseClicked
+
+    private void biayaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_biayaMouseClicked
+        // Open form penghitungan biaya
+        
+        Hitung_Biaya page = null;
+        try {
+            page = new Hitung_Biaya();
+        } catch (SQLException ex) {
+            Logger.getLogger(Validation.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Validation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String account = nama.getText();
+        page.setVisible(true);
+        page.setExtendedState(MAXIMIZED_BOTH);
+                   page.pack();
+                   this.dispose();
+                   page.nama.setText(account);
+    }//GEN-LAST:event_biayaMouseClicked
+
+    private void dataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dataMouseClicked
+                // Open form Data 
+        Data page = null;
+        try {
+            page = new Data();
+        } catch (SQLException ex) {
+            Logger.getLogger(Validation.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Validation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String account = nama.getText();
+        page.setVisible(true);
+        page.setExtendedState(MAXIMIZED_BOTH);
+                   page.pack();
+                   this.dispose();
+                   page.nama.setText(account);
+    }//GEN-LAST:event_dataMouseClicked
 
     /**
      * @param args the command line arguments
@@ -674,6 +717,7 @@ public class Validation extends javax.swing.JFrame {
     private javax.swing.JLabel biaya;
     private javax.swing.JToggleButton btnLihatAir;
     private javax.swing.JToggleButton btnLihatListrik;
+    private javax.swing.JButton btnProses;
     private javax.swing.JLabel data;
     private javax.swing.JPanel fotoAir;
     private javax.swing.JPanel fotoListrik;
@@ -681,7 +725,6 @@ public class Validation extends javax.swing.JFrame {
     private javax.swing.JLabel homeLogo;
     private javax.swing.JTextField idAir;
     private javax.swing.JTextField idListrik;
-    private javax.swing.JLabel invoice;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -698,7 +741,6 @@ public class Validation extends javax.swing.JFrame {
     private javax.swing.JLabel pengecekan;
     private javax.swing.JPopupMenu popAcc;
     private javax.swing.JMenuItem profile;
-    private javax.swing.JButton tglSekarang;
     private javax.swing.JPanel topBar;
     private javax.swing.JTextField uNameProses;
     private javax.swing.JTextField uNoteProses;

@@ -12,7 +12,6 @@ import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 /**
  *
@@ -55,7 +54,6 @@ public class Pengecekan extends javax.swing.JFrame {
         komplain = new javax.swing.JLabel();
         valid = new javax.swing.JLabel();
         biaya = new javax.swing.JLabel();
-        invoice = new javax.swing.JLabel();
         data = new javax.swing.JLabel();
         users = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -72,12 +70,6 @@ public class Pengecekan extends javax.swing.JFrame {
         unit = new javax.swing.JTextField();
         update = new javax.swing.JButton();
         cari = new javax.swing.JButton();
-        awalPemakaianListrik = new javax.swing.JTextField();
-        akhirPemakaianListrik = new javax.swing.JTextField();
-        totalPemakaianListrik = new javax.swing.JTextField();
-        awalPemakaianAir = new javax.swing.JTextField();
-        akhirPemakaianAir = new javax.swing.JTextField();
-        totalPemakaianAi = new javax.swing.JTextField();
         fotoListrik = new javax.swing.JPanel();
         btnLihatListrik = new javax.swing.JToggleButton();
         idListrik = new javax.swing.JTextField();
@@ -88,9 +80,16 @@ public class Pengecekan extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         namaTeknisi = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        akhirPemakaianAir = new javax.swing.JTextField();
+        awalPemakaianAir = new javax.swing.JTextField();
+        akhirPemakaianListrik = new javax.swing.JTextField();
+        awalPemakaianListrik = new javax.swing.JTextField();
+        totalPemakaianListrik = new javax.swing.JTextField();
+        totalPemakaianAi = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
 
         popAcc.setBackground(new java.awt.Color(146, 180, 236));
         popAcc.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
@@ -181,16 +180,21 @@ public class Pengecekan extends javax.swing.JFrame {
         biaya.setForeground(new java.awt.Color(255, 255, 255));
         biaya.setText("BIAYA");
         biaya.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        invoice.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        invoice.setForeground(new java.awt.Color(255, 255, 255));
-        invoice.setText("INVOICE");
-        invoice.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        biaya.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                biayaMouseClicked(evt);
+            }
+        });
 
         data.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         data.setForeground(new java.awt.Color(255, 255, 255));
         data.setText("DATA");
         data.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        data.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dataMouseClicked(evt);
+            }
+        });
 
         users.setBackground(new java.awt.Color(146, 180, 236));
         users.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -258,12 +262,10 @@ public class Pengecekan extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(biaya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(invoice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
                 .addComponent(data, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(komplain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(434, 434, 434)
+                .addGap(509, 509, 509)
                 .addComponent(users, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33))
         );
@@ -279,7 +281,6 @@ public class Pengecekan extends javax.swing.JFrame {
                                 .addComponent(pengecekan)
                                 .addComponent(valid, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(biaya, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(invoice, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(data, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(komplain))))
                     .addGroup(topBarLayout.createSequentialGroup()
@@ -316,7 +317,8 @@ public class Pengecekan extends javax.swing.JFrame {
 
         btnProses.setBackground(new java.awt.Color(204, 204, 204));
         btnProses.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        btnProses.setForeground(new java.awt.Color(255, 210, 76));
+        btnProses.setForeground(new java.awt.Color(255, 255, 255));
+        btnProses.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/report-card.png"))); // NOI18N
         btnProses.setText("OK");
         btnProses.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
@@ -331,33 +333,30 @@ public class Pengecekan extends javax.swing.JFrame {
                 .addComponent(uNameProses, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(78, 78, 78)
                 .addComponent(jLabel2)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(uNoteProses)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnProses, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnProses)
+                .addGap(35, 35, 35))
         );
         headerLayout.setVerticalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headerLayout.createSequentialGroup()
                 .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(headerLayout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel1))
+                    .addGroup(headerLayout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(uNoteProses, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
-                            .addComponent(btnProses)))
+                            .addComponent(btnProses, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(uNoteProses, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(headerLayout.createSequentialGroup()
-                        .addGap(14, 14, 14)
+                        .addGap(17, 17, 17)
                         .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(headerLayout.createSequentialGroup()
-                                .addGap(3, 3, 3)
-                                .addComponent(uNameProses))
-                            .addGroup(headerLayout.createSequentialGroup()
-                                .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
-                .addContainerGap())
+                            .addComponent(uNameProses, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jSeparator2.setBackground(new java.awt.Color(146, 180, 236));
@@ -372,62 +371,19 @@ public class Pengecekan extends javax.swing.JFrame {
         unit.setForeground(new java.awt.Color(255, 255, 255));
         unit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        update.setBackground(new java.awt.Color(255, 210, 76));
+        update.setBackground(new java.awt.Color(204, 204, 204));
         update.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         update.setForeground(new java.awt.Color(255, 255, 255));
+        update.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/update.png"))); // NOI18N
         update.setText("UPDATE");
         update.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        cari.setBackground(new java.awt.Color(0, 220, 62));
+        cari.setBackground(new java.awt.Color(204, 204, 204));
         cari.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         cari.setForeground(new java.awt.Color(255, 255, 255));
-        cari.setText("CARI");
+        cari.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/search.png"))); // NOI18N
+        cari.setText("SEARCH");
         cari.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        awalPemakaianListrik.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        awalPemakaianListrik.setForeground(new java.awt.Color(51, 51, 51));
-        awalPemakaianListrik.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        awalPemakaianListrik.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Awal Pemakaian Listrik", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(255, 210, 76))); // NOI18N
-        awalPemakaianListrik.setMinimumSize(new java.awt.Dimension(150, 40));
-        awalPemakaianListrik.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                awalPemakaianListrikActionPerformed(evt);
-            }
-        });
-
-        akhirPemakaianListrik.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        akhirPemakaianListrik.setForeground(new java.awt.Color(51, 51, 51));
-        akhirPemakaianListrik.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        akhirPemakaianListrik.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Akhir Pemakaian Listrik", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(255, 210, 76))); // NOI18N
-
-        totalPemakaianListrik.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        totalPemakaianListrik.setForeground(new java.awt.Color(51, 51, 51));
-        totalPemakaianListrik.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        totalPemakaianListrik.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Total", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(255, 210, 76))); // NOI18N
-        totalPemakaianListrik.setMinimumSize(new java.awt.Dimension(150, 50));
-        totalPemakaianListrik.setPreferredSize(new java.awt.Dimension(150, 50));
-        totalPemakaianListrik.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                totalPemakaianListrikActionPerformed(evt);
-            }
-        });
-
-        awalPemakaianAir.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        awalPemakaianAir.setForeground(new java.awt.Color(51, 51, 51));
-        awalPemakaianAir.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        awalPemakaianAir.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Awal Pemakaian Air", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(146, 180, 236))); // NOI18N
-        awalPemakaianAir.setMinimumSize(new java.awt.Dimension(150, 40));
-
-        akhirPemakaianAir.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        akhirPemakaianAir.setForeground(new java.awt.Color(51, 51, 51));
-        akhirPemakaianAir.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        akhirPemakaianAir.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Akhir Pemakaian Listrik", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(146, 180, 236))); // NOI18N
-
-        totalPemakaianAi.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        totalPemakaianAi.setForeground(new java.awt.Color(51, 51, 51));
-        totalPemakaianAi.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        totalPemakaianAi.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Total", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(146, 180, 236))); // NOI18N
-        totalPemakaianAi.setMinimumSize(new java.awt.Dimension(150, 50));
 
         fotoListrik.setBackground(new java.awt.Color(255, 255, 255));
         fotoListrik.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 210, 76)));
@@ -461,7 +417,7 @@ public class Pengecekan extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(fotoListrikLayout.createSequentialGroup()
                 .addComponent(idListrik, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 284, Short.MAX_VALUE))
+                .addGap(0, 238, Short.MAX_VALUE))
         );
 
         fotoAir.setBackground(new java.awt.Color(255, 255, 255));
@@ -496,7 +452,7 @@ public class Pengecekan extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(fotoAirLayout.createSequentialGroup()
                 .addComponent(idAir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 238, Short.MAX_VALUE))
         );
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -537,13 +493,6 @@ public class Pengecekan extends javax.swing.JFrame {
 
         jButton1.setBackground(new java.awt.Color(255, 210, 76));
 
-        jButton2.setBackground(new java.awt.Color(146, 180, 236));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jScrollPane1.setForeground(new java.awt.Color(255, 255, 255));
@@ -563,6 +512,107 @@ public class Pengecekan extends javax.swing.JFrame {
         jTable1.setSelectionBackground(new java.awt.Color(146, 180, 236));
         jScrollPane1.setViewportView(jTable1);
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setForeground(new java.awt.Color(255, 255, 255));
+
+        akhirPemakaianAir.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        akhirPemakaianAir.setForeground(new java.awt.Color(51, 51, 51));
+        akhirPemakaianAir.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        akhirPemakaianAir.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Akhir Pemakaian Listrik", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(146, 180, 236))); // NOI18N
+
+        awalPemakaianAir.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        awalPemakaianAir.setForeground(new java.awt.Color(51, 51, 51));
+        awalPemakaianAir.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        awalPemakaianAir.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Awal Pemakaian Air", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(146, 180, 236))); // NOI18N
+        awalPemakaianAir.setMinimumSize(new java.awt.Dimension(150, 40));
+
+        akhirPemakaianListrik.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        akhirPemakaianListrik.setForeground(new java.awt.Color(51, 51, 51));
+        akhirPemakaianListrik.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        akhirPemakaianListrik.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Akhir Pemakaian Listrik", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(255, 210, 76))); // NOI18N
+
+        awalPemakaianListrik.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        awalPemakaianListrik.setForeground(new java.awt.Color(51, 51, 51));
+        awalPemakaianListrik.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        awalPemakaianListrik.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Awal Pemakaian Listrik", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(255, 210, 76))); // NOI18N
+        awalPemakaianListrik.setMinimumSize(new java.awt.Dimension(150, 40));
+        awalPemakaianListrik.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                awalPemakaianListrikActionPerformed(evt);
+            }
+        });
+
+        totalPemakaianListrik.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        totalPemakaianListrik.setForeground(new java.awt.Color(51, 51, 51));
+        totalPemakaianListrik.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        totalPemakaianListrik.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Total", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(255, 210, 76))); // NOI18N
+        totalPemakaianListrik.setMinimumSize(new java.awt.Dimension(150, 50));
+        totalPemakaianListrik.setPreferredSize(new java.awt.Dimension(150, 50));
+        totalPemakaianListrik.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                totalPemakaianListrikActionPerformed(evt);
+            }
+        });
+
+        totalPemakaianAi.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        totalPemakaianAi.setForeground(new java.awt.Color(51, 51, 51));
+        totalPemakaianAi.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        totalPemakaianAi.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Total", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(146, 180, 236))); // NOI18N
+        totalPemakaianAi.setMinimumSize(new java.awt.Dimension(150, 50));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(totalPemakaianListrik, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(akhirPemakaianListrik)
+                    .addComponent(awalPemakaianListrik, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(totalPemakaianAi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(akhirPemakaianAir)
+                        .addContainerGap())
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addComponent(awalPemakaianAir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(2, 2, 2))))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(awalPemakaianAir, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(awalPemakaianListrik, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(33, 33, 33)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(akhirPemakaianAir, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
+                    .addComponent(akhirPemakaianListrik))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(totalPemakaianListrik, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
+                    .addComponent(totalPemakaianAi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jButton2.setBackground(new java.awt.Color(146, 180, 236));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
         backgroundLayout.setHorizontalGroup(
@@ -572,46 +622,34 @@ public class Pengecekan extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
                 .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(backgroundLayout.createSequentialGroup()
-                        .addGap(56, 56, 56)
-                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(unit)
-                            .addGroup(backgroundLayout.createSequentialGroup()
-                                .addComponent(update, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(awalPemakaianListrik, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, backgroundLayout.createSequentialGroup()
-                                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(akhirPemakaianListrik, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(totalPemakaianListrik, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(1, 1, 1)))
-                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(akhirPemakaianAir)
-                                    .addComponent(totalPemakaianAi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(backgroundLayout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(awalPemakaianAir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                        .addGap(119, 119, 119)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(106, 106, 106)
+                        .addComponent(update, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(46, 46, 46)
+                        .addComponent(cari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(37, 37, 37))
                     .addGroup(backgroundLayout.createSequentialGroup()
-                        .addGap(122, 122, 122)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(379, 379, 379)))
+                        .addGap(56, 56, 56)
+                        .addComponent(unit, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)))
                 .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(backgroundLayout.createSequentialGroup()
-                        .addComponent(fotoListrik, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(fotoAir, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(39, 39, 39))
+                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(backgroundLayout.createSequentialGroup()
+                                .addComponent(fotoListrik, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addComponent(fotoAir, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(39, 39, 39))
+                    .addGroup(backgroundLayout.createSequentialGroup()
+                        .addGap(64, 64, 64)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(129, 129, 129)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(81, 81, 81))))
             .addGroup(backgroundLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(jScrollPane1)
@@ -631,47 +669,33 @@ public class Pengecekan extends javax.swing.JFrame {
                 .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(backgroundLayout.createSequentialGroup()
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(9, 9, 9)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(14, 14, 14)
+                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(update)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cari))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(backgroundLayout.createSequentialGroup()
-                                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(awalPemakaianListrik, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(awalPemakaianAir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(akhirPemakaianAir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(akhirPemakaianListrik, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(unit))
-                        .addGap(18, 18, 18)
-                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(backgroundLayout.createSequentialGroup()
-                                .addGap(33, 33, 33)
-                                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(update, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(142, 142, 142))
-                            .addGroup(backgroundLayout.createSequentialGroup()
-                                .addGap(28, 28, 28)
-                                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(totalPemakaianListrik, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(totalPemakaianAi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(37, 37, 37)))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                        .addGap(8, 8, 8))
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(unit, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(backgroundLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(fotoListrik, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-                            .addComponent(fotoAir, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(backgroundLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(fotoListrik, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(fotoAir, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1)
+                            .addComponent(jButton2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 4, Short.MAX_VALUE)))
+                .addGap(0, 0, 0)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                .addGap(8, 8, 8))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -722,27 +746,38 @@ public class Pengecekan extends javax.swing.JFrame {
     }//GEN-LAST:event_homeLogoMouseClicked
 
     private void validMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_validMouseClicked
-        try {
-            new Confirm_isAccounting(null,true).show();
-            this.dispose();
-        } catch (SQLException ex) {
-            Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                int YN = JOptionPane.showConfirmDialog(null, "Anda ke Validation ?", "Don't Close App When Still in Login Section", JOptionPane.YES_NO_OPTION);
+//              jika yes 
+                if(YN == 0){
+                    try {
+                         new Confirm_isAccounting(null,true).show();
+                         this.dispose();
+                    } catch (SQLException ex) {
+                       Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ClassNotFoundException ex) {
+                       Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+        
+                    this.dispose();
+//            jika no         
+        }else
+            if(YN == 1){
+                this.setVisible(true);
+            }
+
     }//GEN-LAST:event_validMouseClicked
 
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
              // TODO log out from pop up
-                int YN = JOptionPane.showConfirmDialog(null, "Anda Yakin Ingin LogOut ?", "Pilih Yes untuk LogOut | Pilih No untuk Tetap", JOptionPane.YES_NO_OPTION);
+                int YN = JOptionPane.showConfirmDialog(null, "Anda Yakin Ingin LogOut ?", "Confrim LogOut", JOptionPane.YES_NO_OPTION);
         
         if(YN == 0){
                     try {
                         app = new App();
                     } catch (SQLException ex) {
-                        Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     app.setVisible(true);
                     this.dispose();
@@ -758,11 +793,48 @@ public class Pengecekan extends javax.swing.JFrame {
           try {
             new See_Profile(null,true).show();
         } catch (SQLException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_profileActionPerformed
+
+    private void biayaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_biayaMouseClicked
+        // Open form penghitungan biaya
+        
+        Hitung_Biaya page = null;
+        try {
+            page = new Hitung_Biaya();
+        } catch (SQLException ex) {
+            Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String account = nama.getText();
+        page.setVisible(true);
+        page.setExtendedState(MAXIMIZED_BOTH);
+                   page.pack();
+                   this.dispose();
+                   page.nama.setText(account);
+    }//GEN-LAST:event_biayaMouseClicked
+
+    private void dataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dataMouseClicked
+                // Open form Data 
+        Data page = null;
+        try {
+            page = new Data();
+        } catch (SQLException ex) {
+            Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String account = nama.getText();
+        page.setVisible(true);
+        page.setExtendedState(MAXIMIZED_BOTH);
+                   page.pack();
+                   this.dispose();
+                   page.nama.setText(account);
+    }//GEN-LAST:event_dataMouseClicked
 
     /**
      * @param args the command line arguments
@@ -826,7 +898,6 @@ public class Pengecekan extends javax.swing.JFrame {
     private javax.swing.JLabel homeLogo;
     private javax.swing.JTextField idAir;
     private javax.swing.JTextField idListrik;
-    private javax.swing.JLabel invoice;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -836,6 +907,7 @@ public class Pengecekan extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
