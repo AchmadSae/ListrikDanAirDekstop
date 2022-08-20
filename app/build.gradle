@@ -32,6 +32,9 @@ dependencies {
     // https://mvnrepository.com/artifact/com.toedter/jcalendar
     implementation group: 'com.toedter', name: 'jcalendar', version: '1.4'
 
+    // https://mvnrepository.com/artifact/net.java.dev.timingframework/timingframework
+    implementation group: 'net.java.dev.timingframework', name: 'timingframework', version: '1.0'
+
 
 }
 

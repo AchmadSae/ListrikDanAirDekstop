@@ -4,7 +4,9 @@
  */
 package ListrikDanAirApps;
 
+import ChartComponent.Chart.ModelChart;
 import config.See_Profile;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.sql.SQLException;
@@ -22,10 +24,22 @@ public class Home extends javax.swing.JFrame {
     
     public Home()throws SQLException, ClassNotFoundException {
         initComponents();
+        getContentPane().setBackground(new Color(250, 250, 250));
         Toolkit kit = getToolkit();
         Dimension size = kit.getScreenSize();
         setLocation(size.width/2 - getWidth()/2, size.height/2 - getHeight()/2);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/logo_app.png")));
+        
+        chart.addLegend("Income", new Color(245, 189, 135));
+        chart.addLegend("Expense", new Color(135, 189, 245));
+        chart.addLegend("Profit", new Color(189, 135, 245));
+        chart.addLegend("Cost", new Color(139, 229, 222));
+        chart.addData(new ModelChart("January", new double[]{500, 200, 80, 89}));
+        chart.addData(new ModelChart("February", new double[]{600, 750, 90, 150}));
+        chart.addData(new ModelChart("March", new double[]{200, 350, 460, 900}));
+        chart.addData(new ModelChart("April", new double[]{480, 150, 750, 700}));
+        chart.addData(new ModelChart("May", new double[]{350, 540, 300, 150}));
+        chart.addData(new ModelChart("June", new double[]{190, 280, 81, 200}));
         
 
     }
@@ -55,6 +69,7 @@ public class Home extends javax.swing.JFrame {
         users = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         komplain1 = new javax.swing.JLabel();
+        chart = new ChartComponent.Chart.Chart();
 
         popAcc.setBackground(new java.awt.Color(146, 180, 236));
         popAcc.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
@@ -99,6 +114,11 @@ public class Home extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setLocationByPlatform(true);
         setMinimumSize(new java.awt.Dimension(1280, 700));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         background.setBackground(new java.awt.Color(255, 255, 255));
         background.setAlignmentX(0.0F);
@@ -129,6 +149,11 @@ public class Home extends javax.swing.JFrame {
         komplain.setForeground(new java.awt.Color(255, 255, 255));
         komplain.setText("KOMPLAIN");
         komplain.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        komplain.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                komplainMouseClicked(evt);
+            }
+        });
 
         valid.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         valid.setForeground(new java.awt.Color(255, 255, 255));
@@ -213,17 +238,17 @@ public class Home extends javax.swing.JFrame {
             topBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, topBarLayout.createSequentialGroup()
                 .addGap(13, 13, 13)
-                .addComponent(homeLogo, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                .addComponent(homeLogo, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(pengecekan, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                .addComponent(pengecekan, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(valid, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
+                .addComponent(valid, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(biaya, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+                .addComponent(biaya, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(data, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+                .addComponent(data, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(komplain, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+                .addComponent(komplain, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
                 .addGap(539, 539, 539)
                 .addComponent(users, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34))
@@ -245,17 +270,25 @@ public class Home extends javax.swing.JFrame {
                     .addComponent(users, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
+        chart.setBackground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
         backgroundLayout.setHorizontalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(topBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(backgroundLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(chart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(629, 629, 629))
         );
         backgroundLayout.setVerticalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backgroundLayout.createSequentialGroup()
                 .addComponent(topBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chart, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGap(78, 78, 78))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -375,6 +408,28 @@ public class Home extends javax.swing.JFrame {
                    page.nama.setText(account);
     }//GEN-LAST:event_dataMouseClicked
 
+    private void komplainMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_komplainMouseClicked
+                  Komplain page = null;
+        try {
+            page = new Komplain();
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String account = Home_nama.getText();
+        page.setVisible(true);
+        page.setExtendedState(MAXIMIZED_BOTH);
+                   page.pack();
+                   this.dispose();
+                   page.nama.setText(account);
+    }//GEN-LAST:event_komplainMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        chart.start();
+    }//GEN-LAST:event_formWindowOpened
+
     /**
      * @param args the command line arguments
      */
@@ -422,6 +477,7 @@ public class Home extends javax.swing.JFrame {
     public static final javax.swing.JLabel Home_nama = new javax.swing.JLabel();
     private javax.swing.JPanel background;
     private javax.swing.JLabel biaya;
+    private ChartComponent.Chart.Chart chart;
     private javax.swing.JLabel data;
     private javax.swing.JLabel homeLogo;
     private javax.swing.JLabel jLabel1;

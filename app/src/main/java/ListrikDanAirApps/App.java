@@ -114,7 +114,7 @@ public class App extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(btnLogin)
-                .addGap(254, 254, 254))
+                .addGap(262, 262, 262))
         );
         backgroundLayout.setVerticalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -133,9 +133,9 @@ public class App extends javax.swing.JFrame {
                 .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnLogin)
-                .addContainerGap(103, Short.MAX_VALUE))
+                .addContainerGap(115, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -159,7 +159,7 @@ public class App extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // login
         
-        String qryLogin = "SELECT * FROM tb_users WHERE id_user='"+username.getText()+"'AND password='"+password.getText()+"'";
+        String qryLogin = "SELECT * FROM staf WHERE id_staf='"+username.getText()+"'AND password='"+password.getText()+"'";
         try{
             java.sql.Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(qryLogin);

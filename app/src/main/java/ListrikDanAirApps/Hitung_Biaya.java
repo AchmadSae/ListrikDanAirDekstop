@@ -67,7 +67,6 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         no_unit = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
-        tanggal = new javax.swing.JTextField();
         jSeparator2 = new javax.swing.JSeparator();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -169,6 +168,11 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         komplain.setForeground(new java.awt.Color(255, 255, 255));
         komplain.setText("KOMPLAIN");
         komplain.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        komplain.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                komplainMouseClicked(evt);
+            }
+        });
 
         valid.setBackground(new java.awt.Color(146, 180, 236));
         valid.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
@@ -377,32 +381,15 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(204, 204, 204));
         jPanel4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 4, true));
 
-        tanggal.setBackground(new java.awt.Color(204, 204, 204));
-        tanggal.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
-        tanggal.setForeground(new java.awt.Color(255, 255, 255));
-        tanggal.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tanggal.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tanggal", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(255, 255, 255))); // NOI18N
-        tanggal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tanggalActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(tanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44))
+            .addGap(0, 253, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(tanggal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGap(0, 67, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout headerLayout = new javax.swing.GroupLayout(header);
@@ -828,24 +815,24 @@ public class Hitung_Biaya extends javax.swing.JFrame {
     }//GEN-LAST:event_homeLogoMouseClicked
 
     private void validMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_validMouseClicked
-                int YN = JOptionPane.showConfirmDialog(null, "Anda ke Validation ?", "Don't Close App When Still in Login Section", JOptionPane.YES_NO_OPTION);
-        
-        if(YN == 0){
-                    try {
-                         new Confirm_isAccounting(null,true).show();
-                         this.dispose();
-                    } catch (SQLException ex) {
-                       Logger.getLogger(Hitung_Biaya.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (ClassNotFoundException ex) {
-                       Logger.getLogger(Hitung_Biaya.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    app.setVisible(true);
-                    this.dispose();
-                    
-        }else
-            if(YN == 1){
-                this.setVisible(true);
-            }
+//                int YN = JOptionPane.showConfirmDialog(null, "Anda ke Validation ?", "Don't Close App When Still in Login Section", JOptionPane.YES_NO_OPTION);
+                    JOptionPane.showMessageDialog(null, "Validation Data Section, Harus melalui Section Pengecekan terlebih dahulu !!");
+//        if(YN == 0){
+//                    try {
+//                         new Confirm_isAccounting(null,true).show();
+//                         this.dispose();
+//                    } catch (SQLException ex) {
+//                       Logger.getLogger(Hitung_Biaya.class.getName()).log(Level.SEVERE, null, ex);
+//                    } catch (ClassNotFoundException ex) {
+//                       Logger.getLogger(Hitung_Biaya.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
+//                    app.setVisible(true);
+//                    this.dispose();
+//                    
+//        }else
+//            if(YN == 1){
+//                this.setVisible(true);
+//            }
 
     }//GEN-LAST:event_validMouseClicked
 
@@ -897,10 +884,6 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnSearchActionPerformed
 
-    private void tanggalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tanggalActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tanggalActionPerformed
-
     private void dataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dataMouseClicked
                 // Open form Data 
         Data page = null;
@@ -918,6 +901,24 @@ public class Hitung_Biaya extends javax.swing.JFrame {
                    this.dispose();
                    page.nama.setText(account);
     }//GEN-LAST:event_dataMouseClicked
+
+    private void komplainMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_komplainMouseClicked
+                       // Open form Komplain
+        Komplain page = null;
+        try {
+            page = new Komplain();
+        } catch (SQLException ex) {
+            Logger.getLogger(Hitung_Biaya.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Hitung_Biaya.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String account = nama.getText();
+        page.setVisible(true);
+        page.setExtendedState(MAXIMIZED_BOTH);
+                   page.pack();
+                   this.dispose();
+                   page.nama.setText(account);
+    }//GEN-LAST:event_komplainMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1012,7 +1013,6 @@ public class Hitung_Biaya extends javax.swing.JFrame {
     private javax.swing.JTable tableListrik;
     private javax.swing.JTextField tambahanAir;
     private javax.swing.JTextField tambahanListrik;
-    private javax.swing.JTextField tanggal;
     private javax.swing.JPanel topBar;
     private javax.swing.JLabel total;
     private javax.swing.JTextField total_air;
