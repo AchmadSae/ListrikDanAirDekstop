@@ -1,10 +1,12 @@
 package dataTable.PengecekanNeeds;
 
 
-public class ConstTable {
-    String unit, date, id_staf, id_monthly, name, current_number, amount;
+public class ModelPengecekan {
+    private String unit, date, id_staf, id_monthly, name;
+    private Integer  current_number, amount;
+   // private Byte attcahment;
     
-    public ConstTable(String unit,String date, String id_staf, String id_monthly, String name,String  current_number, String amount){
+    public ModelPengecekan(String unit,String date, String id_staf, String id_monthly, String name,int current_number, int amount){
         this.unit = unit;
         this.date = date;
         this.id_staf = id_staf;
@@ -12,10 +14,8 @@ public class ConstTable {
         this.name = name;
         this.current_number = current_number;
         this.amount = amount;
-    }
-
-    public ConstTable(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       // this.attcahment = attachment;
+        
     }
 
     public String getUnit() {
@@ -58,19 +58,24 @@ public class ConstTable {
         this.name = name;
     }
 
-    public String getCurrent_number() {
+    public Integer getCurrent_number() {
         return current_number;
     }
 
-    public void setCurrent_number(String current_number) {
+    public void setCurrent_number(Integer current_number) {
         this.current_number = current_number;
     }
 
-    public String getAmount() {
+    public Integer getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(Integer amount) {
         this.amount = amount;
     }
+
+
+   
+
+    
 }

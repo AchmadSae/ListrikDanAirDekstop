@@ -7,10 +7,15 @@ package ListrikDanAirApps;
 import config.Confirm_isAccounting;
 import config.Connection_db;
 import config.See_Profile;
-import static dataTable.PengecekanNeeds.tableData.ListPengecekan;
-import dataTable.PengecekanNeeds.ConstTable;
+import dataTable.PengecekanNeeds.ModelProgres;
+import dataTable.PengecekanNeeds.ControllerPengecekan;
+import static dataTable.PengecekanNeeds.ControllerPengecekan.CekAll;
+import static dataTable.PengecekanNeeds.ControllerPengecekan.ProsesCek;
+import dataTable.PengecekanNeeds.ModelPengecekan;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,10 +25,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 public class Pengecekan extends javax.swing.JFrame {
+    //create objek controller
+    ControllerPengecekan cek = new ControllerPengecekan();
+    //create model proses
+    ArrayList<ModelProgres> progresModel = ProsesCek();
+    //create model pengecekan
+    ArrayList<ModelPengecekan> cekModel = CekAll();
     //create object class login section
     App app;
     static private Connection conn = new Connection_db().Connect();
@@ -38,7 +49,7 @@ public class Pengecekan extends javax.swing.JFrame {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/logo_app.png")));
         
         //call show data in table pengecekan
-        show_cek();
+        tablePengecekan.setModel(cek.showData());
         
     }
    
@@ -66,19 +77,21 @@ public class Pengecekan extends javax.swing.JFrame {
         header = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        btnProses = new javax.swing.JButton();
+        createNewProgres = new javax.swing.JLabel();
+        updateProgres = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         progres = new javax.swing.JTextArea();
         id_stafCek = new javax.swing.JTextField();
         jSeparator3 = new javax.swing.JSeparator();
-        no_unit = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         id_monthly = new javax.swing.JTextField();
+        no_unit = new javax.swing.JTextField();
         fotoListrik = new javax.swing.JPanel();
         btnLihatListrik = new javax.swing.JToggleButton();
+        imgListrik = new javax.swing.JLabel();
         fotoAir = new javax.swing.JPanel();
         btnLihatAir = new javax.swing.JToggleButton();
+        imgAir = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         nama_staf = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -320,17 +333,28 @@ public class Pengecekan extends javax.swing.JFrame {
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("PROGRES CEK");
 
-        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel2.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(146, 180, 236));
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/reEdit.gif"))); // NOI18N
+        createNewProgres.setBackground(new java.awt.Color(255, 255, 255));
+        createNewProgres.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        createNewProgres.setForeground(new java.awt.Color(146, 180, 236));
+        createNewProgres.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/reEdit.gif"))); // NOI18N
+        createNewProgres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        createNewProgres.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                createNewProgresMouseClicked(evt);
+            }
+        });
 
-        btnProses.setBackground(new java.awt.Color(204, 204, 204));
-        btnProses.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        btnProses.setForeground(new java.awt.Color(255, 255, 255));
-        btnProses.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/report-card.png"))); // NOI18N
-        btnProses.setText("OK");
-        btnProses.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        updateProgres.setBackground(new java.awt.Color(204, 204, 204));
+        updateProgres.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        updateProgres.setForeground(new java.awt.Color(255, 255, 255));
+        updateProgres.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/report-card.png"))); // NOI18N
+        updateProgres.setText("UPDATE");
+        updateProgres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        updateProgres.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateProgresActionPerformed(evt);
+            }
+        });
 
         progres.setColumns(20);
         progres.setRows(5);
@@ -345,49 +369,43 @@ public class Pengecekan extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
+                .addComponent(createNewProgres)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(262, 262, 262)
+                        .addGap(235, 235, 235)
                         .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(232, 232, 232))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addComponent(jScrollPane2)
                         .addGap(33, 33, 33)))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(id_stafCek)
-                    .addComponent(btnProses, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE))
+                    .addComponent(updateProgres, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(26, 26, 26))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(updateProgres, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(id_stafCek, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
+                        .addGap(6, 6, 6))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(btnProses, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(id_stafCek, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(createNewProgres, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
-                                .addGap(13, 13, 13)))))
-                .addContainerGap())
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)))
+                        .addGap(13, 13, 13))))
         );
-
-        no_unit.setBackground(new java.awt.Color(255, 255, 255));
-        no_unit.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
-        no_unit.setForeground(new java.awt.Color(51, 51, 51));
-        no_unit.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        no_unit.setText("1101");
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
         jLabel4.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
@@ -396,7 +414,18 @@ public class Pengecekan extends javax.swing.JFrame {
 
         id_monthly.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         id_monthly.setForeground(new java.awt.Color(102, 102, 102));
-        id_monthly.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "id_Monthly", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 2, 12))); // NOI18N
+        id_monthly.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "id_monthl and id_cek", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 2, 12))); // NOI18N
+        id_monthly.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                id_monthlyKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                id_monthlyKeyTyped(evt);
+            }
+        });
+
+        no_unit.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
+        no_unit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         javax.swing.GroupLayout headerLayout = new javax.swing.GroupLayout(header);
         header.setLayout(headerLayout);
@@ -405,12 +434,13 @@ public class Pengecekan extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerLayout.createSequentialGroup()
                 .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(headerLayout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(no_unit, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(headerLayout.createSequentialGroup()
                         .addGap(83, 83, 83)
-                        .addComponent(jLabel4)))
-                .addGap(32, 32, 32)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(headerLayout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addComponent(no_unit)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(76, 76, 76)
                 .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -426,15 +456,16 @@ public class Pengecekan extends javax.swing.JFrame {
                     .addGroup(headerLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(no_unit, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(no_unit, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(headerLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(tanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(id_monthly, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(id_monthly)
+                        .addGap(10, 10, 10))
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(24, 24, 24)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
         );
 
@@ -447,6 +478,11 @@ public class Pengecekan extends javax.swing.JFrame {
         btnLihatListrik.setSelected(true);
         btnLihatListrik.setText("view");
         btnLihatListrik.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLihatListrik.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLihatListrikActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout fotoListrikLayout = new javax.swing.GroupLayout(fotoListrik);
         fotoListrik.setLayout(fotoListrikLayout);
@@ -454,15 +490,21 @@ public class Pengecekan extends javax.swing.JFrame {
             fotoListrikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fotoListrikLayout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addComponent(btnLihatListrik, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(fotoListrikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(imgListrik, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(fotoListrikLayout.createSequentialGroup()
+                        .addComponent(btnLihatListrik, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         fotoListrikLayout.setVerticalGroup(
             fotoListrikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fotoListrikLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnLihatListrik)
-                .addContainerGap(188, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(imgListrik, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         fotoAir.setBackground(new java.awt.Color(255, 255, 255));
@@ -474,6 +516,11 @@ public class Pengecekan extends javax.swing.JFrame {
         btnLihatAir.setSelected(true);
         btnLihatAir.setText("view");
         btnLihatAir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLihatAir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLihatAirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout fotoAirLayout = new javax.swing.GroupLayout(fotoAir);
         fotoAir.setLayout(fotoAirLayout);
@@ -481,15 +528,23 @@ public class Pengecekan extends javax.swing.JFrame {
             fotoAirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fotoAirLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnLihatAir)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(fotoAirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(fotoAirLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(imgAir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(fotoAirLayout.createSequentialGroup()
+                        .addComponent(btnLihatAir)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         fotoAirLayout.setVerticalGroup(
             fotoAirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fotoAirLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnLihatAir)
-                .addContainerGap(188, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(imgAir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -497,7 +552,8 @@ public class Pengecekan extends javax.swing.JFrame {
 
         nama_staf.setBackground(new java.awt.Color(255, 255, 255));
         nama_staf.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        nama_staf.setForeground(new java.awt.Color(51, 51, 51));
+        nama_staf.setForeground(new java.awt.Color(146, 180, 236));
+        nama_staf.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         jLabel9.setBackground(new java.awt.Color(255, 255, 255));
         jLabel9.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
@@ -506,7 +562,8 @@ public class Pengecekan extends javax.swing.JFrame {
 
         id_staf.setBackground(new java.awt.Color(255, 255, 255));
         id_staf.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        id_staf.setForeground(new java.awt.Color(51, 51, 51));
+        id_staf.setForeground(new java.awt.Color(146, 180, 236));
+        id_staf.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         set_staf.setBackground(new java.awt.Color(204, 204, 204));
         set_staf.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
@@ -975,22 +1032,26 @@ public class Pengecekan extends javax.swing.JFrame {
     }//GEN-LAST:event_komplainMouseClicked
 
     private void setActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setActionPerformed
-
+        
         //get value combo box;
-        Integer id_facility;
+ //       Integer id_facility;
                 //getDate
-        SimpleDateFormat dateSet = new SimpleDateFormat("yyyy-MM-dd");
-        String date = String.valueOf(dateSet.format(tanggal.getDate()));
-
-        if(listFasilitas.getSelectedItem().equals("Listrik")) {
-            id_facility = 1;
-            prev_numberUse(date,id_facility);
-        }else if(listFasilitas.getSelectedItem().equals("Air")){
-            id_facility = 2;
-            prev_numberUse(date,id_facility);
-        }else{
-            JOptionPane.showMessageDialog(null, "Sorry Fasilitas di Apartemen belum terdaftar ");
-        }        // call function set previous number used
+       SimpleDateFormat dateSet = new SimpleDateFormat("yyyy-MM-dd");
+       String date = String.valueOf(dateSet.format(tanggal.getDate()));
+       String unit = no_unit.getText();
+       String fasilitas = listFasilitas.getSelectedItem().toString();
+       
+       prev_numberUse(date,fasilitas,unit);
+//
+//        if(listFasilitas.getSelectedItem().equals("Listrik")) {
+//            id_facility = 1;
+//            prev_numberUse(date,id_facility);
+//        }else if(listFasilitas.getSelectedItem().equals("Air")){
+//            id_facility = 2;
+//            prev_numberUse(date,id_facility);
+//        }else{
+//            JOptionPane.showMessageDialog(null, "Sorry Fasilitas di Apartemen belum terdaftar ");
+//        }        // call function set previous number used
     }//GEN-LAST:event_setActionPerformed
 
     private void tablePengecekanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePengecekanMouseClicked
@@ -1002,6 +1063,58 @@ public class Pengecekan extends javax.swing.JFrame {
         // call function set staf
         setStafByUsername();
     }//GEN-LAST:event_set_stafActionPerformed
+
+    private void createNewProgresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_createNewProgresMouseClicked
+       //  update proses cek
+       String username = id_stafCek.getText();
+       String proses = progres.getText();
+       String id_month = id_monthly.getText();
+       
+       cek.insertProgres(username, proses, id_month);
+    }//GEN-LAST:event_createNewProgresMouseClicked
+
+    private void updateProgresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateProgresActionPerformed
+       String username = id_stafCek.getText();
+       String proses = progres.getText();
+       String id_cek = id_monthly.getText();
+       //call
+       cek.updateProgres(username, proses, id_cek);
+       
+       
+    }//GEN-LAST:event_updateProgresActionPerformed
+
+    private void id_monthlyKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_id_monthlyKeyTyped
+  
+    }//GEN-LAST:event_id_monthlyKeyTyped
+
+    private void id_monthlyKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_id_monthlyKeyPressed
+        String id = id_monthly.getText();
+        if (evt.getKeyCode()== KeyEvent.VK_ENTER){
+            System.out.println("enter search progres by id monthly :"+id);
+            searchUpdateCek(id);
+        }
+        
+    }//GEN-LAST:event_id_monthlyKeyPressed
+
+    private void btnLihatListrikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLihatListrikActionPerformed
+        // view image listrik by unit date and name fasilitas
+        String unit = no_unit.getText();
+        SimpleDateFormat dateSet = new SimpleDateFormat("yyyy-MM-dd");
+        String date = String.valueOf(dateSet.format(tanggal.getDate()));
+        String fasilitas = listFasilitas.getSelectedItem().toString();
+        
+        viewListrik(unit,date,fasilitas);
+        
+    }//GEN-LAST:event_btnLihatListrikActionPerformed
+
+    private void btnLihatAirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLihatAirActionPerformed
+        String unit = no_unit.getText();
+        SimpleDateFormat dateSet = new SimpleDateFormat("yyyy-MM-dd");
+        String date = String.valueOf(dateSet.format(tanggal.getDate()));
+        String fasilitas = listFasilitas.getSelectedItem().toString();
+        
+        viewAir(unit,date,fasilitas);
+    }//GEN-LAST:event_btnLihatAirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1056,8 +1169,8 @@ public class Pengecekan extends javax.swing.JFrame {
     private javax.swing.JLabel biaya;
     private javax.swing.JToggleButton btnLihatAir;
     private javax.swing.JToggleButton btnLihatListrik;
-    private javax.swing.JButton btnProses;
     private javax.swing.JButton cari;
+    private javax.swing.JLabel createNewProgres;
     private javax.swing.JLabel data;
     private javax.swing.JPanel fotoAir;
     private javax.swing.JPanel fotoListrik;
@@ -1066,10 +1179,11 @@ public class Pengecekan extends javax.swing.JFrame {
     private javax.swing.JTextField id_monthly;
     private javax.swing.JLabel id_staf;
     private javax.swing.JTextField id_stafCek;
+    private javax.swing.JLabel imgAir;
+    private javax.swing.JLabel imgListrik;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1091,7 +1205,7 @@ public class Pengecekan extends javax.swing.JFrame {
     private javax.swing.JMenuItem logout;
     public static final javax.swing.JLabel nama = new javax.swing.JLabel();
     private javax.swing.JLabel nama_staf;
-    private javax.swing.JLabel no_unit;
+    private javax.swing.JTextField no_unit;
     private javax.swing.JLabel pengecekan;
     private javax.swing.JPopupMenu popAcc;
     private javax.swing.JMenuItem profile;
@@ -1104,63 +1218,23 @@ public class Pengecekan extends javax.swing.JFrame {
     private javax.swing.JTextField totalPemakaianAir;
     private javax.swing.JTextField totalPemakaianListrik;
     private javax.swing.JButton update;
+    private javax.swing.JButton updateProgres;
     private javax.swing.JPanel users;
     private javax.swing.JLabel valid;
     // End of variables declaration//GEN-END:variables
 
-      //function put data form arrayList into table
-    public void show_cek(){
-            //create objet array get data into table form tableData
-            ArrayList<ConstTable> list = ListPengecekan();
-
-               //create object model table
-            DefaultTableModel model = (DefaultTableModel)tablePengecekan.getModel();
-            Object[] row = new Object[8];
-            
-            for(int i=0; i<list.size(); i++){
-                row[0] = list.get(i).getUnit();
-                row[1] = list.get(i).getDate();
-                row[2] = list.get(i).getId_staf();
-                row[3] = list.get(i).getName();
-                row[4] = list.get(i).getCurrent_number();
-                row[5] = list.get(i).getAmount();
-                
-                //add to model table
-                model.addRow(row);
-            }
-    }
-
-    private void prev_numberUse(String date, Integer fasilitas) {
-                //call data
-                //querry by date dan unit to get previous numbers used last month
-                
-                String v1 = date;
-                Integer v2 = fasilitas;
-        String qry = "SELECT data.current_number Monthly.id_monthly"
-                + " FROM ((data INNER JOIN monthly ON data.id_monthly = monthly.id_monthly))"
-                + "WHERE monthly.date = '"+v1+"' AND data.id_facility = "+v2+"";
-        
-        try{
-            ResultSet rs = stm.executeQuery(qry);
-            
-           // reObject arrayList class ConstTable
-           
-           //please edit condition when add new fasilitas
-                    if(rs.next()&& v2 == 1){
-                        String var = rs.getString("current_number");
-                        awalPemakaianListrik.setText(var);
-                        String id = rs.getString("id_monthly");
-                        id_stafCek.setText(id);
-                    }else if(rs.next()&& v2 == 2){
-                        String var = rs.getString("current_number");
-                        awalPemakaianAir.setText(var);
-                        String id = rs.getString("id_monthly");
-                        id_stafCek.setText(id);
-                    }
-                    
-        } catch (Exception e){
-                JOptionPane.showMessageDialog(null, "An Error to get some Data in Your Application by Date in Your Request");
-        }
+    private void prev_numberUse(String date, String fasilitas, String unit) {
+        System.out.println("set number prev :"+date+fasilitas+unit);
+        for(int i=0; i<cekModel.size(); i++){
+                  if(cekModel.get(i).getDate().equals(date) && cekModel.get(i).getName().equals(fasilitas) && cekModel.get(i).getUnit().equals(unit)) {
+                     String amount = cekModel.get(i).getAmount().toString();
+                     if(fasilitas.equals("Listrik")){
+                         awalPemakaianListrik.setText(amount);
+                     }else if(fasilitas.equals("Air")){
+                         awalPemakaianAir.setText(amount);   
+                     }
+                 }
+         }
     }
     //get item row
     private void getRowItem() {
@@ -1181,18 +1255,19 @@ public class Pengecekan extends javax.swing.JFrame {
         no_unit.setText(tablePengecekan.getModel().getValueAt(row, 0).toString());
         tanggal.setDate(dateView);
         id_staf.setText(tablePengecekan.getModel().getValueAt(row, 2).toString());
-        String a = tablePengecekan.getModel().getValueAt(row, 3).toString();
+        id_monthly.setText(tablePengecekan.getModel().getValueAt(row, 3).toString());
+        String a = tablePengecekan.getModel().getValueAt(row, 4).toString();
         // condition choice facility
         if(a.equals("Listrik")){
-            akhirPemakaianListrik.setText(tablePengecekan.getModel().getValueAt(row, 4).toString());
-            totalPemakaianListrik.setText(tablePengecekan.getModel().getValueAt(row, 5).toString());
+            akhirPemakaianListrik.setText(tablePengecekan.getModel().getValueAt(row, 5).toString());
+            totalPemakaianListrik.setText(tablePengecekan.getModel().getValueAt(row, 6).toString());
         }else if(a.equals("Air")){
-            akhirPemakaianAir.setText(tablePengecekan.getModel().getValueAt(row, 4).toString());
-            totalPemakaianAir.setText(tablePengecekan.getModel().getValueAt(row, 5).toString());
+            akhirPemakaianAir.setText(tablePengecekan.getModel().getValueAt(row, 5).toString());
+            totalPemakaianAir.setText(tablePengecekan.getModel().getValueAt(row, 6).toString());
         }
         
     }
-        //set staf name by username
+        //set staf name by username not use model
     private void setStafByUsername() {
         String id = id_staf.getText();
         
@@ -1202,10 +1277,78 @@ public class Pengecekan extends javax.swing.JFrame {
             ResultSet rs = stm.executeQuery(qry);
             if(rs.next()){
                 String var = rs.getString("name");
+                nama_staf.setText(var);
             }
             
         }catch (Exception e){
                 JOptionPane.showMessageDialog(null, "An Error to get some Data in Your Application by Username in Your Request");
         }
     }
+    //search updated cek proses
+    private void searchUpdateCek(String id_monthly) {
+                   for(int i=0; i<progresModel.size(); i++){
+                            if(progresModel.get(i).getId_cek().equals(id_monthly)) {
+                               String proses = progresModel.get(i).getProgres();
+                               String username = progresModel.get(i).getUsername();
+                               
+                               //put
+                               progres.setText(proses);
+                               id_stafCek.setText(username);
+                            }
+                       }
+     }
+    //view fun listrik image
+    private void viewListrik(String unit, String date, String fasilitas) {
+       System.out.println("view by : "+unit+date+fasilitas);
+       
+       
+       //create single query to get data image
+       String qry = "SELECT data.attachment FROM ((data INNER JOIN monthly ON data.id_monthly = monthly.id_monthly) "
+               + "INNER JOIN facility ON data.id_facility = facility.id_facility)"
+               + " WHERE monthly.unit = '"+unit+"' AND monthly.date ='"+date+"' AND facility.name = '"+fasilitas+"'";
+       
+       try {
+           ResultSet rs = stm.executeQuery(qry);
+           
+            byte[] image = null;
+            if(rs.next()){
+                 image = rs.getBytes("attachment");
+            }
+        Image img = Toolkit.getDefaultToolkit().createImage(image);
+        ImageIcon icon = new ImageIcon(img);
+        imgListrik.setIcon(icon);
+         }catch (Exception e){
+                JOptionPane.showMessageDialog(null, "An Error to get image listrik in Your Application by unit in Your Request");
+                System.out.println(e);
+         }
+       
+       
+    }
+    //single query get data image
+    private void viewAir(String unit, String date, String fasilitas) {
+               System.out.println("view by : "+unit+date+fasilitas);
+       
+       
+       //create single query to get data image
+       String qry = "SELECT data.attachment FROM ((data INNER JOIN monthly ON data.id_monthly = monthly.id_monthly) "
+               + "INNER JOIN facility ON data.id_facility = facility.id_facility)"
+               + " WHERE monthly.unit = '"+unit+"' AND monthly.date ='"+date+"' AND facility.name = '"+fasilitas+"'";
+       
+       try {
+           ResultSet rs = stm.executeQuery(qry);
+           
+            byte[] image = null;
+            if(rs.next()){
+                 image = rs.getBytes("attachment");
+            }
+        Image img = Toolkit.getDefaultToolkit().createImage(image);
+        ImageIcon icon = new ImageIcon(img);
+        imgAir.setIcon(icon);
+         }catch (Exception e){
+                JOptionPane.showMessageDialog(null, "An Error to get image listrik in Your Application by unit in Your Request");
+                System.out.println(e);
+         }
+    }
+   
+
 }
