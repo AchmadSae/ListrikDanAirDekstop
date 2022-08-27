@@ -12,10 +12,14 @@ import dataTable.PengecekanNeeds.ControllerPengecekan;
 import static dataTable.PengecekanNeeds.ControllerPengecekan.CekAll;
 import static dataTable.PengecekanNeeds.ControllerPengecekan.ProsesCek;
 import dataTable.PengecekanNeeds.ModelPengecekan;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,6 +30,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 public class Pengecekan extends javax.swing.JFrame {
@@ -39,6 +44,8 @@ public class Pengecekan extends javax.swing.JFrame {
     App app;
     static private Connection conn = new Connection_db().Connect();
     java.sql.Statement stm = conn.createStatement();
+    //create byte objek for photo 
+
 
     //get data form database and put in table model
     public Pengecekan()throws SQLException, ClassNotFoundException {
@@ -50,6 +57,8 @@ public class Pengecekan extends javax.swing.JFrame {
         
         //call show data in table pengecekan
         tablePengecekan.setModel(cek.showData());
+        
+        statusProgres();
         
     }
    
@@ -75,7 +84,7 @@ public class Pengecekan extends javax.swing.JFrame {
         komplain1 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         header = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
+        statusPanelCek = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         createNewProgres = new javax.swing.JLabel();
         updateProgres = new javax.swing.JButton();
@@ -88,9 +97,11 @@ public class Pengecekan extends javax.swing.JFrame {
         no_unit = new javax.swing.JTextField();
         fotoListrik = new javax.swing.JPanel();
         btnLihatListrik = new javax.swing.JToggleButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
         imgListrik = new javax.swing.JLabel();
         fotoAir = new javax.swing.JPanel();
         btnLihatAir = new javax.swing.JToggleButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
         imgAir = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         nama_staf = new javax.swing.JLabel();
@@ -159,6 +170,7 @@ public class Pengecekan extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(1280, 700));
 
         background.setBackground(new java.awt.Color(255, 255, 255));
+        background.setForeground(new java.awt.Color(255, 210, 76));
         background.setAlignmentX(0.0F);
         background.setAlignmentY(0.0F);
         background.setMinimumSize(new java.awt.Dimension(1280, 700));
@@ -324,12 +336,13 @@ public class Pengecekan extends javax.swing.JFrame {
         header.setForeground(new java.awt.Color(255, 255, 255));
         header.setToolTipText("");
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(146, 180, 236), 4, true));
+        statusPanelCek.setBackground(new java.awt.Color(255, 255, 255));
+        statusPanelCek.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(146, 180, 236), 4, true));
+        statusPanelCek.setForeground(new java.awt.Color(204, 255, 204));
 
         jLabel7.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel7.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(146, 180, 236));
+        jLabel7.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(102, 102, 102));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("PROGRES CEK");
 
@@ -357,6 +370,8 @@ public class Pengecekan extends javax.swing.JFrame {
         });
 
         progres.setColumns(20);
+        progres.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        progres.setForeground(new java.awt.Color(146, 180, 236));
         progres.setRows(5);
         jScrollPane2.setViewportView(progres);
 
@@ -364,43 +379,43 @@ public class Pengecekan extends javax.swing.JFrame {
         id_stafCek.setForeground(new java.awt.Color(102, 102, 102));
         id_stafCek.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Username Staf", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(102, 102, 102))); // NOI18N
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout statusPanelCekLayout = new javax.swing.GroupLayout(statusPanelCek);
+        statusPanelCek.setLayout(statusPanelCekLayout);
+        statusPanelCekLayout.setHorizontalGroup(
+            statusPanelCekLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(statusPanelCekLayout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(createNewProgres)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(statusPanelCekLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(statusPanelCekLayout.createSequentialGroup()
                         .addGap(235, 235, 235)
                         .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(232, 232, 232))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGroup(statusPanelCekLayout.createSequentialGroup()
                         .addComponent(jScrollPane2)
                         .addGap(33, 33, 33)))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(statusPanelCekLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(id_stafCek)
                     .addComponent(updateProgres, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(26, 26, 26))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        statusPanelCekLayout.setVerticalGroup(
+            statusPanelCekLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(statusPanelCekLayout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(statusPanelCekLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(statusPanelCekLayout.createSequentialGroup()
                         .addComponent(updateProgres, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(id_stafCek, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
+                        .addComponent(id_stafCek, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
                         .addGap(6, 6, 6))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, statusPanelCekLayout.createSequentialGroup()
+                        .addGroup(statusPanelCekLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(statusPanelCekLayout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(createNewProgres, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGroup(statusPanelCekLayout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)))
@@ -414,7 +429,7 @@ public class Pengecekan extends javax.swing.JFrame {
 
         id_monthly.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         id_monthly.setForeground(new java.awt.Color(102, 102, 102));
-        id_monthly.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "id_monthl and id_cek", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 2, 12))); // NOI18N
+        id_monthly.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "id_monthl and id_cek", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(102, 102, 102))); // NOI18N
         id_monthly.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 id_monthlyKeyPressed(evt);
@@ -441,7 +456,7 @@ public class Pengecekan extends javax.swing.JFrame {
                         .addGap(44, 44, 44)
                         .addComponent(no_unit)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(statusPanelCek, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(76, 76, 76)
                 .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tanggal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -464,7 +479,7 @@ public class Pengecekan extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(id_monthly)
                         .addGap(10, 10, 10))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(statusPanelCek, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
         );
@@ -484,6 +499,15 @@ public class Pengecekan extends javax.swing.JFrame {
             }
         });
 
+        imgListrik.setMaximumSize(new java.awt.Dimension(300, 250));
+        imgListrik.setMinimumSize(new java.awt.Dimension(300, 250));
+        imgListrik.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                imgListrikMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(imgListrik);
+
         javax.swing.GroupLayout fotoListrikLayout = new javax.swing.GroupLayout(fotoListrik);
         fotoListrik.setLayout(fotoListrikLayout);
         fotoListrikLayout.setHorizontalGroup(
@@ -491,10 +515,10 @@ public class Pengecekan extends javax.swing.JFrame {
             .addGroup(fotoListrikLayout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addGroup(fotoListrikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(imgListrik, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(fotoListrikLayout.createSequentialGroup()
                         .addComponent(btnLihatListrik, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4))
                 .addContainerGap())
         );
         fotoListrikLayout.setVerticalGroup(
@@ -503,8 +527,8 @@ public class Pengecekan extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(btnLihatListrik)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(imgListrik, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane4)
+                .addContainerGap())
         );
 
         fotoAir.setBackground(new java.awt.Color(255, 255, 255));
@@ -522,6 +546,13 @@ public class Pengecekan extends javax.swing.JFrame {
             }
         });
 
+        imgAir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                imgAirMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(imgAir);
+
         javax.swing.GroupLayout fotoAirLayout = new javax.swing.GroupLayout(fotoAir);
         fotoAir.setLayout(fotoAirLayout);
         fotoAirLayout.setHorizontalGroup(
@@ -531,7 +562,7 @@ public class Pengecekan extends javax.swing.JFrame {
                 .addGroup(fotoAirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(fotoAirLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(imgAir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane3))
                     .addGroup(fotoAirLayout.createSequentialGroup()
                         .addComponent(btnLihatAir)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -543,7 +574,7 @@ public class Pengecekan extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(btnLihatAir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(imgAir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane3)
                 .addContainerGap())
         );
 
@@ -609,7 +640,7 @@ public class Pengecekan extends javax.swing.JFrame {
         jScrollPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jScrollPane1.setForeground(new java.awt.Color(255, 255, 255));
 
-        tablePengecekan.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        tablePengecekan.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         tablePengecekan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -787,6 +818,11 @@ public class Pengecekan extends javax.swing.JFrame {
         update.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/update.png"))); // NOI18N
         update.setText("UPDATE");
         update.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateActionPerformed(evt);
+            }
+        });
 
         cari.setBackground(new java.awt.Color(204, 204, 204));
         cari.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
@@ -794,6 +830,11 @@ public class Pengecekan extends javax.swing.JFrame {
         cari.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/search.png"))); // NOI18N
         cari.setText("SEARCH");
         cari.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cariActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
@@ -1032,26 +1073,14 @@ public class Pengecekan extends javax.swing.JFrame {
     }//GEN-LAST:event_komplainMouseClicked
 
     private void setActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setActionPerformed
-        
-        //get value combo box;
- //       Integer id_facility;
-                //getDate
+
        SimpleDateFormat dateSet = new SimpleDateFormat("yyyy-MM-dd");
        String date = String.valueOf(dateSet.format(tanggal.getDate()));
        String unit = no_unit.getText();
        String fasilitas = listFasilitas.getSelectedItem().toString();
        
        prev_numberUse(date,fasilitas,unit);
-//
-//        if(listFasilitas.getSelectedItem().equals("Listrik")) {
-//            id_facility = 1;
-//            prev_numberUse(date,id_facility);
-//        }else if(listFasilitas.getSelectedItem().equals("Air")){
-//            id_facility = 2;
-//            prev_numberUse(date,id_facility);
-//        }else{
-//            JOptionPane.showMessageDialog(null, "Sorry Fasilitas di Apartemen belum terdaftar ");
-//        }        // call function set previous number used
+
     }//GEN-LAST:event_setActionPerformed
 
     private void tablePengecekanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePengecekanMouseClicked
@@ -1077,8 +1106,9 @@ public class Pengecekan extends javax.swing.JFrame {
        String username = id_stafCek.getText();
        String proses = progres.getText();
        String id_cek = id_monthly.getText();
+        Boolean valid = true;
        //call
-       cek.updateProgres(username, proses, id_cek);
+       cek.updateProgres(username, proses, id_cek, valid);
        
        
     }//GEN-LAST:event_updateProgresActionPerformed
@@ -1115,6 +1145,82 @@ public class Pengecekan extends javax.swing.JFrame {
         
         viewAir(unit,date,fasilitas);
     }//GEN-LAST:event_btnLihatAirActionPerformed
+
+    private void cariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariActionPerformed
+        //find data pengecekan
+        String unit = no_unit.getText();
+        SimpleDateFormat dateSet = new SimpleDateFormat("yyyy-MM-dd");
+        String date = String.valueOf(dateSet.format(tanggal.getDate()));
+        String fasilitas = listFasilitas.getSelectedItem().toString();
+        
+        
+        findDataCek(unit,date,fasilitas);
+    }//GEN-LAST:event_cariActionPerformed
+
+    private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
+        String unit = no_unit.getText();
+        SimpleDateFormat dateSet = new SimpleDateFormat("yyyy-MM-dd");
+        String date = String.valueOf(dateSet.format(tanggal.getDate()));
+        String username = id_staf.getText();
+        String fasilitas = listFasilitas.getSelectedItem().toString();
+        
+        
+        if(fasilitas.equals("Listrik")){
+            Integer angka = Integer.parseInt(akhirPemakaianListrik.getText());
+            Integer total = Integer.parseInt(totalPemakaianListrik.getText());
+            cek.updatePengecekan(unit,username,angka,total, date, imagesUpload, fasilitas);
+        }else if(fasilitas.equals("Air")){
+            Integer angka = Integer.parseInt(akhirPemakaianAir.getText());
+            Integer total = Integer.parseInt(totalPemakaianAir.getText());
+            cek.updatePengecekan(unit,username,angka,total, date, imagesUpload, fasilitas);
+        }
+        
+    }//GEN-LAST:event_updateActionPerformed
+
+    private void imgListrikMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imgListrikMouseClicked
+       JFileChooser choose = new JFileChooser();
+       choose.showOpenDialog(null);
+       File f = choose.getSelectedFile();
+       //put image selected
+       imgListrik.setIcon(new ImageIcon(f.toString()));
+       filename = f.getAbsolutePath();
+       try{
+           File imageChoose = new File(filename);
+           FileInputStream fis = new FileInputStream(imageChoose);
+           ByteArrayOutputStream bos = new ByteArrayOutputStream();
+           byte[] buf = new byte[1024];
+           
+                for(int readName; (readName=fis.read(buf))!=-1;){
+                     bos.write(buf, 0, readName);
+                }
+                imagesUpload = bos.toByteArray();
+       }catch(Exception e){
+           JOptionPane.showMessageDialog(null, e);
+       }
+       
+    }//GEN-LAST:event_imgListrikMouseClicked
+
+    private void imgAirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imgAirMouseClicked
+       JFileChooser choose = new JFileChooser();
+       choose.showOpenDialog(null);
+       File f = choose.getSelectedFile();
+       //put image selected
+       imgAir.setIcon(new ImageIcon(f.toString()));
+       filename = f.getAbsolutePath();
+       try{
+           File imageChoose = new File(filename);
+           FileInputStream fis = new FileInputStream(imageChoose);
+           ByteArrayOutputStream bos = new ByteArrayOutputStream();
+           byte[] buf = new byte[1024];
+           
+                for(int readName; (readName=fis.read(buf))!=-1;){
+                     bos.write(buf, 0, readName);
+                }
+                imagesUpload = bos.toByteArray();
+       }catch(Exception e){
+           JOptionPane.showMessageDialog(null, e);
+       }
+    }//GEN-LAST:event_imgAirMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1192,10 +1298,11 @@ public class Pengecekan extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
@@ -1212,6 +1319,7 @@ public class Pengecekan extends javax.swing.JFrame {
     private javax.swing.JTextArea progres;
     private javax.swing.JButton set;
     private javax.swing.JButton set_staf;
+    private javax.swing.JPanel statusPanelCek;
     public static final transient javax.swing.JTable tablePengecekan = new javax.swing.JTable();
     public static final transient com.toedter.calendar.JDateChooser tanggal = new com.toedter.calendar.JDateChooser();
     private javax.swing.JPanel topBar;
@@ -1227,11 +1335,11 @@ public class Pengecekan extends javax.swing.JFrame {
         System.out.println("set number prev :"+date+fasilitas+unit);
         for(int i=0; i<cekModel.size(); i++){
                   if(cekModel.get(i).getDate().equals(date) && cekModel.get(i).getName().equals(fasilitas) && cekModel.get(i).getUnit().equals(unit)) {
-                     String amount = cekModel.get(i).getAmount().toString();
+                     String current = cekModel.get(i).getCurrent_number().toString();
                      if(fasilitas.equals("Listrik")){
-                         awalPemakaianListrik.setText(amount);
+                         awalPemakaianListrik.setText(current);
                      }else if(fasilitas.equals("Air")){
-                         awalPemakaianAir.setText(amount);   
+                         awalPemakaianAir.setText(current);   
                      }
                  }
          }
@@ -1349,6 +1457,37 @@ public class Pengecekan extends javax.swing.JFrame {
                 System.out.println(e);
          }
     }
-   
-
+    //find data pengecekan
+    private void findDataCek(String unit, String date, String fasilitas) {
+        System.out.println("set number prev :"+date+fasilitas+unit);
+        for(int i=0; i<cekModel.size(); i++){
+                  if(cekModel.get(i).getDate().equals(date) && cekModel.get(i).getName().equals(fasilitas) && cekModel.get(i).getUnit().equals(unit)) {
+                      String current_number = cekModel.get(i).getCurrent_number().toString();
+                      String amount = cekModel.get(i).getAmount().toString();
+                     if(fasilitas.equals("Listrik")){
+                         akhirPemakaianListrik.setText(amount);
+                         totalPemakaianListrik.setText(current_number);
+                     }else if(fasilitas.equals("Air")){
+                         akhirPemakaianAir.setText(amount);
+                         totalPemakaianAir.setText(current_number);
+                     }
+                 }
+         }
+    }
+ 
+    private void statusProgres() {
+                          for(int i=0; i<progresModel.size(); i++){
+                            if(progresModel.get(i).getIsValid().equals(true)) {
+                                //hijau
+                               Color color = new Color(204,250,204);
+                               statusPanelCek.setBackground(color);
+                            }else if(progresModel.get(i).getIsValid().equals(false)){
+                                //kuning
+                               Color color = new Color(250,210,76);
+                               statusPanelCek.setBackground(color);
+                            }
+                       }
+    }
+      byte[] imagesUpload =null;
+    String filename = null;
 }

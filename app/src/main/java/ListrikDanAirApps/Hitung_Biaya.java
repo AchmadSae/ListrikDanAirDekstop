@@ -4,12 +4,23 @@
  */
 package ListrikDanAirApps;
 
-
-import config.Confirm_isAccounting;
+import config.Connection_db;
 import config.See_Profile;
+import dataTable.InvoiceNeeds.ControllerInvoice;
+import static dataTable.InvoiceNeeds.ControllerInvoice.CekAllInvoice;
+import dataTable.InvoiceNeeds.ModelInvoice;
+import dataTable.PengecekanNeeds.ControllerPengecekan;
+import static dataTable.PengecekanNeeds.ControllerPengecekan.CekAll;
+import dataTable.PengecekanNeeds.ModelPengecekan;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -19,9 +30,18 @@ import javax.swing.JOptionPane;
  */
 public class Hitung_Biaya extends javax.swing.JFrame {
     App app;
-    /**
-     * Creates new form Home
-     */
+       //create objek controller
+    ControllerPengecekan cek = new ControllerPengecekan();
+    //create objek controller invoice
+    ControllerInvoice inv = new ControllerInvoice();
+    //create model pengecekan
+    ArrayList<ModelPengecekan> cekModel = CekAll();
+    //create model invoice
+    ArrayList<ModelInvoice> invModel = CekAllInvoice();
+    //create object class login section
+    static private Connection conn = new Connection_db().Connect();
+    java.sql.Statement stm = conn.createStatement();
+    //create byte objek for photo 
     
     public Hitung_Biaya()throws SQLException, ClassNotFoundException {
         initComponents();
@@ -30,7 +50,8 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         setLocation(size.width/2 - getWidth()/2, size.height/2 - getHeight()/2);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/logo_app.png")));
         
-
+        tablePengecekan.setModel(cek.showData());
+        tableInvoice.setModel(inv.showDataInvoice());
     }
   
 
@@ -65,13 +86,12 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         no_invoice = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        no_unit = new javax.swing.JTextField();
+        id_staf = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
+        tanggal = new com.toedter.calendar.JDateChooser();
         jSeparator2 = new javax.swing.JSeparator();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tableListrik = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -82,18 +102,22 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
+        no_unit = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
         btnPrint = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
         btnSearch = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tableAir = new javax.swing.JTable();
+        tableInvoice = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
-        total_listrik = new javax.swing.JTextField();
+        totalPemakaianListrik = new javax.swing.JTextField();
         biayaPerKwh = new javax.swing.JTextField();
         biayaPerM3 = new javax.swing.JTextField();
-        total_air = new javax.swing.JTextField();
+        totalPemakaianAir = new javax.swing.JTextField();
         tambahanAir = new javax.swing.JTextField();
         tambahanListrik = new javax.swing.JTextField();
+        cariUnit = new javax.swing.JTextField();
+        id_monthly = new javax.swing.JTextField();
 
         popAcc.setBackground(new java.awt.Color(146, 180, 236));
         popAcc.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
@@ -311,11 +335,6 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         no_invoice.setForeground(new java.awt.Color(146, 180, 236));
         no_invoice.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         no_invoice.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
-        no_invoice.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                no_invoiceActionPerformed(evt);
-            }
-        });
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
@@ -327,55 +346,53 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(111, 111, 111)
+                .addGap(45, 45, 45)
                 .addComponent(jLabel2)
-                .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(no_invoice)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(63, 63, 63)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(50, 50, 50))
+                        .addGap(157, 157, 157)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(no_invoice, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(no_invoice, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(no_invoice, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(204, 204, 204));
         jPanel3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 4, true));
 
-        no_unit.setBackground(new java.awt.Color(204, 204, 204));
-        no_unit.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
-        no_unit.setForeground(new java.awt.Color(255, 255, 255));
-        no_unit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        no_unit.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nomor Unit", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(255, 255, 255))); // NOI18N
+        id_staf.setBackground(new java.awt.Color(204, 204, 204));
+        id_staf.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
+        id_staf.setForeground(new java.awt.Color(255, 255, 255));
+        id_staf.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        id_staf.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Id Staf", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(255, 255, 255))); // NOI18N
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(no_unit, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addGap(29, 29, 29)
+                .addComponent(id_staf, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(no_unit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(id_staf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel4.setBackground(new java.awt.Color(204, 204, 204));
@@ -385,41 +402,50 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 253, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(53, Short.MAX_VALUE)
+                .addComponent(tanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 67, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(tanggal, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+                .addGap(19, 19, 19))
         );
+
+        jSeparator2.setBackground(new java.awt.Color(146, 180, 236));
 
         javax.swing.GroupLayout headerLayout = new javax.swing.GroupLayout(header);
         header.setLayout(headerLayout);
         headerLayout.setHorizontalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headerLayout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(96, 96, 96)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(72, 72, 72)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jSeparator2)
+                .addContainerGap())
         );
         headerLayout.setVerticalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headerLayout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 7, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(headerLayout.createSequentialGroup()
-                .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(headerLayout.createSequentialGroup()
                         .addGap(17, 17, 17)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(headerLayout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-
-        jSeparator2.setBackground(new java.awt.Color(146, 180, 236));
 
         jButton1.setBackground(new java.awt.Color(255, 210, 76));
 
@@ -429,25 +455,6 @@ public class Hitung_Biaya extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-
-        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jScrollPane1.setForeground(new java.awt.Color(255, 255, 255));
-
-        tableListrik.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        tableListrik.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "ID LISTRIK", "ANGKA ", "TOTAL "
-            }
-        ));
-        tableListrik.setSelectionBackground(new java.awt.Color(146, 180, 236));
-        jScrollPane1.setViewportView(tableListrik);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -472,6 +479,12 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         total.setForeground(new java.awt.Color(255, 210, 76));
         total.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         total.setText("10.000.000");
+        total.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        total.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                totalMouseClicked(evt);
+            }
+        });
 
         biaya_air.setBackground(new java.awt.Color(204, 204, 204));
         biaya_air.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
@@ -500,6 +513,12 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         jLabel14.setForeground(new java.awt.Color(255, 210, 76));
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel14.setText("Rp.");
+
+        no_unit.setBackground(new java.awt.Color(255, 255, 255));
+        no_unit.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        no_unit.setForeground(new java.awt.Color(146, 180, 236));
+        no_unit.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        no_unit.setText("1101");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -532,13 +551,18 @@ public class Hitung_Biaya extends javax.swing.JFrame {
                         .addGap(23, 23, 23))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel9)
-                        .addGap(118, 118, 118))))
+                        .addGap(118, 118, 118))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(no_unit, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(no_unit, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(4, 4, 4)
@@ -559,6 +583,27 @@ public class Hitung_Biaya extends javax.swing.JFrame {
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(45, Short.MAX_VALUE))
         );
+
+        jScrollPane3.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jScrollPane3.setForeground(new java.awt.Color(255, 255, 255));
+
+        tablePengecekan.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        tablePengecekan.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "UNIT", "TANGGAL", "ID STAF", "FASILITAS", "ANGKA METERAN", "TOTAL PAKAI"
+            }
+        ));
+        tablePengecekan.setSelectionBackground(new java.awt.Color(146, 180, 236));
+        tablePengecekan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablePengecekanMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tablePengecekan);
 
         btnPrint.setBackground(new java.awt.Color(204, 204, 204));
         btnPrint.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
@@ -600,31 +645,36 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         jScrollPane2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jScrollPane2.setForeground(new java.awt.Color(255, 255, 255));
 
-        tableAir.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        tableAir.setModel(new javax.swing.table.DefaultTableModel(
+        tableInvoice.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        tableInvoice.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ID AIR", "ANGKA ", "TOTAL "
+                "INVOICE", "UNIT", "ID STAF", "ID MONTHLY", "TANGGAL", "TOTAL BIAYA"
             }
         ));
-        tableAir.setSelectionBackground(new java.awt.Color(146, 180, 236));
-        jScrollPane2.setViewportView(tableAir);
+        tableInvoice.setSelectionBackground(new java.awt.Color(146, 180, 236));
+        tableInvoice.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableInvoiceMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tableInvoice);
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
-        total_listrik.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
-        total_listrik.setForeground(new java.awt.Color(51, 51, 51));
-        total_listrik.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        total_listrik.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Total Pemakaian Listrik", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(255, 210, 76))); // NOI18N
-        total_listrik.setMinimumSize(new java.awt.Dimension(150, 40));
-        total_listrik.addActionListener(new java.awt.event.ActionListener() {
+        totalPemakaianListrik.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        totalPemakaianListrik.setForeground(new java.awt.Color(51, 51, 51));
+        totalPemakaianListrik.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        totalPemakaianListrik.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Total Pemakaian Listrik", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(255, 210, 76))); // NOI18N
+        totalPemakaianListrik.setMinimumSize(new java.awt.Dimension(150, 40));
+        totalPemakaianListrik.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                total_listrikActionPerformed(evt);
+                totalPemakaianListrikActionPerformed(evt);
             }
         });
 
@@ -639,16 +689,21 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         biayaPerM3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Biaya Per Meter Kubik", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(146, 180, 236))); // NOI18N
         biayaPerM3.setMinimumSize(new java.awt.Dimension(150, 40));
 
-        total_air.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
-        total_air.setForeground(new java.awt.Color(51, 51, 51));
-        total_air.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        total_air.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Akhir Pemakaian Air", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(146, 180, 236))); // NOI18N
+        totalPemakaianAir.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        totalPemakaianAir.setForeground(new java.awt.Color(51, 51, 51));
+        totalPemakaianAir.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        totalPemakaianAir.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Akhir Pemakaian Air", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(146, 180, 236))); // NOI18N
 
         tambahanAir.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         tambahanAir.setForeground(new java.awt.Color(51, 51, 51));
         tambahanAir.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tambahanAir.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Additional Payment", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(146, 180, 236))); // NOI18N
         tambahanAir.setMinimumSize(new java.awt.Dimension(150, 50));
+        tambahanAir.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tambahanAirKeyPressed(evt);
+            }
+        });
 
         tambahanListrik.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         tambahanListrik.setForeground(new java.awt.Color(51, 51, 51));
@@ -656,9 +711,9 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         tambahanListrik.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Additional Payment", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(255, 210, 76))); // NOI18N
         tambahanListrik.setMinimumSize(new java.awt.Dimension(150, 50));
         tambahanListrik.setPreferredSize(new java.awt.Dimension(150, 50));
-        tambahanListrik.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tambahanListrikActionPerformed(evt);
+        tambahanListrik.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tambahanListrikKeyPressed(evt);
             }
         });
 
@@ -669,12 +724,12 @@ public class Hitung_Biaya extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(total_listrik, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(totalPemakaianListrik, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(biayaPerKwh)
                     .addComponent(tambahanListrik, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
                 .addGap(29, 29, 29)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(total_air, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                    .addComponent(totalPemakaianAir, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                     .addComponent(tambahanAir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(biayaPerM3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(49, 49, 49))
@@ -684,8 +739,8 @@ public class Hitung_Biaya extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(total_air, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(total_listrik, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(totalPemakaianAir, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(totalPemakaianListrik, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
@@ -698,6 +753,35 @@ public class Hitung_Biaya extends javax.swing.JFrame {
                     .addComponent(tambahanAir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
+
+        listFasilitas.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        listFasilitas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "Listrik", "Air", "Others" }));
+
+        cariUnit.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        cariUnit.setForeground(new java.awt.Color(102, 102, 102));
+        cariUnit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        cariUnit.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cari Unit", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(204, 204, 204))); // NOI18N
+        cariUnit.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cariUnitKeyPressed(evt);
+            }
+        });
+
+        id_monthly.setBackground(new java.awt.Color(204, 204, 204));
+        id_monthly.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        id_monthly.setForeground(new java.awt.Color(255, 255, 255));
+        id_monthly.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        id_monthly.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Id Monthly", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(255, 255, 255))); // NOI18N
+        id_monthly.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                id_monthlyActionPerformed(evt);
+            }
+        });
+        id_monthly.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                id_monthlyKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
@@ -723,15 +807,21 @@ public class Hitung_Biaya extends javax.swing.JFrame {
                         .addGap(102, 102, 102))))
             .addGroup(backgroundLayout.createSequentialGroup()
                 .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator2)
+                    .addGroup(backgroundLayout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addComponent(listFasilitas, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(59, 59, 59)
+                        .addComponent(cariUnit, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(id_monthly, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(253, 253, 253))
                     .addGroup(backgroundLayout.createSequentialGroup()
                         .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(261, 261, 261)
                         .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(backgroundLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1)
-                        .addGap(46, 46, 46)
+                        .addComponent(jScrollPane3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2)))
                 .addContainerGap())
         );
@@ -741,9 +831,16 @@ public class Hitung_Biaya extends javax.swing.JFrame {
                 .addComponent(topBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(header, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(backgroundLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(listFasilitas, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(id_monthly, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(backgroundLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(cariUnit, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(backgroundLayout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -757,10 +854,10 @@ public class Hitung_Biaya extends javax.swing.JFrame {
                 .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(34, 34, 34)
                 .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -785,13 +882,9 @@ public class Hitung_Biaya extends javax.swing.JFrame {
           popAcc.show(users,evt.getX(),evt.getY());
     }//GEN-LAST:event_usersMouseClicked
 
-    private void total_listrikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_total_listrikActionPerformed
+    private void totalPemakaianListrikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalPemakaianListrikActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_total_listrikActionPerformed
-
-    private void tambahanListrikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahanListrikActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tambahanListrikActionPerformed
+    }//GEN-LAST:event_totalPemakaianListrikActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
@@ -868,12 +961,16 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_profileActionPerformed
 
-    private void no_invoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_no_invoiceActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_no_invoiceActionPerformed
-
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        // TODO add your handling code here:
+
+       SimpleDateFormat dateSet = new SimpleDateFormat("yyyy-MM-dd");
+       String date = String.valueOf(dateSet.format(tanggal.getDate()));
+       String id_mon = id_monthly.getText();
+       Integer tot = Integer.parseInt(total.getText());
+       String id_invoice = no_invoice.getText();
+       String username = id_staf.getText();
+        
+        inv.insertProgres(id_invoice,username,id_mon,date,tot);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
@@ -881,7 +978,12 @@ public class Hitung_Biaya extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPrintActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        // TODO add your handling code here:
+        String unit = cariUnit.getText();
+        String invoice = no_invoice.getText();
+      
+            System.out.println("enter search progres by unit :"+invoice);
+            findInvoice(unit, invoice);
+        
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void dataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dataMouseClicked
@@ -919,6 +1021,69 @@ public class Hitung_Biaya extends javax.swing.JFrame {
                    this.dispose();
                    page.nama.setText(account);
     }//GEN-LAST:event_komplainMouseClicked
+
+    private void tablePengecekanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePengecekanMouseClicked
+        getRowItemPengecekan();
+       
+    }//GEN-LAST:event_tablePengecekanMouseClicked
+
+    private void cariUnitKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cariUnitKeyPressed
+       String unit = cariUnit.getText();
+       SimpleDateFormat dateSet = new SimpleDateFormat("yyyy-MM-dd");
+       String date = String.valueOf(dateSet.format(tanggal.getDate()));
+       String fasilitas = listFasilitas.getSelectedItem().toString();
+        if (evt.getKeyCode()== KeyEvent.VK_ENTER){
+            System.out.println("enter search progres by unit :"+unit);
+             findDataPakai(unit, date, fasilitas);
+        }
+    }//GEN-LAST:event_cariUnitKeyPressed
+
+    private void id_monthlyKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_id_monthlyKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_id_monthlyKeyPressed
+
+    private void id_monthlyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_id_monthlyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_id_monthlyActionPerformed
+
+    private void tambahanListrikKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tambahanListrikKeyPressed
+        try {
+        Integer a = Integer.parseInt(totalPemakaianListrik.getText());
+        Integer b = Integer.parseInt(biayaPerKwh.getText());
+        Integer c = Integer.parseInt(tambahanListrik.getText());
+        if (evt.getKeyCode()== KeyEvent.VK_ENTER){
+            System.out.println("enter sum  :"+c);
+            totLis = (a*b)+c;
+        }
+        }catch(NumberFormatException nfe){
+            System.out.println(nfe);
+        }
+        
+    }//GEN-LAST:event_tambahanListrikKeyPressed
+
+    private void tambahanAirKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tambahanAirKeyPressed
+        try {   
+        Integer a = Integer.parseInt(totalPemakaianAir.getText());
+        Integer b = Integer.parseInt(biayaPerM3.getText());
+        Integer c = Integer.parseInt(tambahanAir.getText());
+          if (evt.getKeyCode()== KeyEvent.VK_ENTER){
+            System.out.println("enter sum  :"+c);
+            totAir = (a*b)+c;}
+        } catch (NumberFormatException nfe) {
+                System.out.println(nfe);
+            }
+
+    }//GEN-LAST:event_tambahanAirKeyPressed
+
+    private void totalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_totalMouseClicked
+       Integer tot = totLis + totAir;
+       
+       total.setText(tot.toString());
+    }//GEN-LAST:event_totalMouseClicked
+
+    private void tableInvoiceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableInvoiceMouseClicked
+        getRowItemInvoice();
+    }//GEN-LAST:event_tableInvoiceMouseClicked
 
     /**
      * @param args the command line arguments
@@ -976,9 +1141,12 @@ public class Hitung_Biaya extends javax.swing.JFrame {
     private javax.swing.JButton btnPrint;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSearch;
+    private javax.swing.JTextField cariUnit;
     private javax.swing.JLabel data;
     private javax.swing.JPanel header;
     private javax.swing.JLabel homeLogo;
+    private javax.swing.JTextField id_monthly;
+    private javax.swing.JTextField id_staf;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel12;
@@ -996,30 +1164,125 @@ public class Hitung_Biaya extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel komplain;
     private javax.swing.JLabel komplain1;
+    public static final transient javax.swing.JComboBox<String> listFasilitas = new javax.swing.JComboBox<>();
     private javax.swing.JMenuItem logout;
     public static final javax.swing.JLabel nama = new javax.swing.JLabel();
     private javax.swing.JTextField no_invoice;
-    private javax.swing.JTextField no_unit;
+    private javax.swing.JLabel no_unit;
     private javax.swing.JLabel pengecekan;
     private javax.swing.JPopupMenu popAcc;
     private javax.swing.JMenuItem profile;
-    private javax.swing.JTable tableAir;
-    private javax.swing.JTable tableListrik;
+    private javax.swing.JTable tableInvoice;
+    public static final transient javax.swing.JTable tablePengecekan = new javax.swing.JTable();
     private javax.swing.JTextField tambahanAir;
     private javax.swing.JTextField tambahanListrik;
+    private com.toedter.calendar.JDateChooser tanggal;
     private javax.swing.JPanel topBar;
     private javax.swing.JLabel total;
-    private javax.swing.JTextField total_air;
-    private javax.swing.JTextField total_listrik;
+    private javax.swing.JTextField totalPemakaianAir;
+    private javax.swing.JTextField totalPemakaianListrik;
     private javax.swing.JPanel users;
     private javax.swing.JLabel valid;
     // End of variables declaration//GEN-END:variables
 
-  
+      //get item row table pngecekan
+    private void getRowItemPengecekan() {
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+        
+        //get row
+        int row = tablePengecekan.getSelectedRow();
+        
+         //for date , must be parse before
+        Date dateView = null;
+        try {
+                dateView = date.parse((String) tablePengecekan.getValueAt(row, 1));
+        }catch (ParseException ex) {
+            Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        //put value to editable
+        id_staf.setText(tablePengecekan.getModel().getValueAt(row, 0).toString());
+        tanggal.setDate(dateView);
+        String a = tablePengecekan.getModel().getValueAt(row, 4).toString();
+        // condition choice facility
+        if(a.equals("Listrik")){
+            
+            totalPemakaianListrik.setText(tablePengecekan.getModel().getValueAt(row, 6).toString());
+        }else if(a.equals("Air")){
+         
+            totalPemakaianAir.setText(tablePengecekan.getModel().getValueAt(row, 6).toString());
+        }
+        
+    }
+        //get item row
+    private void getRowItemInvoice() {
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+        
+        //get row
+        int row = tableInvoice.getSelectedRow();
+        
+         //for date , must be parse before
+        Date dateView = null;
+        try {
+                dateView = date.parse((String)  tableInvoice.getValueAt(row, 4));
+        }catch (ParseException ex) {
+            Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        //put value to editable
+        no_invoice.setText( tableInvoice.getModel().getValueAt(row, 0).toString());
+        tanggal.setDate(dateView);
+        no_unit.setText( tableInvoice.getModel().getValueAt(row, 1).toString());
+        id_staf.setText(tableInvoice.getModel().getValueAt(row, 2).toString());
+        id_monthly.setText(tableInvoice.getModel().getValueAt(row, 3).toString());
+        // condition choice facility
+            total.setText(tableInvoice.getModel().getValueAt(row, 5).toString());
+        }
+      //find data invoice dan pengecekan
+    private void findDataPakai(String unit, String date, String fasilitas) {
+        System.out.println("set number prev :"+date+fasilitas+unit);
+       try {
+                   for(int i=0; i<cekModel.size(); i++){
+                    if(cekModel.get(i).getDate().equals(date) && cekModel.get(i).getName().equals(fasilitas) && cekModel.get(i).getUnit().equals(unit)) {
+                        String current_number = cekModel.get(i).getCurrent_number().toString();
+                       if(fasilitas.equals("Listrik")){
+                           totalPemakaianListrik.setText(current_number);
+                       }else if(fasilitas.equals("Air")){
+                           totalPemakaianAir.setText(current_number);
+                     }
+                    }
+                   }         
+         }catch(Exception e){
+                 JOptionPane.showMessageDialog(null, "Date and Unit Empty !");
+       }
+       
+
+    }
+        private void findInvoice(String unit, String invoice){
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+        System.out.println("set number prev :"+invoice+unit);
+        for(int i=0; i<invModel.size(); i++){
+                  if(invModel.get(i).getId_invoice().equals(invoice) && cekModel.get(i).getUnit().equals(unit)) {
+                           Date dateView = null;
+                             try {
+                                 dateView = date.parse((String)  invModel.get(i).getDate());
+                            }catch (ParseException ex) {
+                                Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                      no_unit.setText(invModel.get(i).getUnit());
+                      id_staf.setText(invModel.get(i).getId_staf());
+                      
+                      tanggal.setDate(dateView);
+                      total.setText(invModel.get(i).getTotal_cost().toString());
+                 }
+         }
+    }
+    Integer totAir = null; 
+    Integer totLis = null;
 }

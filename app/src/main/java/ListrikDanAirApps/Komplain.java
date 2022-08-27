@@ -436,7 +436,7 @@ public class Komplain extends javax.swing.JFrame {
         update.setBackground(new java.awt.Color(204, 204, 204));
         update.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         update.setForeground(new java.awt.Color(255, 255, 255));
-        update.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/print.png"))); // NOI18N
+        update.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/update.png"))); // NOI18N
         update.setText("UPDATE");
         update.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
