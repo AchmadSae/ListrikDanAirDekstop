@@ -59,7 +59,8 @@ public class Pengecekan extends javax.swing.JFrame {
         tablePengecekan.setModel(cek.showData());
         
         statusProgres();
-        
+        //focuse
+        progres.requestFocus();
     }
    
 
@@ -95,6 +96,7 @@ public class Pengecekan extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         id_monthly = new javax.swing.JTextField();
         no_unit = new javax.swing.JTextField();
+        tanggal = new com.toedter.calendar.JDateChooser();
         fotoListrik = new javax.swing.JPanel();
         btnLihatListrik = new javax.swing.JToggleButton();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -375,7 +377,6 @@ public class Pengecekan extends javax.swing.JFrame {
         progres.setRows(5);
         jScrollPane2.setViewportView(progres);
 
-        id_stafCek.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         id_stafCek.setForeground(new java.awt.Color(102, 102, 102));
         id_stafCek.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Username Staf", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(102, 102, 102))); // NOI18N
 
@@ -457,11 +458,11 @@ public class Pengecekan extends javax.swing.JFrame {
                         .addComponent(no_unit)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(statusPanelCek, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(76, 76, 76)
+                .addGap(34, 34, 34)
                 .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tanggal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(id_monthly))
-                .addGap(26, 26, 26))
+                    .addComponent(id_monthly)
+                    .addComponent(tanggal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
             .addComponent(jSeparator3)
         );
         headerLayout.setVerticalGroup(
@@ -473,13 +474,12 @@ public class Pengecekan extends javax.swing.JFrame {
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
                         .addComponent(no_unit, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(statusPanelCek, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(headerLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(tanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(id_monthly)
-                        .addGap(10, 10, 10))
-                    .addComponent(statusPanelCek, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(19, 19, 19)
+                        .addComponent(tanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(id_monthly, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(24, 24, 24)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
         );
@@ -752,7 +752,7 @@ public class Pengecekan extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(totalPemakaianListrik, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
                     .addComponent(totalPemakaianAir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jButton2.setBackground(new java.awt.Color(146, 180, 236));
@@ -863,7 +863,7 @@ public class Pengecekan extends javax.swing.JFrame {
                         .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(backgroundLayout.createSequentialGroup()
-                                .addComponent(fotoListrik, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
+                                .addComponent(fotoListrik, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(fotoAir, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
                                 .addGap(6, 6, 6))
@@ -893,8 +893,8 @@ public class Pengecekan extends javax.swing.JFrame {
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(29, 29, 29)
                         .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(fotoAir, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                            .addComponent(fotoListrik, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
+                            .addComponent(fotoAir, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
+                            .addComponent(fotoListrik, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton1)
@@ -913,7 +913,7 @@ public class Pengecekan extends javax.swing.JFrame {
                             .addComponent(cari)
                             .addComponent(update))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1321,7 +1321,7 @@ public class Pengecekan extends javax.swing.JFrame {
     private javax.swing.JButton set_staf;
     private javax.swing.JPanel statusPanelCek;
     public static final transient javax.swing.JTable tablePengecekan = new javax.swing.JTable();
-    public static final transient com.toedter.calendar.JDateChooser tanggal = new com.toedter.calendar.JDateChooser();
+    private com.toedter.calendar.JDateChooser tanggal;
     private javax.swing.JPanel topBar;
     private javax.swing.JTextField totalPemakaianAir;
     private javax.swing.JTextField totalPemakaianListrik;
@@ -1488,6 +1488,6 @@ public class Pengecekan extends javax.swing.JFrame {
                             }
                        }
     }
-      byte[] imagesUpload =null;
+    byte[] imagesUpload =null;
     String filename = null;
 }

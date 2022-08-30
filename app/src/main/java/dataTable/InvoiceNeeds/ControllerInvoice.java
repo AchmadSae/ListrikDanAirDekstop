@@ -95,4 +95,20 @@ public class ControllerInvoice {
             JOptionPane.showMessageDialog(null, "Eror in request create record !"+e);
         }
     }
+    
+    //delet invoice form data report section
+        //delted
+    public void deleteInvoice(String id){
+        String qry = "DELETE FROM invoice WHERE id_invoice ='"+id+"'";
+        
+            try{
+                PreparedStatement stat = conn.prepareStatement(qry);
+                stat.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Deleted is Succses !");
+             }
+                catch (SQLException e){
+                JOptionPane.showMessageDialog(null, "Error in Deleted");
+                System.out.println(e);
+             }
+    }
 }

@@ -14,6 +14,7 @@ plugins {
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
+
 }
 
 dependencies {
@@ -35,6 +36,15 @@ dependencies {
     // https://mvnrepository.com/artifact/net.java.dev.timingframework/timingframework
     implementation group: 'net.java.dev.timingframework', name: 'timingframework', version: '1.0'
 
+    // https://mvnrepository.com/artifact/com.lowagie/itext
+    implementation 'com.lowagie:itext:2.1.7'
+
+    // https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports
+    implementation group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.17.0'
+
+
+    // https://mvnrepository.com/artifact/com.itextpdf/layout
+    implementation group: 'com.itextpdf', name: 'layout', version: '7.2.3'
 
 }
 
