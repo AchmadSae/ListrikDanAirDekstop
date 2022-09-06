@@ -30,7 +30,7 @@ public class ControllerPengecekan {
     //function select data form database
     public static ArrayList<ModelPengecekan> CekAll(){
         //query used in tables
-        String qryTbPengecekan ="SELECT monthly.unit, monthly.date, monthly.id_staf, monthly.id_monthly, facility.name, data.current_number, data.amount "
+            String qryTbPengecekan ="SELECT monthly.unit, monthly.date, monthly.id_staf, monthly.id_monthly, facility.name, data.current_number, data.amount "
                 + "FROM ((data INNER JOIN monthly ON data.id_monthly = monthly.id_monthly) INNER JOIN facility ON data.id_facility = facility.id_facility) ";
           try{
             java.sql.Statement stm = conn.createStatement();

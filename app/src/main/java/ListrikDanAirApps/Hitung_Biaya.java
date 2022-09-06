@@ -18,9 +18,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class Hitung_Biaya extends javax.swing.JFrame {
     App app;
@@ -78,6 +84,7 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         no_invoice = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         id_staf = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
@@ -104,8 +111,8 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         tableInvoice = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         totalPemakaianListrik = new javax.swing.JTextField();
-        biayaPerKwh = new javax.swing.JTextField();
-        biayaPerM3 = new javax.swing.JTextField();
+        angkaListrik = new javax.swing.JTextField();
+        angkaAir = new javax.swing.JTextField();
         totalPemakaianAir = new javax.swing.JTextField();
         tambahanAir = new javax.swing.JTextField();
         tambahanListrik = new javax.swing.JTextField();
@@ -334,6 +341,10 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(146, 180, 236));
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/reEdit.gif"))); // NOI18N
 
+        jLabel1.setFont(new java.awt.Font("SansSerif", 2, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel1.setText("format : INV/BR+bulan/+tahun/+nomor unit");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -343,12 +354,15 @@ public class Hitung_Biaya extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(157, 157, 157)
+                        .addGap(34, 34, 34)
+                        .addComponent(no_invoice))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(127, 127, 127)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(no_invoice, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(87, 87, 87)
+                        .addComponent(jLabel1)))
+                .addGap(59, 59, 59))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -359,8 +373,10 @@ public class Hitung_Biaya extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(no_invoice, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(no_invoice)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1)))
+                .addGap(8, 8, 8))
         );
 
         jPanel3.setBackground(new java.awt.Color(204, 204, 204));
@@ -396,7 +412,7 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(53, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(tanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
         );
@@ -419,7 +435,7 @@ public class Hitung_Biaya extends javax.swing.JFrame {
                 .addGap(96, 96, 96)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(72, 72, 72)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jSeparator2)
@@ -431,11 +447,9 @@ public class Hitung_Biaya extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(headerLayout.createSequentialGroup()
-                .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(headerLayout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -468,7 +482,7 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         jLabel9.setText("TOTAL PEMBAYARAN");
 
         total.setBackground(new java.awt.Color(204, 204, 204));
-        total.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        total.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
         total.setForeground(new java.awt.Color(255, 210, 76));
         total.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         total.setText("10.000.000");
@@ -483,6 +497,11 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         biaya_air.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         biaya_air.setForeground(new java.awt.Color(255, 210, 76));
         biaya_air.setText("****");
+        biaya_air.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                biaya_airMouseClicked(evt);
+            }
+        });
 
         biaya_listrik.setBackground(new java.awt.Color(204, 204, 204));
         biaya_listrik.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
@@ -581,7 +600,7 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         jScrollPane3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jScrollPane3.setForeground(new java.awt.Color(255, 255, 255));
 
-        tablePengecekan.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        tablePengecekan.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         tablePengecekan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -638,7 +657,7 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         jScrollPane2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jScrollPane2.setForeground(new java.awt.Color(255, 255, 255));
 
-        tableInvoice.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        tableInvoice.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         tableInvoice.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
@@ -671,16 +690,16 @@ public class Hitung_Biaya extends javax.swing.JFrame {
             }
         });
 
-        biayaPerKwh.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
-        biayaPerKwh.setForeground(new java.awt.Color(51, 51, 51));
-        biayaPerKwh.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        biayaPerKwh.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Biaya Pemakaian per Kwh", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(255, 210, 76))); // NOI18N
+        angkaListrik.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        angkaListrik.setForeground(new java.awt.Color(51, 51, 51));
+        angkaListrik.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        angkaListrik.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Angka Meteran", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(255, 210, 76))); // NOI18N
 
-        biayaPerM3.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
-        biayaPerM3.setForeground(new java.awt.Color(51, 51, 51));
-        biayaPerM3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        biayaPerM3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Biaya Per Meter Kubik", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(146, 180, 236))); // NOI18N
-        biayaPerM3.setMinimumSize(new java.awt.Dimension(150, 40));
+        angkaAir.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        angkaAir.setForeground(new java.awt.Color(51, 51, 51));
+        angkaAir.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        angkaAir.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Angka Meteran", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(146, 180, 236))); // NOI18N
+        angkaAir.setMinimumSize(new java.awt.Dimension(150, 40));
 
         totalPemakaianAir.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         totalPemakaianAir.setForeground(new java.awt.Color(51, 51, 51));
@@ -713,7 +732,7 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         cariUnit.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         cariUnit.setForeground(new java.awt.Color(102, 102, 102));
         cariUnit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        cariUnit.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cari Unit", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(204, 204, 204))); // NOI18N
+        cariUnit.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cari Unit", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(204, 204, 204))); // NOI18N
         cariUnit.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 cariUnitKeyPressed(evt);
@@ -731,14 +750,14 @@ public class Hitung_Biaya extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(totalPemakaianListrik, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(biayaPerKwh)
+                    .addComponent(angkaListrik)
                     .addComponent(tambahanListrik, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                     .addComponent(listFasilitas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(37, 37, 37)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(totalPemakaianAir, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
                     .addComponent(cariUnit)
-                    .addComponent(biayaPerM3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(angkaAir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tambahanAir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(49, 49, 49))
         );
@@ -747,16 +766,16 @@ public class Hitung_Biaya extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cariUnit, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cariUnit, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
                     .addComponent(listFasilitas, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(totalPemakaianListrik, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(totalPemakaianAir, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(biayaPerKwh, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(biayaPerM3, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(angkaListrik, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(angkaAir, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(tambahanListrik, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
@@ -793,10 +812,6 @@ public class Hitung_Biaya extends javax.swing.JFrame {
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(backgroundLayout.createSequentialGroup()
-                                .addGap(307, 307, 307)
-                                .addComponent(id_monthly, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                .addGap(253, 253, 253))
-                            .addGroup(backgroundLayout.createSequentialGroup()
                                 .addGap(69, 69, 69)
                                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(26, 26, 26))
@@ -807,7 +822,11 @@ public class Hitung_Biaya extends javax.swing.JFrame {
                                 .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnPrint, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(96, 96, 96))))
+                                .addGap(96, 96, 96))
+                            .addGroup(backgroundLayout.createSequentialGroup()
+                                .addGap(307, 307, 307)
+                                .addComponent(id_monthly, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addGap(253, 253, 253))))
                     .addGroup(backgroundLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -829,22 +848,22 @@ public class Hitung_Biaya extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(backgroundLayout.createSequentialGroup()
-                        .addComponent(id_monthly, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                        .addComponent(id_monthly, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSave)
                             .addComponent(btnPrint)
-                            .addComponent(btnSearch))
-                        .addGap(12, 12, 12))
+                            .addComponent(btnSearch)))
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -962,15 +981,35 @@ public class Hitung_Biaya extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
-        // TODO add your handling code here:
+        // print faktur invoice
+        HashMap parameter = new HashMap();
+        parameter.put("billListrik", biaya_listrik.getText() );
+        parameter.put("billAir", biaya_air.getText());
+        parameter.put("numberListrik", angkaListrik.getText());
+        parameter.put("numberAir", angkaAir.getText());
+        parameter.put("invoice", no_invoice.getText());
+        parameter.put("unit", no_unit.getText());
+        
+        try{
+                     String report = "\\temporary_project\\NetBeansProjects\\ListrikDanAirApps\\app\\src\\main\\java\\ReportPrint\\invoice.jrxml";
+
+                    
+                    JasperReport jr = JasperCompileManager.compileReport(report);
+                    JasperPrint jp = JasperFillManager.fillReport(jr, parameter, conn);
+                    JasperViewer.viewReport(jp, false);
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Print Failed !");
+            System.out.println(e);
+    }
+        
     }//GEN-LAST:event_btnPrintActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         String unit = cariUnit.getText();
         String invoice = no_invoice.getText();
       
-            System.out.println("enter search progres by unit :"+invoice);
-            findInvoice(unit, invoice);
+         System.out.println("enter search progres by unit :"+invoice);
+          findInvoice(unit, invoice);
         
     }//GEN-LAST:event_btnSearchActionPerformed
 
@@ -1037,31 +1076,18 @@ public class Hitung_Biaya extends javax.swing.JFrame {
     private void tambahanListrikKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tambahanListrikKeyPressed
         try {
         Integer a = Integer.parseInt(totalPemakaianListrik.getText());
-        Integer b = Integer.parseInt(biayaPerKwh.getText());
+        Integer b = Integer.parseInt(angkaListrik.getText());
         Integer c = Integer.parseInt(tambahanListrik.getText());
         if (evt.getKeyCode()== KeyEvent.VK_ENTER){
             System.out.println("enter sum  :"+c);
             totLis = (a*b)+c;
+            biaya_listrik.setText(totLis.toString());
         }
         }catch(NumberFormatException nfe){
             System.out.println(nfe);
         }
         
     }//GEN-LAST:event_tambahanListrikKeyPressed
-
-    private void tambahanAirKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tambahanAirKeyPressed
-        try {   
-        Integer a = Integer.parseInt(totalPemakaianAir.getText());
-        Integer b = Integer.parseInt(biayaPerM3.getText());
-        Integer c = Integer.parseInt(tambahanAir.getText());
-          if (evt.getKeyCode()== KeyEvent.VK_ENTER){
-            System.out.println("enter sum  :"+c);
-            totAir = (a*b)+c;}
-        } catch (NumberFormatException nfe) {
-                System.out.println(nfe);
-            }
-
-    }//GEN-LAST:event_tambahanAirKeyPressed
 
     private void totalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_totalMouseClicked
        Integer tot = totLis + totAir;
@@ -1072,6 +1098,24 @@ public class Hitung_Biaya extends javax.swing.JFrame {
     private void tableInvoiceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableInvoiceMouseClicked
         getRowItemInvoice();
     }//GEN-LAST:event_tableInvoiceMouseClicked
+
+    private void biaya_airMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_biaya_airMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_biaya_airMouseClicked
+
+    private void tambahanAirKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tambahanAirKeyPressed
+             try {   
+        Integer a = Integer.parseInt(totalPemakaianAir.getText());
+        Integer b = Integer.parseInt(angkaAir.getText());
+        Integer c = Integer.parseInt(tambahanAir.getText());
+          if (evt.getKeyCode()== KeyEvent.VK_ENTER){
+            System.out.println("enter sum  :"+c);
+            totAir = (a*b)+c;}
+          biaya_air.setText(totAir.toString());
+        } catch (NumberFormatException nfe) {
+                System.out.println(nfe);
+            }
+    }//GEN-LAST:event_tambahanAirKeyPressed
 
     /**
      * @param args the command line arguments
@@ -1120,10 +1164,10 @@ public class Hitung_Biaya extends javax.swing.JFrame {
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField angkaAir;
+    private javax.swing.JTextField angkaListrik;
     private javax.swing.JPanel background;
     private javax.swing.JLabel biaya;
-    private javax.swing.JTextField biayaPerKwh;
-    private javax.swing.JTextField biayaPerM3;
     private javax.swing.JLabel biaya_air;
     private javax.swing.JLabel biaya_listrik;
     private javax.swing.JButton btnPrint;
@@ -1137,6 +1181,7 @@ public class Hitung_Biaya extends javax.swing.JFrame {
     private javax.swing.JTextField id_staf;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -1195,15 +1240,16 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         }
         
         //put value to editable
-        id_staf.setText(tablePengecekan.getModel().getValueAt(row, 0).toString());
+        no_unit.setText(tablePengecekan.getModel().getValueAt(row, 0).toString());
+        id_staf.setText(tablePengecekan.getModel().getValueAt(row, 2).toString());
         tanggal.setDate(dateView);
         String a = tablePengecekan.getModel().getValueAt(row, 4).toString();
         // condition choice facility
         if(a.equals("Listrik")){
-            
+            angkaListrik.setText(tablePengecekan.getModel().getValueAt(row, 5).toString());
             totalPemakaianListrik.setText(tablePengecekan.getModel().getValueAt(row, 6).toString());
         }else if(a.equals("Air")){
-         
+            angkaAir.setText(tablePengecekan.getModel().getValueAt(row, 5).toString());
             totalPemakaianAir.setText(tablePengecekan.getModel().getValueAt(row, 6).toString());
         }
         
@@ -1239,10 +1285,13 @@ public class Hitung_Biaya extends javax.swing.JFrame {
                    for(int i=0; i<cekModel.size(); i++){
                     if(cekModel.get(i).getDate().equals(date) && cekModel.get(i).getName().equals(fasilitas) && cekModel.get(i).getUnit().equals(unit)) {
                         String current_number = cekModel.get(i).getCurrent_number().toString();
+                        String amount = cekModel.get(i).getAmount().toString();
                        if(fasilitas.equals("Listrik")){
-                           totalPemakaianListrik.setText(current_number);
+                          angkaListrik.setText(current_number);
+                           totalPemakaianListrik.setText(amount);
                        }else if(fasilitas.equals("Air")){
-                           totalPemakaianAir.setText(current_number);
+                          angkaAir.setText(current_number);
+                           totalPemakaianAir.setText(amount);
                      }
                     }
                    }         
@@ -1263,11 +1312,15 @@ public class Hitung_Biaya extends javax.swing.JFrame {
                             }catch (ParseException ex) {
                                 Logger.getLogger(Pengecekan.class.getName()).log(Level.SEVERE, null, ex);
                             }
-                      no_unit.setText(invModel.get(i).getUnit());
-                      id_staf.setText(invModel.get(i).getId_staf());
+                        String units = invModel.get(i).getUnit();
+                        String staf = invModel.get(i).getId_staf();
+                        String tot = invModel.get(i).getTotal_cost().toString();
+                             
+                      no_unit.setText(units);
+                      id_staf.setText(staf);
                       
                       tanggal.setDate(dateView);
-                      total.setText(invModel.get(i).getTotal_cost().toString());
+                      total.setText(tot);
                  }
          }
     }

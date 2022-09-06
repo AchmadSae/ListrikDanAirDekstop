@@ -5,11 +5,15 @@
 package ListrikDanAirApps;
 
 import ChartComponent.Chart.ModelChart;
+import config.Connection_db;
 import config.See_Profile;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -20,7 +24,9 @@ import javax.swing.JOptionPane;
  */
 public class Home extends javax.swing.JFrame {
     App app;
+   static private Connection conn = new Connection_db().Connect();
     
+
     
     public Home()throws SQLException, ClassNotFoundException {
         initComponents();
@@ -30,16 +36,8 @@ public class Home extends javax.swing.JFrame {
         setLocation(size.width/2 - getWidth()/2, size.height/2 - getHeight()/2);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/logo_app.png")));
         
-        chart.addLegend("Income", new Color(245, 189, 135));
-        chart.addLegend("Expense", new Color(135, 189, 245));
-        chart.addLegend("Profit", new Color(189, 135, 245));
-        chart.addLegend("Cost", new Color(139, 229, 222));
-        chart.addData(new ModelChart("January", new double[]{500, 200, 80, 89}));
-        chart.addData(new ModelChart("February", new double[]{600, 750, 90, 150}));
-        chart.addData(new ModelChart("March", new double[]{200, 350, 460, 900}));
-        chart.addData(new ModelChart("April", new double[]{480, 150, 750, 700}));
-        chart.addData(new ModelChart("May", new double[]{350, 540, 300, 150}));
-        chart.addData(new ModelChart("June", new double[]{190, 280, 81, 200}));
+     chart.addLegend("Listrik", new Color(245, 189, 135));
+        chart.addLegend("Air", new Color(135, 189, 245));
         
 
     }
@@ -58,7 +56,6 @@ public class Home extends javax.swing.JFrame {
         profile = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         logout = new javax.swing.JMenuItem();
-        background = new javax.swing.JPanel();
         topBar = new javax.swing.JPanel();
         homeLogo = new javax.swing.JLabel();
         pengecekan = new javax.swing.JLabel();
@@ -69,7 +66,17 @@ public class Home extends javax.swing.JFrame {
         users = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         komplain1 = new javax.swing.JLabel();
+        background = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
         chart = new ChartComponent.Chart.Chart();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        tanggal = new com.toedter.calendar.JDateChooser();
+        setBtn = new javax.swing.JButton();
+        listFasilitas = new javax.swing.JComboBox<>();
+        listBulan = new javax.swing.JComboBox<>();
+        refresh = new javax.swing.JButton();
 
         popAcc.setBackground(new java.awt.Color(146, 180, 236));
         popAcc.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
@@ -119,12 +126,6 @@ public class Home extends javax.swing.JFrame {
                 formWindowOpened(evt);
             }
         });
-
-        background.setBackground(new java.awt.Color(255, 255, 255));
-        background.setAlignmentX(0.0F);
-        background.setAlignmentY(0.0F);
-        background.setMinimumSize(new java.awt.Dimension(1280, 700));
-        background.setPreferredSize(new java.awt.Dimension(1280, 700));
 
         topBar.setBackground(new java.awt.Color(146, 180, 236));
         topBar.setAlignmentX(0.0F);
@@ -238,17 +239,17 @@ public class Home extends javax.swing.JFrame {
             topBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, topBarLayout.createSequentialGroup()
                 .addGap(13, 13, 13)
-                .addComponent(homeLogo, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+                .addComponent(homeLogo, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(pengecekan, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+                .addComponent(pengecekan, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(valid, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
+                .addComponent(valid, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(biaya, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
+                .addComponent(biaya, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(data, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                .addComponent(data, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(komplain, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+                .addComponent(komplain, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
                 .addGap(539, 539, 539)
                 .addComponent(users, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34))
@@ -270,36 +271,137 @@ public class Home extends javax.swing.JFrame {
                     .addComponent(users, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
+        background.setBackground(new java.awt.Color(255, 255, 255));
+        background.setAlignmentX(0.0F);
+        background.setAlignmentY(0.0F);
+        background.setMinimumSize(new java.awt.Dimension(1280, 700));
+        background.setPreferredSize(new java.awt.Dimension(1280, 700));
+
         chart.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setViewportView(chart);
+
+        jLabel4.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("SISTEM MANAJEMEN PENCATATAN PEMAKAIAN LISTRIK DAN AIR DI APARTEMEN BRAWIJAYA");
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/back.png"))); // NOI18N
+
+        setBtn.setBackground(new java.awt.Color(153, 255, 153));
+        setBtn.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        setBtn.setForeground(new java.awt.Color(255, 255, 255));
+        setBtn.setText("SET");
+        setBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                setBtnActionPerformed(evt);
+            }
+        });
+
+        listFasilitas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "Listrik", "Air" }));
+
+        listBulan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "januari", "februari", "maret", "april", "mei", "juni", "juli", "agustus", "september", "oktober", "november", "desember" }));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(listFasilitas, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(setBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(listBulan, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addComponent(tanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(tanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(listFasilitas, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(setBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(listBulan, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(22, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
         backgroundLayout.setHorizontalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(topBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(backgroundLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(chart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(629, 629, 629))
+                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(backgroundLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 553, Short.MAX_VALUE)
+                        .addGap(11, 11, 11)
+                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 730, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(2, 2, 2)))
+                .addGap(4, 4, 4))
         );
         backgroundLayout.setVerticalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backgroundLayout.createSequentialGroup()
-                .addComponent(topBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(chart, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addGap(78, 78, 78))
+                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(backgroundLayout.createSequentialGroup()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(244, 244, 244))
+                    .addGroup(backgroundLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addGap(76, 76, 76))))
         );
+
+        refresh.setBackground(new java.awt.Color(204, 204, 204));
+        refresh.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        refresh.setForeground(new java.awt.Color(255, 255, 255));
+        refresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/search.png"))); // NOI18N
+        refresh.setText("REFRESH");
+        refresh.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(topBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(254, 254, 254))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, 1306, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, 595, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(topBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 510, Short.MAX_VALUE)
+                .addComponent(refresh)
+                .addGap(114, 114, 114))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(69, 69, 69)
+                    .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, 643, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
 
         pack();
@@ -430,6 +532,100 @@ public class Home extends javax.swing.JFrame {
         chart.start();
     }//GEN-LAST:event_formWindowOpened
 
+    private void setBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setBtnActionPerformed
+
+        try{
+            SimpleDateFormat dateSet = new SimpleDateFormat("yyyy-MM-dd");
+        String date = String.valueOf(dateSet.format(tanggal.getDate()));
+        String fasilitas = listFasilitas.getSelectedItem().toString();
+        if(fasilitas.equals("Listrik")){
+            Integer fas = 1;
+            if(listBulan.getSelectedItem().equals("januari")){
+                    getJanuari(fas,date);
+            }else if(listBulan.getSelectedItem().equals("februari")){
+                getFebruari(fas,date);
+            }else if(listBulan.getSelectedItem().equals("maret")){
+                getMaret(fas,date);
+            }else if(listBulan.getSelectedItem().equals("april")){
+                getApril(fas,date);
+            }else if(listBulan.getSelectedItem().equals("mei")){
+                 getMei(fas,date);
+            }else if(listBulan.getSelectedItem().equals("juni")){
+                 getJuni(fas,date);
+            }else if(listBulan.getSelectedItem().equals("juli")){
+                 getJuli(fas,date);
+            }else if(listBulan.getSelectedItem().equals("agustus")){
+                getAgustus(fas,date);
+            }else if(listBulan.getSelectedItem().equals("september")){
+                 getSeptember(fas,date);
+            }else if(listBulan.getSelectedItem().equals("oktoberi")){
+                 getOktober(fas,date);
+            }
+            else if(listBulan.getSelectedItem().equals("november")){
+                getNovember(fas,date);
+            }
+            else if(listBulan.getSelectedItem().equals("desember")){
+                 getDesember(fas,date);
+            }
+            
+                     
+        }if(fasilitas.equals("Air")){
+            Integer fas = 2;
+                        if(listBulan.getSelectedItem().equals("januari")){
+                     getJanuari(fas,date);
+            }else if(listBulan.getSelectedItem().equals("februari")){
+                  getFebruari(fas,date);
+            }else if(listBulan.getSelectedItem().equals("maret")){
+                 getMaret(fas,date);
+            }else if(listBulan.getSelectedItem().equals("april")){
+                getApril(fas,date);
+            }else if(listBulan.getSelectedItem().equals("mei")){
+                 getMei(fas,date);
+            }else if(listBulan.getSelectedItem().equals("juni")){
+                 getJuni(fas,date);
+            }else if(listBulan.getSelectedItem().equals("juli")){
+                 getJuli(fas,date);
+            }else if(listBulan.getSelectedItem().equals("agustus")){
+                getAgustus(fas,date);
+            }else if(listBulan.getSelectedItem().equals("september")){
+                 getSeptember(fas,date);
+            }else if(listBulan.getSelectedItem().equals("oktoberi")){
+                 getOktober(fas,date);
+            }
+            else if(listBulan.getSelectedItem().equals("november")){
+                getNovember(fas,date);
+            }
+            else if(listBulan.getSelectedItem().equals("desember")){
+                 getDesember(fas,date);
+            }
+          
+        
+        }
+}catch(NullPointerException e){
+        JOptionPane.showMessageDialog(null, "Tanggal dan List Tidak Boleh Kosong");
+}
+
+    }//GEN-LAST:event_setBtnActionPerformed
+
+    private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
+
+        //        findDataCek(unit,date,fasilitas);
+
+   
+        chart.addData(new ModelChart("Januari", new double[]{januariListrik, januariAir,}));
+        chart.addData(new ModelChart("Februar", new double[]{februariListrik, februariAir}));
+        chart.addData(new ModelChart("Maret", new double[]{maretListrik, maretAir}));
+        chart.addData(new ModelChart("April", new double[]{aprilListrik, aprilAir}));
+        chart.addData(new ModelChart("Mei", new double[]{meiListrik, meiAir}));
+        chart.addData(new ModelChart("Juni", new double[]{juniListrik, juniListrik}));
+         chart.addData(new ModelChart("Juli", new double[]{juliListrik, juliListrik}));
+          chart.addData(new ModelChart("Agustus", new double[]{agustusListrik, agustusListrik}));
+           chart.addData(new ModelChart("September", new double[]{septemberListrik, septemberListrik}));
+            chart.addData(new ModelChart("Oktober", new double[]{oktoberListrik, oktoberListrik}));
+             chart.addData(new ModelChart("November", new double[]{novemberListrik, novemberListrik}));
+              chart.addData(new ModelChart("Desember", new double[]{desemberListrik, desemberListrik}));
+    }//GEN-LAST:event_refreshActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -481,17 +677,370 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel data;
     private javax.swing.JLabel homeLogo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JLabel komplain;
     private javax.swing.JLabel komplain1;
+    private javax.swing.JComboBox<String> listBulan;
+    private javax.swing.JComboBox<String> listFasilitas;
     private javax.swing.JMenuItem logout;
     private javax.swing.JLabel pengecekan;
     private javax.swing.JPopupMenu popAcc;
     private javax.swing.JMenuItem profile;
+    private javax.swing.JButton refresh;
+    private javax.swing.JButton setBtn;
+    private com.toedter.calendar.JDateChooser tanggal;
     private javax.swing.JPanel topBar;
     private javax.swing.JPanel users;
     private javax.swing.JLabel valid;
     // End of variables declaration//GEN-END:variables
 
   
+public void  getJanuari(Integer fasilitas, String date){
+        //query used in tables
+            String qry="SELECT m.date, SUM(d.amount) as Total FROM"
+                    + " data as d LEFT JOIN monthly as m ON d.id_monthly =m.id_monthly WHERE m.date ='"+date+"' AND d.id_facility ="+fasilitas+"  ";
+          try{
+            java.sql.Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(qry);
+            
+           // reObject arrayList class ModelPengecekan
+           
+            if (rs.next()){
+                if(listFasilitas.getSelectedItem().equals("Listrik")){
+                   String Listrik = rs.getString("Total");
+                   januariListrik = Double.parseDouble(Listrik);
+                    System.out.println(januariListrik);
+                }else if(listFasilitas.getSelectedItem().equals("Air")){
+                                   String air = rs.getString("Total");
+                   januariAir = Double.parseDouble(air);
+                       System.out.println(januariAir);
+                }
+             
+            }
+            
+        } catch (Exception e){
+                JOptionPane.showMessageDialog(null, "An Error to get some Data in Your Application in Table Pengecekan"+e);
+        }
+
+    }
+
+public void  getFebruari(Integer fasilitas, String date){
+        //query used in tables
+            String qry="SELECT m.date, SUM(d.amount) as Total FROM"
+                    + " data as d LEFT JOIN monthly as m ON d.id_monthly =m.id_monthly WHERE m.date ='"+date+"' AND d.id_facility ="+fasilitas+"  ";
+          try{
+            java.sql.Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(qry);
+            
+           // reObject arrayList class ModelPengecekan
+           
+            if (rs.next()){
+                if(listFasilitas.getSelectedItem().equals("Listrik")){
+                   String Listrik = rs.getString("Total");
+                   februariListrik = Double.parseDouble(Listrik);
+                }else if(listFasilitas.getSelectedItem().equals("Air")){
+                                   String air = rs.getString("Total");
+                   februariAir = Double.parseDouble(air);
+                }
+             
+            }
+            
+        } catch (Exception e){
+                JOptionPane.showMessageDialog(null, "An Error to get some Data in Your Application in Table Pengecekan"+e);
+        }
+
+    }
+public void  getMaret(Integer fasilitas, String date){
+        //query used in tables
+            String qry="SELECT m.date, SUM(d.amount) as Total FROM"
+                    + " data as d LEFT JOIN monthly as m ON d.id_monthly =m.id_monthly WHERE m.date ='"+date+"' AND d.id_facility ="+fasilitas+"  ";
+          try{
+            java.sql.Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(qry);
+            
+           // reObject arrayList class ModelPengecekan
+           
+            if (rs.next()){
+                if(listFasilitas.getSelectedItem().equals("Listrik")){
+                   String Listrik = rs.getString("Total");
+                   maretListrik = Double.parseDouble(Listrik);
+                }else if(listFasilitas.getSelectedItem().equals("Air")){
+                                   String air = rs.getString("Total");
+                   maretAir = Double.parseDouble(air);
+                }
+             
+            }
+            
+        } catch (Exception e){
+                JOptionPane.showMessageDialog(null, "An Error to get some Data in Your Application in Table Pengecekan"+e);
+        }
+
+    }
+public void  getApril(Integer fasilitas, String date){
+        //query used in tables
+            String qry="SELECT m.date, SUM(d.amount) as Total FROM"
+                    + " data as d LEFT JOIN monthly as m ON d.id_monthly =m.id_monthly WHERE m.date ='"+date+"' AND d.id_facility ="+fasilitas+"  ";
+          try{
+            java.sql.Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(qry);
+            
+           // reObject arrayList class ModelPengecekan
+           
+            if (rs.next()){
+                if(listFasilitas.getSelectedItem().equals("Listrik")){
+                   String Listrik = rs.getString("Total");
+                   aprilListrik = Double.parseDouble(Listrik);
+                }else if(listFasilitas.getSelectedItem().equals("Air")){
+                                   String air = rs.getString("Total");
+                   aprilAir = Double.parseDouble(air);
+                }
+             
+            }
+            
+        } catch (Exception e){
+                JOptionPane.showMessageDialog(null, "An Error to get some Data in Your Application in Table Pengecekan"+e);
+        }
+
+    }
+
+public void  getMei(Integer fasilitas, String date){
+        //query used in tables
+            String qry="SELECT m.date, SUM(d.amount) as Total FROM"
+                    + " data as d LEFT JOIN monthly as m ON d.id_monthly =m.id_monthly WHERE m.date ='"+date+"' AND d.id_facility ="+fasilitas+"  ";
+          try{
+            java.sql.Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(qry);
+            
+           // reObject arrayList class ModelPengecekan
+           
+            if (rs.next()){
+                if(listFasilitas.getSelectedItem().equals("Listrik")){
+                   String Listrik = rs.getString("Total");
+                   meiListrik = Double.parseDouble(Listrik);
+                }else if(listFasilitas.getSelectedItem().equals("Air")){
+                                   String air = rs.getString("Total");
+                   meiAir = Double.parseDouble(air);
+                }
+             
+            }
+            
+        } catch (Exception e){
+                JOptionPane.showMessageDialog(null, "An Error to get some Data in Your Application in Table Pengecekan"+e);
+        }
+
+    }
+public void  getJuni(Integer fasilitas, String date){
+        //query used in tables
+            String qry="SELECT m.date, SUM(d.amount) as Total FROM"
+                    + " data as d LEFT JOIN monthly as m ON d.id_monthly =m.id_monthly WHERE m.date ='"+date+"' AND d.id_facility ="+fasilitas+"  ";
+          try{
+            java.sql.Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(qry);
+            
+           // reObject arrayList class ModelPengecekan
+           
+            if (rs.next()){
+                if(listFasilitas.getSelectedItem().equals("Listrik")){
+                   String Listrik = rs.getString("Total");
+                   juniListrik = Double.parseDouble(Listrik);
+                }else if(listFasilitas.getSelectedItem().equals("Air")){
+                                   String air = rs.getString("Total");
+                   juniAir = Double.parseDouble(air);
+                }
+             
+            }
+            
+        } catch (Exception e){
+                JOptionPane.showMessageDialog(null, "An Error to get some Data in Your Application in Table Pengecekan"+e);
+        }
+
+    }
+public void  getJuli(Integer fasilitas, String date){
+        //query used in tables
+            String qry="SELECT m.date, SUM(d.amount) as Total FROM"
+                    + " data as d LEFT JOIN monthly as m ON d.id_monthly =m.id_monthly WHERE m.date ='"+date+"' AND d.id_facility ="+fasilitas+"  ";
+          try{
+            java.sql.Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(qry);
+            
+           // reObject arrayList class ModelPengecekan
+           
+            if (rs.next()){
+                if(listFasilitas.getSelectedItem().equals("Listrik")){
+                   String Listrik = rs.getString("Total");
+                   juliListrik = Double.parseDouble(Listrik);
+                    System.out.println(januariListrik);
+                }else if(listFasilitas.getSelectedItem().equals("Air")){
+                                   String air = rs.getString("Total");
+                   juliAir = Double.parseDouble(air);
+                       System.out.println(januariAir);
+                }
+             
+            }
+            
+        } catch (Exception e){
+                JOptionPane.showMessageDialog(null, "An Error to get some Data in Your Application in Table Pengecekan"+e);
+        }
+
+    }
+public void  getAgustus(Integer fasilitas, String date){
+        //query used in tables
+            String qry="SELECT m.date, SUM(d.amount) as Total FROM"
+                    + " data as d LEFT JOIN monthly as m ON d.id_monthly =m.id_monthly WHERE m.date ='"+date+"' AND d.id_facility ="+fasilitas+"  ";
+          try{
+            java.sql.Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(qry);
+            
+           // reObject arrayList class ModelPengecekan
+           
+            if (rs.next()){
+                if(listFasilitas.getSelectedItem().equals("Listrik")){
+                   String Listrik = rs.getString("Total");
+                   agustusListrik = Double.parseDouble(Listrik);
+                    System.out.println(januariListrik);
+                }else if(listFasilitas.getSelectedItem().equals("Air")){
+                                   String air = rs.getString("Total");
+                   agustusAir = Double.parseDouble(air);
+                }
+             
+            }
+            
+        } catch (Exception e){
+                JOptionPane.showMessageDialog(null, "An Error to get some Data in Your Application in Table Pengecekan"+e);
+        }
+
+    }
+public void  getSeptember(Integer fasilitas, String date){
+        //query used in tables
+            String qry="SELECT m.date, SUM(d.amount) as Total FROM"
+                    + " data as d LEFT JOIN monthly as m ON d.id_monthly =m.id_monthly WHERE m.date ='"+date+"' AND d.id_facility ="+fasilitas+"  ";
+          try{
+            java.sql.Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(qry);
+            
+           // reObject arrayList class ModelPengecekan
+           
+            if (rs.next()){
+                if(listFasilitas.getSelectedItem().equals("Listrik")){
+                   String Listrik = rs.getString("Total");
+                   septemberListrik = Double.parseDouble(Listrik);
+                }else if(listFasilitas.getSelectedItem().equals("Air")){
+                                   String air = rs.getString("Total");
+                 septemberAir = Double.parseDouble(air);
+                }
+             
+            }
+            
+        } catch (Exception e){
+                JOptionPane.showMessageDialog(null, "An Error to get some Data in Your Application in Table Pengecekan"+e);
+        }
+
+    }
+public void  getOktober(Integer fasilitas, String date){
+        //query used in tables
+            String qry="SELECT m.date, SUM(d.amount) as Total FROM"
+                    + " data as d LEFT JOIN monthly as m ON d.id_monthly =m.id_monthly WHERE m.date ='"+date+"' AND d.id_facility ="+fasilitas+"  ";
+          try{
+            java.sql.Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(qry);
+            
+           // reObject arrayList class ModelPengecekan
+           
+            if (rs.next()){
+                if(listFasilitas.getSelectedItem().equals("Listrik")){
+                   String Listrik = rs.getString("Total");
+                   oktoberListrik = Double.parseDouble(Listrik);
+                }else if(listFasilitas.getSelectedItem().equals("Air")){
+                                   String air = rs.getString("Total");
+                   oktoberAir = Double.parseDouble(air);
+                }
+             
+            }
+            
+        } catch (Exception e){
+                JOptionPane.showMessageDialog(null, "An Error to get some Data in Your Application in Table Pengecekan"+e);
+        }
+
+    }
+public void  getNovember(Integer fasilitas, String date){
+        //query used in tables
+            String qry="SELECT m.date, SUM(d.amount) as Total FROM"
+                    + " data as d LEFT JOIN monthly as m ON d.id_monthly =m.id_monthly WHERE m.date ='"+date+"' AND d.id_facility ="+fasilitas+"  ";
+          try{
+            java.sql.Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(qry);
+            
+           // reObject arrayList class ModelPengecekan
+           
+            if (rs.next()){
+                if(listFasilitas.getSelectedItem().equals("Listrik")){
+                   String Listrik = rs.getString("Total");
+                   novemberListrik = Double.parseDouble(Listrik);
+                }else if(listFasilitas.getSelectedItem().equals("Air")){
+                                   String air = rs.getString("Total");
+                   novemberAir = Double.parseDouble(air);
+                }
+             
+            }
+            
+        } catch (Exception e){
+                JOptionPane.showMessageDialog(null, "An Error to get some Data in Your Application in Table Pengecekan"+e);
+        }
+
+    }
+public void  getDesember(Integer fasilitas, String date){
+        //query used in tables
+            String qry="SELECT m.date, SUM(d.amount) as Total FROM"
+                    + " data as d LEFT JOIN monthly as m ON d.id_monthly =m.id_monthly WHERE m.date ='"+date+"' AND d.id_facility ="+fasilitas+"  ";
+          try{
+            java.sql.Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(qry);
+            
+           // reObject arrayList class ModelPengecekan
+           
+            if (rs.next()){
+                if(listFasilitas.getSelectedItem().equals("Listrik")){
+                   String Listrik = rs.getString("Total");
+                   desemberListrik = Double.parseDouble(Listrik);
+                }else if(listFasilitas.getSelectedItem().equals("Air")){
+                                   String air = rs.getString("Total");
+                   desemberAir = Double.parseDouble(air);
+                }
+             
+            }
+            
+        } catch (Exception e){
+                JOptionPane.showMessageDialog(null, "An Error to get some Data in Your Application in Table Pengecekan"+e);
+        }
+
+    }
+
+    Double januariAir = 1.0;
+    Double januariListrik = 1.0;
+        Double februariAir= 1.0;
+    Double februariListrik= 1.0;
+        Double maretAir= 1.0;
+    Double maretListrik= 1.0;
+        Double aprilAir= 1.0;
+    Double aprilListrik= 1.0;
+            Double meiAir= 1.0;
+    Double meiListrik= 1.0;
+        Double juniAir= 1.0;
+    Double juniListrik= 1.0;
+        Double juliAir= 1.0;
+    Double juliListrik= 1.0;  
+    Double agustusListrik= 1.0;
+    Double agustusAir= 1.0;   
+    Double septemberListrik= 1.0;
+    Double septemberAir= 1.0;
+       Double oktoberListrik= 1.0;
+    Double oktoberAir= 1.0;
+       Double novemberListrik= 1.0; 
+    Double novemberAir= 1.0;
+       Double desemberListrik= 1.0;  
+    Double desemberAir= 1.0;
 }

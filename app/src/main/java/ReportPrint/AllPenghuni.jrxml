@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null"  pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fa716739-8308-4681-836d-676417510552">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<queryString language="SQL">
+		<![CDATA[SELECT  * FROM penghuni]]>
+	</queryString>
+	<field name="unit" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="phone" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="email" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="VNpayment" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="136" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="802" height="136" uuid="5bf32428-9705-49fe-bcc7-07db367c7a5c"/>
+				<line>
+					<reportElement x="131" y="129" width="551" height="1" uuid="b26668ff-05cb-4f56-8c2f-ebc95190b77a"/>
+				</line>
+				<rectangle radius="10">
+					<reportElement x="10" y="0" width="790" height="79" forecolor="#FFFFFF" backcolor="#66CCFF" uuid="eb74d4c6-0d1e-4682-b638-6fdc96c02d60"/>
+				</rectangle>
+				<image>
+					<reportElement x="21" y="62" width="67" height="68" uuid="9cbd3dbd-c741-4265-a604-16721e33b5da"/>
+					<imageExpression><![CDATA["A:\\temporary_project\\NetBeansProjects\\ListrikDanAirApps\\app\\src\\main\\resources\\img\\report.png"]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement x="305" y="99" width="215" height="18" forecolor="#666666" uuid="75954c9d-4eaa-4ff9-92e8-3e859d54515a"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true" isUnderline="true"/>
+					</textElement>
+					<text><![CDATA[DATA SEMUA PENGHUNI]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="228" y="49" width="372" height="30" forecolor="#FFFFFF" uuid="8e5ac265-8fbe-4a1b-b11b-b029d33eccec"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[Jl. Brawijaya XII No.1, RT.2/RW.3, Pulo, Kec. Kby. Baru, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12160]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="267" y="13" width="311" height="36" forecolor="#FFFFFF" uuid="f08abd1b-9a78-43df-b3f2-9cae0dc4c6b3"/>
+					<textElement textAlignment="Center">
+						<font size="24" isBold="true"/>
+					</textElement>
+					<text><![CDATA[APARTEMEN BRAWIJAYA]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="802" height="1" uuid="c8f031c1-d5ce-4a9f-a4f5-d6bd4072d717"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="160" height="15" forecolor="#736343" uuid="81ead12f-f104-4eb6-affd-ebfee812fd25"/>
+				<text><![CDATA[unit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="160" y="0" width="160" height="15" forecolor="#736343" uuid="00121fb7-1e69-4bb3-87b4-2be5fdb9fc5e"/>
+				<text><![CDATA[name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="320" y="0" width="160" height="15" forecolor="#736343" uuid="d2504b67-01df-4e92-9675-0d56a94a3f1d"/>
+				<text><![CDATA[phone]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="480" y="0" width="160" height="15" forecolor="#736343" uuid="769c02a4-d777-4886-90a7-1750cb863204"/>
+				<text><![CDATA[email]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="640" y="0" width="160" height="15" forecolor="#736343" uuid="4610fc07-0f36-44a3-9bb7-9513975acb59"/>
+				<text><![CDATA[VNpayment]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="802" height="15" uuid="1021f661-7132-4976-b072-180b08498364"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="0" y="0" width="160" height="15" uuid="196337e7-dc0f-43ab-a5bf-ed45ae865f95"/>
+					<textFieldExpression><![CDATA[$F{unit}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="160" y="0" width="160" height="15" uuid="d7a7aa7d-d4c2-472b-955a-b42a3885f4d1"/>
+					<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="320" y="0" width="160" height="15" uuid="35ec1042-4ed7-4f65-b2b4-061e544e61e5"/>
+					<textFieldExpression><![CDATA[$F{phone}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="480" y="0" width="160" height="15" uuid="0fa57381-d19d-4d77-b1de-fad4034de698"/>
+					<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="640" y="0" width="160" height="15" uuid="85e986db-a621-4ca3-be00-566f364712d5"/>
+					<textFieldExpression><![CDATA[$F{VNpayment}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="145" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="802" height="1" uuid="a4997f46-9258-41ed-9b8e-7a4c3a8c5be0"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="672" y="72" width="100" height="1" uuid="526fe0f4-7de4-4844-8d6c-6d34ab4d2693"/>
+			</line>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="665" y="4" width="122" height="20" forecolor="#736343" uuid="efe600f4-7c4d-45f0-8434-4000cb2b15fe"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="665" y="24" width="59" height="14" uuid="aac848b6-6246-4449-a2b5-e51851ab22ad"/>
+				<text><![CDATA[Mengetahui,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="672" y="84" width="90" height="14" uuid="1d40df6d-2a51-42ff-b90c-885a50cf921e"/>
+				<text><![CDATA[Building Manager]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="843" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="3c4837f0-2740-4e21-b0b6-1d8b4e62423f"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="783" y="1" width="40" height="20" forecolor="#736343" uuid="800497d9-39bf-4a8d-b16b-62705546d127"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="703" y="1" width="80" height="20" forecolor="#736343" uuid="58098cd1-7472-4294-8cd9-a0a91a40bfe3"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

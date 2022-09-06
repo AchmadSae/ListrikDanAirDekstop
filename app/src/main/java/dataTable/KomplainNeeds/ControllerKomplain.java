@@ -86,7 +86,7 @@ public class ControllerKomplain {
 
             
             val.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Progres Cek is Uptodate");
+            JOptionPane.showMessageDialog(null, "Create or Update Progres Komplain is succses");
             
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "Eror in request create record !");

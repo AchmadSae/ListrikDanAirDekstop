@@ -91,7 +91,7 @@ public class ControllerPenghuni {
         }
     }
         //update 
-    public void updateProgres(String unit,String name, String phone, String email,String VNpayment) {
+    public void updatePenghuni(String unit,String name, String phone, String email,String VNpayment) {
      
         String qry = "UPDATE tb_cek SET name=?, phone=?, email=?, VNpayment=? WHERE unit=? ";
              

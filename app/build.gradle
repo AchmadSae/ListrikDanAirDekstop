@@ -45,6 +45,11 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.itextpdf/layout
     implementation group: 'com.itextpdf', name: 'layout', version: '7.2.3'
+    
+    // https://mvnrepository.com/artifact/org.codehaus.groovy/groovy-all
+    implementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.10', ext: 'pom'
+
+
 
 }
 

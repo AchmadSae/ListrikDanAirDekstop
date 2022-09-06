@@ -3,24 +3,40 @@ package ListrikDanAirApps;
 
 
 import config.Confirm_isAccounting;
+import config.Connection_db;
 import config.See_Profile;
 import dataTable.InvoiceNeeds.ControllerInvoice;
 import static dataTable.InvoiceNeeds.ControllerInvoice.CekAllInvoice;
 import dataTable.InvoiceNeeds.ModelInvoice;
+import dataTable.KaryawanNeeds.ControllerKaryawan;
+import static dataTable.KaryawanNeeds.ControllerKaryawan.CekAllKaryawan;
+import dataTable.KaryawanNeeds.ModelKaryawan;
+import dataTable.KomplainNeeds.ControllerKomplain;
+import static dataTable.KomplainNeeds.ControllerKomplain.CekAllKomplain;
+import dataTable.KomplainNeeds.ModelKomplain;
 import dataTable.PengecekanNeeds.ControllerPengecekan;
 import static dataTable.PengecekanNeeds.ControllerPengecekan.CekAll;
 import dataTable.PengecekanNeeds.ModelPengecekan;
 import dataTable.PenghuniNeeds.ControllerPenghuni;
 import static dataTable.PenghuniNeeds.ControllerPenghuni.CekAllPenghuni;
 import dataTable.PenghuniNeeds.ModelPenghuni;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 
 public class Data extends javax.swing.JFrame {
@@ -31,12 +47,24 @@ public class Data extends javax.swing.JFrame {
     ControllerPenghuni huni = new ControllerPenghuni();
     //create controller pengecekan
     ControllerPengecekan cek = new ControllerPengecekan();
+    //cretae conroller karyawan
+    ControllerKaryawan kry = new ControllerKaryawan();
+    //create controller komplain
+    ControllerKomplain komp = new ControllerKomplain();
     //create model pengecekan
     ArrayList<ModelPengecekan> cekModel = CekAll();
     //create model invoice
     ArrayList<ModelInvoice> invModel = CekAllInvoice();
     //create objek model penghuni
     ArrayList<ModelPenghuni> huniModel = CekAllPenghuni();
+    //create model karyawan
+    ArrayList<ModelKaryawan> karyModel = CekAllKaryawan();
+    //creta model komplain
+    ArrayList<ModelKomplain> kompModel = CekAllKomplain();
+    
+    
+    
+        static private Connection conn = new Connection_db().Connect();
     
     public Data()throws SQLException, ClassNotFoundException {
         initComponents();
@@ -45,7 +73,7 @@ public class Data extends javax.swing.JFrame {
         setLocation(size.width/2 - getWidth()/2, size.height/2 - getHeight()/2);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/logo_app.png")));
         
-        table_invoice.setModel(inv.showDataInvoice());
+     
     }
   
 
@@ -99,42 +127,58 @@ public class Data extends javax.swing.JFrame {
         totalPemakaianListrik = new javax.swing.JTextField();
         unit_pemakaian = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        btnPrint_pemakaian = new javax.swing.JButton();
+        btnPrint_pemakaianByDate = new javax.swing.JButton();
         btnSearch_pemaiakian = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
+        btnPrint_pemakaianAll = new javax.swing.JButton();
         record_karyawan = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         table_karyawan = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         akhirPemakaianAir2 = new javax.swing.JTextField();
         id_users = new javax.swing.JTextField();
-        totalPemakaianListrik2 = new javax.swing.JTextField();
+        password = new javax.swing.JTextField();
         totalPemakaianAi1 = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        nama_staf = new javax.swing.JTextField();
         bagian = new javax.swing.JTextField();
         btnSave_kayawan = new javax.swing.JButton();
         btnPrint_karyawan = new javax.swing.JButton();
         btnSearch_karyawan = new javax.swing.JButton();
         update_karyawan = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
-        cari4 = new javax.swing.JButton();
         record_invoice = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         table_invoice = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        btnPrint_invoice = new javax.swing.JButton();
+        btnPrint_invoiceByDate = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         id_invoice = new javax.swing.JTextField();
         unit_invoice = new javax.swing.JTextField();
         biaya_tagihan = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        cari2 = new javax.swing.JButton();
+        delete = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        dateB = new com.toedter.calendar.JDateChooser();
-        dateA = new com.toedter.calendar.JDateChooser();
+        dateEnd = new com.toedter.calendar.JDateChooser();
+        dateStart = new com.toedter.calendar.JDateChooser();
         jLabel11 = new javax.swing.JLabel();
+        btnPrint_invoiceAll = new javax.swing.JButton();
+        record_karyawan1 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        table_komplain = new javax.swing.JTable();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        id_komplain = new javax.swing.JTextField();
+        unit_komplain = new javax.swing.JTextField();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        isi_komplain = new javax.swing.JTextArea();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        selesai_komplain = new javax.swing.JTextArea();
+        isDoneKomplain = new javax.swing.JPanel();
+        prntAll = new javax.swing.JButton();
+        btnSearch_komplain = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
 
         popAcc.setBackground(new java.awt.Color(146, 180, 236));
         popAcc.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
@@ -330,6 +374,11 @@ public class Data extends javax.swing.JFrame {
 
         subForm.setBackground(new java.awt.Color(255, 255, 255));
         subForm.setMaximumSize(new java.awt.Dimension(1200, 800));
+        subForm.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                subFormMouseClicked(evt);
+            }
+        });
 
         record_penghuni.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -414,7 +463,7 @@ public class Data extends javax.swing.JFrame {
         btnPrint_penghuni.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         btnPrint_penghuni.setForeground(new java.awt.Color(255, 255, 255));
         btnPrint_penghuni.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/print.png"))); // NOI18N
-        btnPrint_penghuni.setText("PRINT");
+        btnPrint_penghuni.setText("PRINT ALL");
         btnPrint_penghuni.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnPrint_penghuni.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -440,6 +489,11 @@ public class Data extends javax.swing.JFrame {
         update_penghuni.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/update.png"))); // NOI18N
         update_penghuni.setText("UPDATE");
         update_penghuni.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        update_penghuni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                update_penghuniActionPerformed(evt);
+            }
+        });
 
         unit_penghuni.setBackground(new java.awt.Color(204, 204, 204));
         unit_penghuni.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
@@ -692,15 +746,15 @@ public class Data extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        btnPrint_pemakaian.setBackground(new java.awt.Color(204, 204, 204));
-        btnPrint_pemakaian.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        btnPrint_pemakaian.setForeground(new java.awt.Color(255, 255, 255));
-        btnPrint_pemakaian.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/print.png"))); // NOI18N
-        btnPrint_pemakaian.setText("PRINT");
-        btnPrint_pemakaian.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnPrint_pemakaian.addActionListener(new java.awt.event.ActionListener() {
+        btnPrint_pemakaianByDate.setBackground(new java.awt.Color(204, 204, 204));
+        btnPrint_pemakaianByDate.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btnPrint_pemakaianByDate.setForeground(new java.awt.Color(255, 255, 255));
+        btnPrint_pemakaianByDate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/print.png"))); // NOI18N
+        btnPrint_pemakaianByDate.setText("PRINT By DATE");
+        btnPrint_pemakaianByDate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnPrint_pemakaianByDate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPrint_pemakaianActionPerformed(evt);
+                btnPrint_pemakaianByDateActionPerformed(evt);
             }
         });
 
@@ -722,6 +776,18 @@ public class Data extends javax.swing.JFrame {
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/literature.gif"))); // NOI18N
 
+        btnPrint_pemakaianAll.setBackground(new java.awt.Color(204, 204, 204));
+        btnPrint_pemakaianAll.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btnPrint_pemakaianAll.setForeground(new java.awt.Color(255, 255, 255));
+        btnPrint_pemakaianAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/print.png"))); // NOI18N
+        btnPrint_pemakaianAll.setText("PRINT ALL");
+        btnPrint_pemakaianAll.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnPrint_pemakaianAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrint_pemakaianAllActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout record_pemakaianLayout = new javax.swing.GroupLayout(record_pemakaian);
         record_pemakaian.setLayout(record_pemakaianLayout);
         record_pemakaianLayout.setHorizontalGroup(
@@ -730,17 +796,19 @@ public class Data extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addGroup(record_pemakaianLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(record_pemakaianLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1349, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1378, Short.MAX_VALUE)
                         .addGap(36, 36, 36))
                     .addGroup(record_pemakaianLayout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addGap(172, 172, 172)
                         .addGroup(record_pemakaianLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(record_pemakaianLayout.createSequentialGroup()
-                                .addGap(249, 249, 249)
-                                .addComponent(btnSearch_pemaiakian, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-                                .addGap(33, 33, 33)
-                                .addComponent(btnPrint_pemakaian, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                                .addGap(108, 108, 108)
+                                .addComponent(btnPrint_pemakaianAll, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnSearch_pemaiakian, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnPrint_pemakaianByDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(238, 238, 238))
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(311, 311, 311))))
@@ -761,8 +829,9 @@ public class Data extends javax.swing.JFrame {
                     .addGroup(record_pemakaianLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(record_pemakaianLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnPrint_pemakaian)
-                            .addComponent(btnSearch_pemaiakian))
+                            .addComponent(btnPrint_pemakaianByDate)
+                            .addComponent(btnSearch_pemaiakian)
+                            .addComponent(btnPrint_pemakaianAll))
                         .addGap(31, 31, 31)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -806,15 +875,15 @@ public class Data extends javax.swing.JFrame {
         id_users.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         id_users.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Id Karyawan/Users", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(204, 204, 204))); // NOI18N
 
-        totalPemakaianListrik2.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
-        totalPemakaianListrik2.setForeground(new java.awt.Color(51, 51, 51));
-        totalPemakaianListrik2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        totalPemakaianListrik2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(204, 204, 204))); // NOI18N
-        totalPemakaianListrik2.setMinimumSize(new java.awt.Dimension(150, 50));
-        totalPemakaianListrik2.setPreferredSize(new java.awt.Dimension(150, 50));
-        totalPemakaianListrik2.addActionListener(new java.awt.event.ActionListener() {
+        password.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        password.setForeground(new java.awt.Color(51, 51, 51));
+        password.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        password.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 12), new java.awt.Color(204, 204, 204))); // NOI18N
+        password.setMinimumSize(new java.awt.Dimension(150, 50));
+        password.setPreferredSize(new java.awt.Dimension(150, 50));
+        password.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                totalPemakaianListrik2ActionPerformed(evt);
+                passwordActionPerformed(evt);
             }
         });
 
@@ -830,15 +899,15 @@ public class Data extends javax.swing.JFrame {
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("NAMA");
 
-        jTextField1.setBackground(new java.awt.Color(204, 204, 204));
-        jTextField1.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(255, 255, 255));
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.setText("FENDY");
-        jTextField1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        nama_staf.setBackground(new java.awt.Color(204, 204, 204));
+        nama_staf.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
+        nama_staf.setForeground(new java.awt.Color(255, 255, 255));
+        nama_staf.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        nama_staf.setText("FENDY");
+        nama_staf.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        nama_staf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                nama_stafActionPerformed(evt);
             }
         });
 
@@ -863,11 +932,11 @@ public class Data extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jTextField1))
+                        .addComponent(nama_staf))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(id_users)
-                            .addComponent(totalPemakaianListrik2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(password, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(totalPemakaianAi1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -880,7 +949,7 @@ public class Data extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(nama_staf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bagian, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
@@ -890,7 +959,7 @@ public class Data extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(totalPemakaianAi1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(totalPemakaianListrik2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27))
         );
 
@@ -910,7 +979,7 @@ public class Data extends javax.swing.JFrame {
         btnPrint_karyawan.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         btnPrint_karyawan.setForeground(new java.awt.Color(255, 255, 255));
         btnPrint_karyawan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/print.png"))); // NOI18N
-        btnPrint_karyawan.setText("PRINT");
+        btnPrint_karyawan.setText("PRINT ALL");
         btnPrint_karyawan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnPrint_karyawan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -936,19 +1005,17 @@ public class Data extends javax.swing.JFrame {
         update_karyawan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/update.png"))); // NOI18N
         update_karyawan.setText("UPDATE");
         update_karyawan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        update_karyawan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                update_karyawanActionPerformed(evt);
+            }
+        });
 
         jLabel10.setBackground(new java.awt.Color(255, 255, 255));
         jLabel10.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(146, 180, 236));
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/literature.gif"))); // NOI18N
-
-        cari4.setBackground(new java.awt.Color(204, 204, 204));
-        cari4.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        cari4.setForeground(new java.awt.Color(255, 255, 255));
-        cari4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
-        cari4.setText("SEARCH");
-        cari4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout record_karyawanLayout = new javax.swing.GroupLayout(record_karyawan);
         record_karyawan.setLayout(record_karyawanLayout);
@@ -959,17 +1026,15 @@ public class Data extends javax.swing.JFrame {
                 .addComponent(jLabel10)
                 .addGroup(record_karyawanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(record_karyawanLayout.createSequentialGroup()
-                        .addGap(181, 181, 181)
-                        .addComponent(cari4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(228, 228, 228)
+                        .addComponent(btnSearch_karyawan, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnSearch_karyawan, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnSave_kayawan, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnPrint_karyawan, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(update_karyawan, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
-                        .addGap(308, 308, 308))
+                        .addComponent(btnSave_kayawan, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
+                        .addGap(27, 27, 27)
+                        .addComponent(btnPrint_karyawan, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(update_karyawan, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                        .addGap(402, 402, 402))
                     .addGroup(record_karyawanLayout.createSequentialGroup()
                         .addGap(292, 292, 292)
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -989,8 +1054,7 @@ public class Data extends javax.swing.JFrame {
                             .addComponent(btnSave_kayawan)
                             .addComponent(btnPrint_karyawan)
                             .addComponent(btnSearch_karyawan)
-                            .addComponent(update_karyawan)
-                            .addComponent(cari4))
+                            .addComponent(update_karyawan))
                         .addGap(18, 18, 18)
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(record_karyawanLayout.createSequentialGroup()
@@ -998,7 +1062,7 @@ public class Data extends javax.swing.JFrame {
                         .addComponent(jLabel10)))
                 .addGap(52, 52, 52)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1111, Short.MAX_VALUE))
+                .addContainerGap(141, Short.MAX_VALUE))
         );
 
         subForm.addTab("DATA KARYAWAN", record_karyawan);
@@ -1055,15 +1119,15 @@ public class Data extends javax.swing.JFrame {
             }
         });
 
-        btnPrint_invoice.setBackground(new java.awt.Color(204, 204, 204));
-        btnPrint_invoice.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        btnPrint_invoice.setForeground(new java.awt.Color(255, 255, 255));
-        btnPrint_invoice.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/print.png"))); // NOI18N
-        btnPrint_invoice.setText("PRINT");
-        btnPrint_invoice.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnPrint_invoice.addActionListener(new java.awt.event.ActionListener() {
+        btnPrint_invoiceByDate.setBackground(new java.awt.Color(204, 204, 204));
+        btnPrint_invoiceByDate.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btnPrint_invoiceByDate.setForeground(new java.awt.Color(255, 255, 255));
+        btnPrint_invoiceByDate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/print.png"))); // NOI18N
+        btnPrint_invoiceByDate.setText("PRINT By DATE");
+        btnPrint_invoiceByDate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnPrint_invoiceByDate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPrint_invoiceActionPerformed(evt);
+                btnPrint_invoiceByDateActionPerformed(evt);
             }
         });
 
@@ -1146,15 +1210,15 @@ public class Data extends javax.swing.JFrame {
                 .addGap(64, 64, 64))
         );
 
-        cari2.setBackground(new java.awt.Color(204, 204, 204));
-        cari2.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        cari2.setForeground(new java.awt.Color(255, 255, 255));
-        cari2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
-        cari2.setText("DELETE");
-        cari2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        cari2.addActionListener(new java.awt.event.ActionListener() {
+        delete.setBackground(new java.awt.Color(204, 204, 204));
+        delete.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        delete.setForeground(new java.awt.Color(255, 255, 255));
+        delete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
+        delete.setText("DELETE");
+        delete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        delete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cari2ActionPerformed(evt);
+                deleteActionPerformed(evt);
             }
         });
 
@@ -1169,6 +1233,18 @@ public class Data extends javax.swing.JFrame {
         jLabel11.setForeground(new java.awt.Color(255, 210, 76));
         jLabel11.setText("s/d");
 
+        btnPrint_invoiceAll.setBackground(new java.awt.Color(204, 204, 204));
+        btnPrint_invoiceAll.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btnPrint_invoiceAll.setForeground(new java.awt.Color(255, 255, 255));
+        btnPrint_invoiceAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/print.png"))); // NOI18N
+        btnPrint_invoiceAll.setText("PRINT ALL");
+        btnPrint_invoiceAll.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnPrint_invoiceAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrint_invoiceAllActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout record_invoiceLayout = new javax.swing.GroupLayout(record_invoice);
         record_invoice.setLayout(record_invoiceLayout);
         record_invoiceLayout.setHorizontalGroup(
@@ -1178,27 +1254,29 @@ public class Data extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addGroup(record_invoiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(record_invoiceLayout.createSequentialGroup()
-                        .addGap(330, 330, 330)
-                        .addComponent(cari2, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnPrint_invoice, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
-                        .addGap(526, 526, 526))
+                        .addGap(288, 288, 288)
+                        .addComponent(btnPrint_invoiceAll, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(delete, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnPrint_invoiceByDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(416, 416, 416))
                     .addGroup(record_invoiceLayout.createSequentialGroup()
                         .addGap(126, 126, 126)
                         .addGroup(record_invoiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(record_invoiceLayout.createSequentialGroup()
                                 .addGap(802, 802, 802)
-                                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE))
+                                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, record_invoiceLayout.createSequentialGroup()
                                 .addGroup(record_invoiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 833, Short.MAX_VALUE)
+                                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 862, Short.MAX_VALUE)
                                     .addGroup(record_invoiceLayout.createSequentialGroup()
                                         .addGap(16, 16, 16)
-                                        .addComponent(dateA, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(dateStart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGap(89, 89, 89)
                                         .addComponent(jLabel11)
                                         .addGap(104, 104, 104)
-                                        .addComponent(dateB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(dateEnd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(229, 229, 229))))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, record_invoiceLayout.createSequentialGroup()
@@ -1213,16 +1291,17 @@ public class Data extends javax.swing.JFrame {
                 .addGroup(record_invoiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addGroup(record_invoiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(dateA, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(dateStart, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(record_invoiceLayout.createSequentialGroup()
                             .addGroup(record_invoiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnPrint_invoice)
-                                .addComponent(cari2))
+                                .addComponent(btnPrint_invoiceByDate)
+                                .addComponent(delete)
+                                .addComponent(btnPrint_invoiceAll))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jButton4)
                             .addGap(9, 9, 9)
                             .addGroup(record_invoiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(dateB, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(dateEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(record_invoiceLayout.createSequentialGroup()
                                     .addGap(17, 17, 17)
                                     .addComponent(jLabel11))))))
@@ -1232,16 +1311,200 @@ public class Data extends javax.swing.JFrame {
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1227, Short.MAX_VALUE))
+                .addContainerGap(257, Short.MAX_VALUE))
         );
 
         subForm.addTab("DATA INVOICE", record_invoice);
+
+        record_karyawan1.setBackground(new java.awt.Color(255, 255, 255));
+
+        table_komplain.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(146, 180, 236), 2, true));
+        table_komplain.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        table_komplain.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID KARYAWAN", "PASSWORD", "NAMA", "BAGIAN", "TELEPONE", "EMAIL"
+            }
+        ));
+        jScrollPane5.setViewportView(table_komplain);
+
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel7.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabel12.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel12.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setText("NAMA");
+
+        id_komplain.setBackground(new java.awt.Color(204, 204, 204));
+        id_komplain.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
+        id_komplain.setForeground(new java.awt.Color(255, 255, 255));
+        id_komplain.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        id_komplain.setText("KP001");
+        id_komplain.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        id_komplain.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                id_komplainActionPerformed(evt);
+            }
+        });
+
+        unit_komplain.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
+        unit_komplain.setForeground(new java.awt.Color(146, 180, 236));
+        unit_komplain.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        unit_komplain.setText("1101");
+        unit_komplain.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        isi_komplain.setColumns(20);
+        isi_komplain.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        isi_komplain.setForeground(new java.awt.Color(102, 102, 102));
+        isi_komplain.setRows(5);
+        jScrollPane6.setViewportView(isi_komplain);
+
+        selesai_komplain.setColumns(20);
+        selesai_komplain.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        selesai_komplain.setForeground(new java.awt.Color(102, 102, 102));
+        selesai_komplain.setRows(5);
+        jScrollPane7.setViewportView(selesai_komplain);
+
+        javax.swing.GroupLayout isDoneKomplainLayout = new javax.swing.GroupLayout(isDoneKomplain);
+        isDoneKomplain.setLayout(isDoneKomplainLayout);
+        isDoneKomplainLayout.setHorizontalGroup(
+            isDoneKomplainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        isDoneKomplainLayout.setVerticalGroup(
+            isDoneKomplainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 51, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(unit_komplain)
+                    .addComponent(id_komplain, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE))
+                .addGap(327, 327, 327))
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(63, 63, 63)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(383, 383, 383)
+                        .addComponent(isDoneKomplain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(361, 361, 361)
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(id_komplain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(unit_komplain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(isDoneKomplain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
+
+        prntAll.setBackground(new java.awt.Color(204, 204, 204));
+        prntAll.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        prntAll.setForeground(new java.awt.Color(255, 255, 255));
+        prntAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/print.png"))); // NOI18N
+        prntAll.setText("PRINT ALL");
+        prntAll.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        prntAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printAllKomplain(evt);
+            }
+        });
+
+        btnSearch_komplain.setBackground(new java.awt.Color(204, 204, 204));
+        btnSearch_komplain.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btnSearch_komplain.setForeground(new java.awt.Color(255, 255, 255));
+        btnSearch_komplain.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/search.png"))); // NOI18N
+        btnSearch_komplain.setText("SEARCH");
+        btnSearch_komplain.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSearch_komplain.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearch_komplainActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel13.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(146, 180, 236));
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/literature.gif"))); // NOI18N
+
+        javax.swing.GroupLayout record_karyawan1Layout = new javax.swing.GroupLayout(record_karyawan1);
+        record_karyawan1.setLayout(record_karyawan1Layout);
+        record_karyawan1Layout.setHorizontalGroup(
+            record_karyawan1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(record_karyawan1Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jLabel13)
+                .addGroup(record_karyawan1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(record_karyawan1Layout.createSequentialGroup()
+                        .addGap(297, 297, 297)
+                        .addComponent(btnSearch_komplain, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                        .addGap(57, 57, 57)
+                        .addComponent(prntAll, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+                        .addGap(650, 650, 650))
+                    .addGroup(record_karyawan1Layout.createSequentialGroup()
+                        .addGap(65, 65, 65)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(319, 319, 319))))
+            .addGroup(record_karyawan1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane5)
+                .addContainerGap())
+        );
+        record_karyawan1Layout.setVerticalGroup(
+            record_karyawan1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(record_karyawan1Layout.createSequentialGroup()
+                .addGroup(record_karyawan1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(record_karyawan1Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jLabel13))
+                    .addGroup(record_karyawan1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(record_karyawan1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(prntAll)
+                            .addComponent(btnSearch_komplain))
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 458, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(111, Short.MAX_VALUE))
+        );
+
+        subForm.addTab("DATA KOMPLAIN", record_karyawan1);
 
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
         backgroundLayout.setHorizontalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1417, Short.MAX_VALUE)
+            .addGap(0, 1442, Short.MAX_VALUE)
             .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(backgroundLayout.createSequentialGroup()
                     .addContainerGap()
@@ -1376,9 +1639,28 @@ public class Data extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_totalPemakaianListrikActionPerformed
 
-    private void btnPrint_pemakaianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrint_pemakaianActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnPrint_pemakaianActionPerformed
+    private void btnPrint_pemakaianByDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrint_pemakaianByDateActionPerformed
+         HashMap parameter = new HashMap();
+       SimpleDateFormat dateSet = new SimpleDateFormat("yyyy-MM-dd");
+       String dateA = String.valueOf(dateSet.format(tanggal_awal.getDate()));
+          String dateB = String.valueOf(dateSet.format(tanggal_akhir.getDate()));
+        parameter.put("unit", unit_pemakaian.getText() );
+        parameter.put("dateStart", dateA);
+        parameter.put("dateEnd", dateB);
+        System.out.println(dateA+dateB);
+        
+        try{
+                     String report = "\\temporary_project\\NetBeansProjects\\ListrikDanAirApps\\app\\src\\main\\java\\ReportPrint\\PemakaianByDateUnit.jrxml";
+
+                    
+                    JasperReport jr = JasperCompileManager.compileReport(report);
+                    JasperPrint jp = JasperFillManager.fillReport(jr, parameter, conn);
+                    JasperViewer.viewReport(jp, false);
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Print Failed !");
+            System.out.println(e);
+    }
+    }//GEN-LAST:event_btnPrint_pemakaianByDateActionPerformed
 
     private void btnSearch_pemaiakianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearch_pemaiakianActionPerformed
             //find data pengecekan
@@ -1411,7 +1693,17 @@ public class Data extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSave_penghuniActionPerformed
 
     private void btnPrint_penghuniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrint_penghuniActionPerformed
-        // TODO add your handling code here:
+               // print semua
+                        try{
+                    String report = "\\temporary_project\\NetBeansProjects\\ListrikDanAirApps\\app\\src\\main\\java\\ReportPrint\\AllPenghuni.jrxml";
+
+                   // InputStream report = getClass().getResourceAsStream("");
+                    JasperReport jr = JasperCompileManager.compileReport(report);
+                    JasperPrint jp = JasperFillManager.fillReport(jr, null, conn);
+                                        JasperViewer.viewReport(jp, false);
+                }catch(Exception e) {
+                    JOptionPane.showMessageDialog(null, "Tidak Bisa Review Print" + e);
+                }
     }//GEN-LAST:event_btnPrint_penghuniActionPerformed
 
     private void btnSearch_penghuniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearch_penghuniActionPerformed
@@ -1419,25 +1711,48 @@ public class Data extends javax.swing.JFrame {
         searchPenghuni(unit);
     }//GEN-LAST:event_btnSearch_penghuniActionPerformed
 
-    private void totalPemakaianListrik2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalPemakaianListrik2ActionPerformed
+    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_totalPemakaianListrik2ActionPerformed
+    }//GEN-LAST:event_passwordActionPerformed
 
     private void btnSave_kayawanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSave_kayawanActionPerformed
-        // TODO add your handling code here:
+        //insert new karyawan:
+        String id_staf = id_users.getText();
+        String Pass = password.getText();
+        String Pos = bagian.getText();
+        String phone = phone_penghuni.getText();
+        String name = nama_staf.getText();
+        String email = email_penghuni.getText();
+        
+        
+     kry. insertKaryawan(id_staf,  Pass,  Pos ,name,  phone,  email) ;
     }//GEN-LAST:event_btnSave_kayawanActionPerformed
 
     private void btnPrint_karyawanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrint_karyawanActionPerformed
-        // TODO add your handling code here:
+                      // print semua
+                        try{
+                    String report = "\\temporary_project\\NetBeansProjects\\ListrikDanAirApps\\app\\src\\main\\java\\ReportPrint\\AllKaryawan.jrxml";
+
+                   // InputStream report = getClass().getResourceAsStream("");
+                    JasperReport jr = JasperCompileManager.compileReport(report);
+                    JasperPrint jp = JasperFillManager.fillReport(jr, null, conn);
+                                        JasperViewer.viewReport(jp, false);
+                }catch(Exception e) {
+                    JOptionPane.showMessageDialog(null, "Tidak Bisa Review Print" + e);
+                }
     }//GEN-LAST:event_btnPrint_karyawanActionPerformed
 
     private void btnSearch_karyawanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearch_karyawanActionPerformed
-        // TODO add your handling code here:
+        //search karyawan dari staf tabel
+        String id = id_users.getText();
+        
+        
+       searchKaryawan(id);
     }//GEN-LAST:event_btnSearch_karyawanActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void nama_stafActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nama_stafActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_nama_stafActionPerformed
 
     private void komplainMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_komplainMouseClicked
                         // Open form Data 
@@ -1469,9 +1784,27 @@ public class Data extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_id_invoiceActionPerformed
 
-    private void btnPrint_invoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrint_invoiceActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnPrint_invoiceActionPerformed
+    private void btnPrint_invoiceByDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrint_invoiceByDateActionPerformed
+        HashMap parameter = new HashMap();
+       SimpleDateFormat dateSet = new SimpleDateFormat("yyyy-MM-dd");
+       String dateA = String.valueOf(dateSet.format(dateStart.getDate()));
+          String dateB = String.valueOf(dateSet.format(dateEnd.getDate()));
+        parameter.put("unit", unit_invoice.getText() );
+        parameter.put("dateStart", dateA);
+        parameter.put("dateEnd", dateB);
+        
+        try{
+                     String report = "\\temporary_project\\NetBeansProjects\\ListrikDanAirApps\\app\\src\\main\\java\\ReportPrint\\invoiceByDateUnit.jrxml";
+
+                    
+                    JasperReport jr = JasperCompileManager.compileReport(report);
+                    JasperPrint jp = JasperFillManager.fillReport(jr, parameter, conn);
+                    JasperViewer.viewReport(jp, false);
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Print Failed !");
+            System.out.println(e);
+    }
+    }//GEN-LAST:event_btnPrint_invoiceByDateActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
@@ -1486,12 +1819,12 @@ public class Data extends javax.swing.JFrame {
         getRowItemInvoice();
     }//GEN-LAST:event_table_invoiceMouseClicked
 
-    private void cari2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cari2ActionPerformed
+    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
         // deleted invoice data by id invoice
         String id = id_invoice.getText();
         
         inv.deleteInvoice(id);
-    }//GEN-LAST:event_cari2ActionPerformed
+    }//GEN-LAST:event_deleteActionPerformed
 
     private void table_penghuniMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_penghuniMouseClicked
        getRowItemPenghuni();
@@ -1500,6 +1833,100 @@ public class Data extends javax.swing.JFrame {
     private void table_pemakaianMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_pemakaianMouseClicked
         getRowItemPemakaian();
     }//GEN-LAST:event_table_pemakaianMouseClicked
+
+    private void btnPrint_invoiceAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrint_invoiceAllActionPerformed
+        // print semua
+                        try{
+                    String report = "\\temporary_project\\NetBeansProjects\\ListrikDanAirApps\\app\\src\\main\\java\\ReportPrint\\All_Invoice.jrxml";
+
+                   // InputStream report = getClass().getResourceAsStream("");
+                    JasperReport jr = JasperCompileManager.compileReport(report);
+                    JasperPrint jp = JasperFillManager.fillReport(jr, null, conn);
+                                        JasperViewer.viewReport(jp, false);
+                }catch(Exception e) {
+                    JOptionPane.showMessageDialog(null, "Tidak Bisa Review Print" );
+                    System.out.println(e);
+                }
+    }//GEN-LAST:event_btnPrint_invoiceAllActionPerformed
+
+    private void btnPrint_pemakaianAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrint_pemakaianAllActionPerformed
+                // print semua
+                        try{
+                    String report = "\\temporary_project\\NetBeansProjects\\ListrikDanAirApps\\app\\src\\main\\java\\ReportPrint\\AllPemakaian.jrxml";
+
+                   // InputStream report = getClass().getResourceAsStream("");
+                    JasperReport jr = JasperCompileManager.compileReport(report);
+                    JasperPrint jp = JasperFillManager.fillReport(jr, null, conn);
+                                        JasperViewer.viewReport(jp, false);
+                }catch(Exception e) {
+                    JOptionPane.showMessageDialog(null, "Tidak Bisa Review Print" );
+                    System.out.println(e);
+                }
+    }//GEN-LAST:event_btnPrint_pemakaianAllActionPerformed
+
+    private void update_penghuniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update_penghuniActionPerformed
+     //update penghuni
+     String unit = unit_penghuni.getText();
+     String  name = nama_penghuni.getText();
+     String phone = phone_penghuni.getText();
+     String email = email_penghuni.getText();
+     String VN = VNpayment.getText();
+     
+     
+     huni.updatePenghuni(unit, name, phone, email, VN);
+    }//GEN-LAST:event_update_penghuniActionPerformed
+
+    private void subFormMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subFormMouseClicked
+      //show data tabel
+      table_pemakaian.setModel(cek.showData());
+      table_penghuni.setModel(huni.showData());
+        table_karyawan.setModel(kry.showData());
+        table_invoice.setModel(inv.showDataInvoice());
+        table_komplain.setModel(komp.showData());
+    }//GEN-LAST:event_subFormMouseClicked
+
+    private void update_karyawanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update_karyawanActionPerformed
+       //update data karyawan by id
+     
+         String id_staf = id_users.getText();
+        String Pass = password.getText();
+        String Pos = bagian.getText();
+        String phone = phone_penghuni.getText();
+        String name = nama_staf.getText();
+        String email = email_penghuni.getText();
+
+     
+       
+       
+       kry.updateKaryawan( id_staf, Pass,  Pos , name,  phone,  email); 
+    }//GEN-LAST:event_update_karyawanActionPerformed
+
+    private void id_komplainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_id_komplainActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_id_komplainActionPerformed
+
+    private void printAllKomplain(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printAllKomplain
+                        // print semua
+                        try{
+                    String report = "\\temporary_project\\NetBeansProjects\\ListrikDanAirApps\\app\\src\\main\\java\\ReportPrint\\AllKomplain.jrxml";
+
+                   // InputStream report = getClass().getResourceAsStream("");
+                    JasperReport jr = JasperCompileManager.compileReport(report);
+                    JasperPrint jp = JasperFillManager.fillReport(jr, null, conn);
+                                        JasperViewer.viewReport(jp, false);
+                }catch(Exception e) {
+                    JOptionPane.showMessageDialog(null, "Tidak Bisa Review Print" );
+                    System.out.println(e);
+                }
+    }//GEN-LAST:event_printAllKomplain
+
+    private void btnSearch_komplainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearch_komplainActionPerformed
+        // search komplain
+        String idkomplain = id_komplain.getText();
+        
+        
+        searchKomplian(idkomplain);
+    }//GEN-LAST:event_btnSearch_komplainActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1554,24 +1981,29 @@ public class Data extends javax.swing.JFrame {
     private javax.swing.JTextField bagian;
     private javax.swing.JLabel biaya;
     private javax.swing.JTextField biaya_tagihan;
-    private javax.swing.JButton btnPrint_invoice;
+    private javax.swing.JButton btnPrint_invoiceAll;
+    private javax.swing.JButton btnPrint_invoiceByDate;
     private javax.swing.JButton btnPrint_karyawan;
-    private javax.swing.JButton btnPrint_pemakaian;
+    private javax.swing.JButton btnPrint_pemakaianAll;
+    private javax.swing.JButton btnPrint_pemakaianByDate;
     private javax.swing.JButton btnPrint_penghuni;
     private javax.swing.JButton btnSave_kayawan;
     private javax.swing.JButton btnSave_penghuni;
     private javax.swing.JButton btnSearch_karyawan;
+    private javax.swing.JButton btnSearch_komplain;
     private javax.swing.JButton btnSearch_pemaiakian;
     private javax.swing.JButton btnSearch_penghuni;
-    private javax.swing.JButton cari2;
-    private javax.swing.JButton cari4;
     private javax.swing.JLabel data;
-    private com.toedter.calendar.JDateChooser dateA;
-    private com.toedter.calendar.JDateChooser dateB;
+    private com.toedter.calendar.JDateChooser dateEnd;
+    private com.toedter.calendar.JDateChooser dateStart;
+    private javax.swing.JButton delete;
     private javax.swing.JTextField email_penghuni;
     private javax.swing.JLabel homeLogo;
     private javax.swing.JTextField id_invoice;
+    private javax.swing.JTextField id_komplain;
     private javax.swing.JTextField id_users;
+    private javax.swing.JPanel isDoneKomplain;
+    private javax.swing.JTextArea isi_komplain;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -1581,6 +2013,8 @@ public class Data extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1592,29 +2026,38 @@ public class Data extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel komplain;
     private javax.swing.JLabel komplain1;
     public static final transient javax.swing.JComboBox<String> listFasilitas = new javax.swing.JComboBox<>();
     private javax.swing.JMenuItem logout;
     public static final javax.swing.JLabel nama = new javax.swing.JLabel();
     private javax.swing.JTextField nama_penghuni;
+    private javax.swing.JTextField nama_staf;
+    private javax.swing.JTextField password;
     private javax.swing.JLabel pengecekan;
     private javax.swing.JTextField phone_penghuni;
     private javax.swing.JPopupMenu popAcc;
+    private javax.swing.JButton prntAll;
     private javax.swing.JMenuItem profile;
     private javax.swing.JPanel record_invoice;
     private javax.swing.JPanel record_karyawan;
+    private javax.swing.JPanel record_karyawan1;
     private javax.swing.JPanel record_pemakaian;
     private javax.swing.JPanel record_penghuni;
+    private javax.swing.JTextArea selesai_komplain;
     private javax.swing.JTabbedPane subForm;
     private javax.swing.JTable table_invoice;
     private javax.swing.JTable table_karyawan;
+    private javax.swing.JTable table_komplain;
     private javax.swing.JTable table_pemakaian;
     private javax.swing.JTable table_penghuni;
     public static final transient com.toedter.calendar.JDateChooser tanggal_akhir = new com.toedter.calendar.JDateChooser();
@@ -1623,8 +2066,8 @@ public class Data extends javax.swing.JFrame {
     private javax.swing.JTextField totalPemakaianAi1;
     private javax.swing.JTextField totalPemakaianAir;
     private javax.swing.JTextField totalPemakaianListrik;
-    private javax.swing.JTextField totalPemakaianListrik2;
     private javax.swing.JTextField unit_invoice;
+    private javax.swing.JTextField unit_komplain;
     private javax.swing.JTextField unit_pemakaian;
     private javax.swing.JTextField unit_penghuni;
     private javax.swing.JButton update_karyawan;
@@ -1745,5 +2188,49 @@ public class Data extends javax.swing.JFrame {
          }
     
     }
+//seacrh karyawan
+    private void searchKaryawan(String id) {
+            System.out.println(id);
+            for(int i =0; i<karyModel.size(); i++){
+                if(karyModel.get(i).getId_staf().equals(id)){
+                    String name = karyModel.get(i).getName();
+                    String posisi = karyModel.get(i).getPosition();
+                    String phone = karyModel.get(i).getPhone();
+                    String email = karyModel.get(i).getEmail();
+                    
+                    //put
+                    nama_penghuni.setText(name);
+                    bagian.setText(posisi);
+                    phone_penghuni.setText(phone);
+                    email_penghuni.setText(email);
+            }
+      }
+    }
+//cari komplain
+    private void searchKomplian(String id_komplain) {  
+                   for(int i=0; i<kompModel.size(); i++){
+                            if(kompModel.get(i).getId_komplain().equals(id_komplain)) {
+                               String proses = kompModel.get(i).getProgres();
+                               String komplains = kompModel.get(i).getKomplain();
+                               String unit = kompModel.get(i).getNo_unit();
+                              
+                            if(kompModel.get(i).getIsDone().equals(true)) {
+                                //hijau
+                               Color color = new Color(204,250,204);
+                               isDoneKomplain.setBackground(color);
+                            }else if(kompModel.get(i).getIsDone().equals(false)){
+                                //kuning
+                               Color color = new Color(250,210,76);
+                              isDoneKomplain.setBackground(color);
+                            }
+               
+                              
+                               //put
+                               selesai_komplain.setText(proses);
+                              isi_komplain.setText(komplains);
+                               unit_komplain.setText(unit);
+                            }
+                       }
+     }
 }
 

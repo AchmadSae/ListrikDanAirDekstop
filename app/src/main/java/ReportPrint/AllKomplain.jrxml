@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5fa15090-d4b5-4edd-b32e-abdf2d9ea9bd">
+	<property name="ireport.zoom" value="1.3310000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<queryString language="SQL">
+		<![CDATA[SELECT * FROM tb_komplain]]>
+	</queryString>
+	<field name="id_komplain" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="no_unit" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="komplain" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="progres" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="isDone" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="136" splitType="Stretch">
+			<frame>
+				<reportElement x="4" y="0" width="551" height="136" uuid="9165749d-fe86-4909-9771-72850981cd06"/>
+				<rectangle radius="10">
+					<reportElement x="10" y="0" width="541" height="79" forecolor="#FFFFFF" backcolor="#66CCFF" uuid="e7fe20ad-5c8d-428f-b1ae-028e1e860a0b"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="186" y="89" width="215" height="18" forecolor="#666666" uuid="f2e095c6-cd37-4ac3-9706-21b5ea912bdb"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true" isUnderline="true"/>
+					</textElement>
+					<text><![CDATA[DATA INVOICE]]></text>
+				</staticText>
+				<image>
+					<reportElement x="30" y="49" width="67" height="68" uuid="d255ddb4-728b-4f55-b33b-4a7fa86d1d44"/>
+					<imageExpression><![CDATA["A:\\temporary_project\\NetBeansProjects\\ListrikDanAirApps\\app\\src\\main\\resources\\img\\report.png"]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement x="109" y="49" width="372" height="30" forecolor="#FFFFFF" uuid="69d9101b-8291-4fbf-b8cf-dc03af9d6844"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[Jl. Brawijaya XII No.1, RT.2/RW.3, Pulo, Kec. Kby. Baru, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12160]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="148" y="13" width="311" height="36" forecolor="#FFFFFF" uuid="fa020cc8-3a30-4aae-aeb1-50c27066573d"/>
+					<textElement textAlignment="Center">
+						<font size="24" isBold="true"/>
+					</textElement>
+					<text><![CDATA[APARTEMEN BRAWIJAYA]]></text>
+				</staticText>
+				<line>
+					<reportElement x="109" y="49" width="386" height="2" forecolor="#FFFF66" uuid="7a4ad6f7-0711-41d2-a615-f8b8eec2c075"/>
+				</line>
+				<line>
+					<reportElement x="0" y="130" width="551" height="1" uuid="b83bd1a9-8af5-433f-9554-efbfe99e4628"/>
+					<graphicElement>
+						<pen lineWidth="2.0" lineStyle="Double"/>
+					</graphicElement>
+				</line>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="bc78be02-3ce2-4e93-82fa-88c7c501f373"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="92" height="15" forecolor="#736343" uuid="9d84c6d5-6acd-476d-993f-2b14e38ac428"/>
+				<text><![CDATA[id_komplain]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="92" y="0" width="92" height="15" forecolor="#736343" uuid="aae9ca7b-be08-453c-812e-afd074217ef0"/>
+				<text><![CDATA[no_unit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="162" y="0" width="92" height="15" forecolor="#736343" uuid="3e13fdc9-d1b3-4241-a6f9-fc1388c007b1"/>
+				<text><![CDATA[komplain]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="276" y="0" width="92" height="15" forecolor="#736343" uuid="d7d41294-e18d-43a7-bcd8-9c656d8b02eb"/>
+				<text><![CDATA[progres]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="368" y="0" width="92" height="15" forecolor="#736343" uuid="fa7e2978-0e72-4916-a3f6-0583aed86cf2"/>
+				<text><![CDATA[isDone]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="460" y="0" width="92" height="15" forecolor="#736343" uuid="8ffec2d7-b879-4ac4-a3db-a431c9a11b77"/>
+				<text><![CDATA[date]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="15" uuid="93eeddf4-e3a0-489b-b8a1-bfa14844b466"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="0" y="0" width="92" height="15" uuid="b9050a25-0a00-4439-a5e2-7d3f0ef25859"/>
+					<textFieldExpression><![CDATA[$F{id_komplain}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="92" y="0" width="92" height="15" uuid="29966bad-600e-4631-8c91-d2d921ee90a3"/>
+					<textFieldExpression><![CDATA[$F{no_unit}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="162" y="0" width="78" height="15" uuid="ba1e1175-ce8c-463d-b667-9bed858f4a00"/>
+					<textFieldExpression><![CDATA[$F{komplain}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="276" y="0" width="92" height="15" uuid="b8c1e3bb-67df-4ded-8f9d-2c45e3dbccc5"/>
+					<textFieldExpression><![CDATA[$F{progres}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="368" y="0" width="92" height="15" uuid="0fa6d851-87b9-4b89-8aaf-822f538b968d"/>
+					<textFieldExpression><![CDATA[$F{isDone}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="460" y="0" width="92" height="15" uuid="e73ffd6d-4b08-40f0-9ff9-5195e06afae2"/>
+					<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="135" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="6223fc44-a307-479a-a64c-092cf88e316b"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="430" y="51" width="122" height="20" forecolor="#736343" uuid="a25a98df-eaa7-4900-85a2-25abd7f4b7e0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="430" y="120" width="90" height="14" uuid="aaace60f-4f29-4c5c-890a-9c7c20c7450d"/>
+				<text><![CDATA[Building Manager]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="71" width="59" height="14" uuid="da2114ea-8e4d-4d6c-8b7f-1e4968668949"/>
+				<text><![CDATA[Mengetahui,]]></text>
+			</staticText>
+			<line>
+				<reportElement x="430" y="119" width="100" height="1" uuid="5460cac8-fc22-4517-b4fe-308362af5a8a"/>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="9823831b-7e30-45b2-a6d2-1c88959ed66d"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343" uuid="8f756ed5-4360-4e30-a937-0e4c54525032"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343" uuid="92100d2b-1d0f-416e-9168-eb7e07dcd267"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

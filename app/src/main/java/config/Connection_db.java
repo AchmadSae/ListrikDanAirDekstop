@@ -14,7 +14,12 @@ import java.util.Properties;
  */
 public class Connection_db {
     
-    private static final String DATABASE_DRIVER = "com.mysql.cj.jdbc.Driver";
+//    private static final String DATABASE_DRIVER = "com.mysql.jdbc.Driver";
+//    private static final String DATABASE_URL = "jdbc:mysql://103.147.154.27/kasaemy1_db_listrikair";
+//    private static final String USERNAME = "kasemy1_desk";
+//    private static final String PASSWORD = "Saranghamidha";
+//    private static final String MAX_POOL = "250";
+      private static final String DATABASE_DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/db_listrikair";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "";

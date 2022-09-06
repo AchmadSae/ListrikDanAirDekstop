@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="byUnit" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="62be5e58-4886-4b9f-a0ec-2e17ddea2ef0">
+	<property name="ireport.zoom" value="1.3310000000000037"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="billListrik" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="billAir" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="numberListrik" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="numberAir" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="invoice" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="unit" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT monthly.unit, invoice.id_invoice, invoice.date, invoice.total_cost, penghuni.name, penghuni.VNpayment FROM ((monthly INNER JOIN invoice ON monthly.id_monthly = invoice.id_monthly) INNER JOIN penghuni ON monthly.unit = penghuni.unit) where invoice.id_invoice = $P{invoice}]]>
+	</queryString>
+	<field name="unit" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_invoice" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="total_cost" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="VNpayment" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="113" splitType="Stretch">
+			<frame>
+				<reportElement x="10" y="0" width="792" height="108" uuid="166683ae-93af-46ba-9248-5b927c79df7c"/>
+				<rectangle radius="10">
+					<reportElement x="0" y="10" width="792" height="68" forecolor="#FFFFFF" backcolor="#66CCFF" uuid="c1a2b04f-2741-4839-ba7d-16eef0b72f6f"/>
+				</rectangle>
+				<image>
+					<reportElement x="75" y="42" width="73" height="66" uuid="43f98189-0921-4508-93c5-58a0af4c3e15"/>
+					<imageExpression><![CDATA["A:\\temporary_project\\NetBeansProjects\\ListrikDanAirApps\\app\\src\\main\\resources\\img\\cash.png"]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement x="251" y="10" width="311" height="36" forecolor="#FFFFFF" uuid="c1928b40-14e5-4ee9-81ae-e69b12afb063"/>
+					<textElement textAlignment="Center">
+						<font size="24" isBold="true"/>
+					</textElement>
+					<text><![CDATA[APARTEMEN BRAWIJAYA]]></text>
+				</staticText>
+				<line>
+					<reportElement x="228" y="46" width="386" height="2" forecolor="#FFFF66" uuid="f6d0cde9-f1f5-4daa-89f7-2b3817cd19be"/>
+				</line>
+				<staticText>
+					<reportElement x="228" y="48" width="372" height="30" forecolor="#FFFFFF" uuid="4182681b-ee29-4e3a-b99c-446494743624"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[Jl. Brawijaya XII No.1, RT.2/RW.3, Pulo, Kec. Kby. Baru, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12160]]></text>
+				</staticText>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="595" y="78" width="180" height="20" forecolor="#736343" uuid="82955cbf-db24-4aec-acb4-fdc69c7e9353"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="47">
+			<staticText>
+				<reportElement x="287" y="0" width="215" height="18" forecolor="#666666" uuid="3e306769-8d33-4dec-b010-752dce288768"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[INVOICE]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="350" y="18" width="100" height="20" uuid="f2abbaae-f5e6-44db-b326-1f0f1ceb62d3"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id_invoice}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="46" splitType="Stretch">
+			<textField>
+				<reportElement x="314" y="0" width="163" height="43" uuid="9d2f36b7-1a46-4e38-bb40-d5a23beec12e"/>
+				<textElement textAlignment="Center">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unit}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="149" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="802" height="1" uuid="545a0c23-6a99-48ac-bab1-93a9fee96be6"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineStyle="Double" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<frame>
+				<reportElement x="411" y="1" width="389" height="138" uuid="e357c681-7221-4f80-95a6-b8a6d1cc9897"/>
+				<rectangle>
+					<reportElement x="11" y="10" width="375" height="128" forecolor="#666666" uuid="e9859617-5162-47bc-ab6e-3140db2685cd"/>
+					<graphicElement>
+						<pen lineWidth="2.0" lineStyle="Double"/>
+					</graphicElement>
+				</rectangle>
+				<staticText>
+					<reportElement x="29" y="46" width="100" height="20" forecolor="#666666" uuid="ae1d9036-9bd1-4615-9c57-9a82ce5bac7e"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[TOTAL BILL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="29" y="66" width="21" height="20" uuid="c4d4ebba-e985-4127-96d4-8752399069c0"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Rp.]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="50" y="86" width="324" height="36" uuid="28e0e158-e56a-49b6-a392-3675c4f6fa05"/>
+					<textElement>
+						<font size="24" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{total_cost}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="29" y="41" width="345" height="1" uuid="59be4825-e1e8-4cce-a38e-6745b1aa6c4b"/>
+				</line>
+				<staticText>
+					<reportElement x="29" y="19" width="110" height="20" uuid="0a2f864d-33a0-4f57-a5de-01b3f8fdd197"/>
+					<text><![CDATA[Virtual Bank Paymant :	]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="139" y="19" width="100" height="20" uuid="337c6866-d749-4e04-9ae1-47cf107194ff"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{VNpayment}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<staticText>
+				<reportElement x="16" y="0" width="173" height="20" uuid="948a8a9d-8212-4528-872d-766c763ebf4b"/>
+				<text><![CDATA[Total Electric Consumption ( Kwh )]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="1" width="189" height="20" uuid="7b94c6a5-9552-48ce-801b-50eddfe6708d"/>
+				<text><![CDATA[Total Water Consumption ( Meter Cubic )]]></text>
+			</staticText>
+			<image>
+				<reportElement x="16" y="36" width="39" height="31" uuid="59806979-0f8a-460c-a73e-fd7e46454100"/>
+				<imageExpression><![CDATA["A:\\temporary_project\\NetBeansProjects\\ListrikDanAirApps\\app\\src\\main\\resources\\img\\thunder.gif"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="200" y="25" width="37" height="42" uuid="d1af9a8b-26ae-4d9e-9ccf-493ccd74425a"/>
+				<imageExpression><![CDATA["A:\\temporary_project\\NetBeansProjects\\ListrikDanAirApps\\app\\src\\main\\resources\\img\\drop.gif"]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="16" y="106" width="347" height="1" uuid="b7cc3371-6559-4c07-9182-3a3ff6cc2a9c"/>
+			</line>
+			<staticText>
+				<reportElement x="214" y="86" width="21" height="20" uuid="9b874ad7-f59a-4508-9555-83a2bcfad9d2"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Rp.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="86" width="21" height="20" uuid="e936b929-2c4f-4738-a109-3c9d19c960ae"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Rp.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="65" y="36" width="100" height="20" uuid="a95e67b2-53c1-4dbb-baf3-414b73c01b15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{numberListrik}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="250" y="36" width="100" height="20" uuid="42fcaf14-daac-4f34-93fa-450232258c1a"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{numberAir}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="248" y="87" width="100" height="20" uuid="dd1164d6-a341-4e1c-87e4-5827f3959c03"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{billAir}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="68" y="86" width="100" height="20" uuid="974e59d7-fc5f-47b0-af11-37bbca31bb4f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{billListrik}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="156" splitType="Stretch">
+			<frame>
+				<reportElement x="10" y="7" width="787" height="135" uuid="b6199e1d-f8bd-4dc5-a83d-b295acae118b"/>
+				<staticText>
+					<reportElement x="148" y="0" width="486" height="19" uuid="9f723f9f-d508-44c1-b19a-fdf6f4f06e65"/>
+					<textElement textAlignment="Center">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[Please pay the bill according to the nominal stated, for more information call the customer service.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="330" y="64" width="132" height="27" uuid="93673087-8c4f-4f2b-a608-07df29376549"/>
+					<textElement textAlignment="Center">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Office Managemen of Apartemen Brawijaya]]></text>
+				</staticText>
+				<line>
+					<reportElement x="330" y="134" width="132" height="1" uuid="cda8f8a0-ace6-47c8-b78f-69fc011b0bf2"/>
+				</line>
+				<textField>
+					<reportElement x="367" y="19" width="100" height="20" uuid="f853fceb-8a7e-4973-ab69-b65207e45031"/>
+					<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="316" y="19" width="51" height="20" uuid="d1413904-4645-4e5e-9875-9abb0513c482"/>
+					<text><![CDATA[Until Date :]]></text>
+				</staticText>
+			</frame>
+			<line>
+				<reportElement x="2" y="6" width="798" height="1" uuid="57bbf169-b0bc-4106-843d-1ccbe57f07ea"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineStyle="Double" lineColor="#000000"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="843" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="1bdb5470-489e-4c51-9953-3d72a593163c"/>
+				<staticText>
+					<reportElement x="50" y="4" width="150" height="20" uuid="6224e6a5-3200-46d5-8ba4-c1f7af17bc94"/>
+					<textElement>
+						<font isItalic="true"/>
+					</textElement>
+					<text><![CDATA[brawijaya.apartemen@gmail.com]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="235" y="4" width="100" height="20" uuid="8d5061a6-a575-45f4-871f-9561c3665a92"/>
+					<textElement>
+						<font isItalic="true"/>
+					</textElement>
+					<text><![CDATA[(021) 80902919]]></text>
+				</staticText>
+				<image>
+					<reportElement x="210" y="2" width="25" height="19" uuid="4f44678d-51a0-4332-83f5-73db64cbe091"/>
+					<imageExpression><![CDATA["A:\\temporary_project\\NetBeansProjects\\ListrikDanAirApps\\app\\src\\main\\resources\\img\\icons8-phone-30.png"]]></imageExpression>
+				</image>
+			</frame>
+			<image>
+				<reportElement x="7" y="3" width="19" height="19" uuid="690ea925-997c-4c82-98b3-2a2248d96cc8"/>
+				<imageExpression><![CDATA["A:\\temporary_project\\NetBeansProjects\\ListrikDanAirApps\\app\\src\\main\\resources\\img\\icons8-mail-24.png"]]></imageExpression>
+			</image>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
