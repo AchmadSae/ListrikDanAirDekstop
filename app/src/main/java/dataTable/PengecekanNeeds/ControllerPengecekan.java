@@ -129,7 +129,7 @@ public class ControllerPengecekan {
             JOptionPane.showMessageDialog(null, "Update Data Pengecekan is OK");
             
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Eror in request update record !");
+            JOptionPane.showMessageDialog(null, "Eror Update | Ada data kosong!");
             System.out.println(e);
         }
     }
@@ -174,4 +174,7 @@ public class ControllerPengecekan {
             JOptionPane.showMessageDialog(null, "Eror in request update !"+e);
         }
     }
+    
+
+    
 }

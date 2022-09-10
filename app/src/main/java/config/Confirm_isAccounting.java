@@ -1,11 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
+
 package config;
 
-import ListrikDanAirApps.Home;
-import static ListrikDanAirApps.Home.Home_nama;
+
 import ListrikDanAirApps.Pengecekan;
 import static ListrikDanAirApps.Pengecekan.nama;
 import ListrikDanAirApps.Validation;

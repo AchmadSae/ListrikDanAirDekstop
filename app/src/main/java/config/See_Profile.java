@@ -1,20 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
+
 package config;
 
 import ListrikDanAirApps.Home;
 import ListrikDanAirApps.Pengecekan;
 import ListrikDanAirApps.Validation;
 import java.awt.Dimension;
-import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.Toolkit;
 
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  *

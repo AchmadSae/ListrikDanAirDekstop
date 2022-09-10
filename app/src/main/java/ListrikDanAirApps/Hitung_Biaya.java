@@ -3,6 +3,8 @@ package ListrikDanAirApps;
 
 import config.Connection_db;
 import config.See_Profile;
+import static dataTable.FasilityNeeds.ControllerFacility.CekAllFacility;
+import dataTable.FasilityNeeds.ModelFacility;
 import dataTable.InvoiceNeeds.ControllerInvoice;
 import static dataTable.InvoiceNeeds.ControllerInvoice.CekAllInvoice;
 import dataTable.InvoiceNeeds.ModelInvoice;
@@ -38,6 +40,8 @@ public class Hitung_Biaya extends javax.swing.JFrame {
     ArrayList<ModelPengecekan> cekModel = CekAll();
     //create model invoice
     ArrayList<ModelInvoice> invModel = CekAllInvoice();
+    //create fasiltas model
+    //  ArrayList<ModelFacility> facModel = CekAllFacility();      
     //create object class login section
     static private Connection conn = new Connection_db().Connect();
     java.sql.Statement stm = conn.createStatement();
@@ -978,15 +982,16 @@ public class Hitung_Biaya extends javax.swing.JFrame {
        String username = id_staf.getText();
         
         inv.insertProgres(id_invoice,username,id_mon,date,tot);
+         tableInvoice.setModel(inv.showDataInvoice());
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
         // print faktur invoice
         HashMap parameter = new HashMap();
-        parameter.put("billListrik", biaya_listrik.getText() );
-        parameter.put("billAir", biaya_air.getText());
-        parameter.put("numberListrik", angkaListrik.getText());
-        parameter.put("numberAir", angkaAir.getText());
+        parameter.put("billListrik", Integer.parseInt(biaya_listrik.getText()) );
+        parameter.put("billAir", Integer.parseInt(biaya_air.getText()));
+        parameter.put("numberListrik", Integer.parseInt(angkaListrik.getText()));
+        parameter.put("numberAir", Integer.parseInt(angkaAir.getText()));
         parameter.put("invoice", no_invoice.getText());
         parameter.put("unit", no_unit.getText());
         
@@ -998,7 +1003,7 @@ public class Hitung_Biaya extends javax.swing.JFrame {
                     JasperPrint jp = JasperFillManager.fillReport(jr, parameter, conn);
                     JasperViewer.viewReport(jp, false);
         }catch (Exception e){
-            JOptionPane.showMessageDialog(null, "Print Failed !");
+            JOptionPane.showMessageDialog(null, "Print Failed !"+e);
             System.out.println(e);
     }
         
@@ -1075,14 +1080,21 @@ public class Hitung_Biaya extends javax.swing.JFrame {
 
     private void tambahanListrikKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tambahanListrikKeyPressed
         try {
+        String x = listFasilitas.getSelectedItem().toString();
+        Integer b = 1020;
         Integer a = Integer.parseInt(totalPemakaianListrik.getText());
-        Integer b = Integer.parseInt(angkaListrik.getText());
         Integer c = Integer.parseInt(tambahanListrik.getText());
         if (evt.getKeyCode()== KeyEvent.VK_ENTER){
             System.out.println("enter sum  :"+c);
-            totLis = (a*b)+c;
-            biaya_listrik.setText(totLis.toString());
-        }
+             //for(int i=0; i<facModel.size(); i++){
+             //    if(x.equals(facModel.get(i).getName())){
+                               
+                              //  Integer b = Integer.parseInt(facModel.get(i).getDefault_cost());
+                               //  System.out.println(b);
+                                 totLis = (a*b)+c;
+                                 biaya_listrik.setText(totLis.toString());
+      
+                 }
         }catch(NumberFormatException nfe){
             System.out.println(nfe);
         }
@@ -1090,9 +1102,16 @@ public class Hitung_Biaya extends javax.swing.JFrame {
     }//GEN-LAST:event_tambahanListrikKeyPressed
 
     private void totalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_totalMouseClicked
-       Integer tot = totLis + totAir;
+      try{
+        Integer a = Integer.parseInt(biaya_listrik.getText());
+        Integer b = Integer.parseInt(biaya_air.getText());
+       Integer tot = a + b;
        
        total.setText(tot.toString());
+      }catch(NullPointerException e){
+          JOptionPane.showMessageDialog(null, "data kosong");
+      }
+
     }//GEN-LAST:event_totalMouseClicked
 
     private void tableInvoiceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableInvoiceMouseClicked
@@ -1104,14 +1123,23 @@ public class Hitung_Biaya extends javax.swing.JFrame {
     }//GEN-LAST:event_biaya_airMouseClicked
 
     private void tambahanAirKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tambahanAirKeyPressed
-             try {   
+   try {   
+        String x = listFasilitas.getSelectedItem().toString();
+        Integer b = 12550;
         Integer a = Integer.parseInt(totalPemakaianAir.getText());
-        Integer b = Integer.parseInt(angkaAir.getText());
-        Integer c = Integer.parseInt(tambahanAir.getText());
-          if (evt.getKeyCode()== KeyEvent.VK_ENTER){
-            System.out.println("enter sum  :"+c);
-            totAir = (a*b)+c;}
-          biaya_air.setText(totAir.toString());
+        Integer c =  Integer.parseInt(tambahanAir.getText());
+        if (evt.getKeyCode()== KeyEvent.VK_ENTER){
+//            System.out.println("enter sum  :"+c);
+             //for(int i=0; i<facModel.size(); i++){
+             //    if(x.equals(facModel.get(i).getName())){
+                               
+                              //  Integer b = Integer.parseInt(facModel.get(i).getDefault_cost());
+                               //  System.out.println(b);
+                                 totAir= (a*b)+c;
+                                 biaya_air.setText(totAir.toString());
+      
+                 }
+
         } catch (NumberFormatException nfe) {
                 System.out.println(nfe);
             }
@@ -1241,6 +1269,7 @@ public class Hitung_Biaya extends javax.swing.JFrame {
         
         //put value to editable
         no_unit.setText(tablePengecekan.getModel().getValueAt(row, 0).toString());
+        id_monthly.setText(tablePengecekan.getModel().getValueAt(row, 3).toString());
         id_staf.setText(tablePengecekan.getModel().getValueAt(row, 2).toString());
         tanggal.setDate(dateView);
         String a = tablePengecekan.getModel().getValueAt(row, 4).toString();
@@ -1324,6 +1353,6 @@ public class Hitung_Biaya extends javax.swing.JFrame {
                  }
          }
     }
-    Integer totAir = null; 
-    Integer totLis = null;
+    Integer totAir;
+    Integer totLis;
 }

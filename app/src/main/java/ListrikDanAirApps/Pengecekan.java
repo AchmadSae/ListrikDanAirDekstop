@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package ListrikDanAirApps;
 
 import config.Confirm_isAccounting;
@@ -58,7 +55,6 @@ public class Pengecekan extends javax.swing.JFrame {
         //call show data in table pengecekan
         tablePengecekan.setModel(cek.showData());
         
-        statusProgres();
         //focuse
         progres.requestFocus();
     }
@@ -494,6 +490,7 @@ public class Pengecekan extends javax.swing.JFrame {
             }
         });
 
+        imgListrik.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         imgListrik.setMaximumSize(new java.awt.Dimension(300, 250));
         imgListrik.setMinimumSize(new java.awt.Dimension(300, 250));
         imgListrik.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -541,6 +538,7 @@ public class Pengecekan extends javax.swing.JFrame {
             }
         });
 
+        imgAir.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         imgAir.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 imgAirMouseClicked(evt);
@@ -1119,6 +1117,7 @@ public class Pengecekan extends javax.swing.JFrame {
         if (evt.getKeyCode()== KeyEvent.VK_ENTER){
             System.out.println("enter search progres by id monthly :"+id);
             searchUpdateCek(id);
+            statusProgres(id);
         }
         
     }//GEN-LAST:event_id_monthlyKeyPressed
@@ -1160,16 +1159,24 @@ public class Pengecekan extends javax.swing.JFrame {
         String date = String.valueOf(dateSet.format(tanggal.getDate()));
         String username = id_staf.getText();
         String fasilitas = listFasilitas.getSelectedItem().toString();
-        
+        // Import ImageIcon     
+      
+   
         
         if(fasilitas.equals("Listrik")){
             Integer angka = Integer.parseInt(akhirPemakaianListrik.getText());
             Integer total = Integer.parseInt(totalPemakaianListrik.getText());
             cek.updatePengecekan(unit,username,angka,total, date, imagesUpload, fasilitas);
+                akhirPemakaianListrik.setText("");
+                 totalPemakaianListrik.setText("");
+                 imgListrik.setIcon(iconLogo);
         }else if(fasilitas.equals("Air")){
             Integer angka = Integer.parseInt(akhirPemakaianAir.getText());
             Integer total = Integer.parseInt(totalPemakaianAir.getText());
             cek.updatePengecekan(unit,username,angka,total, date, imagesUpload, fasilitas);
+            akhirPemakaianAir.setText("");
+                totalPemakaianAir.setText("");
+                imgAir.setIcon(iconLogo);
         }
         
     }//GEN-LAST:event_updateActionPerformed
@@ -1471,14 +1478,23 @@ public class Pengecekan extends javax.swing.JFrame {
                  }
          }
     }
+    public void clear(){
+    akhirPemakaianListrik.setText("");
+    totalPemakaianListrik.setText("");
+    akhirPemakaianAir.setText("");
+    totalPemakaianAir.setText("");
+    no_unit.setText("");
+    
+    }
  
-    private void statusProgres() {
+    private void statusProgres(String id_cek) {
+                        
                           for(int i=0; i<progresModel.size(); i++){
-                            if(progresModel.get(i).getIsValid().equals(true)) {
+                            if(progresModel.get(i).equals(id_cek) && progresModel.get(i).getIsValid().equals(true)) {
                                 //hijau
                                Color color = new Color(204,250,204);
                                statusPanelCek.setBackground(color);
-                            }else if(progresModel.get(i).getIsValid().equals(false)){
+                            }else if(progresModel.get(i).equals(id_cek) &&progresModel.get(i).getIsValid().equals(false)){
                                 //kuning
                                Color color = new Color(250,210,76);
                                statusPanelCek.setBackground(color);
@@ -1487,4 +1503,5 @@ public class Pengecekan extends javax.swing.JFrame {
     }
     byte[] imagesUpload =null;
     String filename = null;
+    ImageIcon iconLogo = new ImageIcon("/img/noImage.png");
 }

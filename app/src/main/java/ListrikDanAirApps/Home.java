@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package ListrikDanAirApps;
 
 import ChartComponent.Chart.ModelChart;
@@ -18,10 +15,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author USER
- */
 public class Home extends javax.swing.JFrame {
     App app;
    static private Connection conn = new Connection_db().Connect();
@@ -612,15 +605,15 @@ public class Home extends javax.swing.JFrame {
         //        findDataCek(unit,date,fasilitas);
 
    
-        chart.addData(new ModelChart("Januari", new double[]{januariListrik, januariAir,}));
-        chart.addData(new ModelChart("Februar", new double[]{februariListrik, februariAir}));
-        chart.addData(new ModelChart("Maret", new double[]{maretListrik, maretAir}));
-        chart.addData(new ModelChart("April", new double[]{aprilListrik, aprilAir}));
-        chart.addData(new ModelChart("Mei", new double[]{meiListrik, meiAir}));
-        chart.addData(new ModelChart("Juni", new double[]{juniListrik, juniListrik}));
-         chart.addData(new ModelChart("Juli", new double[]{juliListrik, juliListrik}));
-          chart.addData(new ModelChart("Agustus", new double[]{agustusListrik, agustusListrik}));
-           chart.addData(new ModelChart("September", new double[]{septemberListrik, septemberListrik}));
+            chart.addData(new ModelChart("Januari", new double[]{januariListrik, januariAir,}));
+            chart.addData(new ModelChart("Februar", new double[]{februariListrik, februariAir}));
+            chart.addData(new ModelChart("Maret", new double[]{maretListrik, maretAir}));
+            chart.addData(new ModelChart("April", new double[]{aprilListrik, aprilAir}));
+            chart.addData(new ModelChart("Mei", new double[]{meiListrik, meiAir}));
+            chart.addData(new ModelChart("Juni", new double[]{juniListrik, juniListrik}));
+            chart.addData(new ModelChart("Juli", new double[]{juliListrik, juliListrik}));
+            chart.addData(new ModelChart("Agustus", new double[]{agustusListrik, agustusListrik}));
+             chart.addData(new ModelChart("September", new double[]{septemberListrik, septemberListrik}));
             chart.addData(new ModelChart("Oktober", new double[]{oktoberListrik, oktoberListrik}));
              chart.addData(new ModelChart("November", new double[]{novemberListrik, novemberListrik}));
               chart.addData(new ModelChart("Desember", new double[]{desemberListrik, desemberListrik}));

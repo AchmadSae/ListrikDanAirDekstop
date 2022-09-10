@@ -1,9 +1,6 @@
 
 package ListrikDanAirApps;
 
-
-
-
 import config.Connection_db;
 import config.See_Profile;
 import dataTable.KomplainNeeds.ControllerKomplain;
@@ -21,10 +18,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-/**
- *
- * @author USER
- */
+
 public class Komplain extends javax.swing.JFrame {
     App app;
        //create objek controller
